@@ -1,0 +1,34 @@
+{
+  "name": "@nexus/electron-builder",
+  "version": "0.1.0",
+  "description": "Shared Electron builder configuration",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./preload": {
+      "import": "./dist/preload.js",
+      "types": "./dist/preload.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo node_modules"
+  },
+  "dependencies": {
+    "electron-updater": "catalog:"
+  },
+  "devDependencies": {
+    "@nexus/typescript-config": "workspace:*",
+    "@types/node": "^22.9.2",
+    "electron": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:"
+  }
+}
