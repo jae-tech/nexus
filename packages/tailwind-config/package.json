@@ -1,0 +1,19 @@
+{
+  "name": "@nexus/tailwind-config",
+  "version": "0.1.0",
+  "description": "Shared Tailwind CSS configuration",
+  "type": "module",
+  "main": "./index.js",
+  "files": [
+    "index.js",
+    "base.css"
+  ],
+  "dependencies": {
+    "@nexus/design-tokens": "workspace:*",
+    "@tailwindcss/typography": "catalog:",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "tailwindcss": "catalog:"
+  }
+}

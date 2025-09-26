@@ -1,0 +1,29 @@
+{
+  "name": "@nexus/design-tokens",
+  "version": "0.1.0",
+  "description": "Design tokens for the design system",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./css": "./dist/tokens.css"
+  },
+  "scripts": {
+    "build": "tsup && npm run build:css",
+    "build:css": "node scripts/build-css.js",
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist .turbo node_modules"
+  },
+  "devDependencies": {
+    "@nexus/typescript-config": "workspace:*",
+    "@nexus/eslint-config": "workspace:*",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "eslint": "^9.36.0"
+  }
+}
