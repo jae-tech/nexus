@@ -10,7 +10,7 @@ import { mockReservations } from '../../mocks/reservations';
 import { mockStaff } from '../../mocks/staff';
 import { mockServices } from '../../mocks/services';
 
-export default function HomePage() {
+export function Dashboard() {
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
 
