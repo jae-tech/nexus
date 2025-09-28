@@ -1,0 +1,91 @@
+{
+  "name": "nexus-electron-app",
+  "version": "0.1.0",
+  "description": "Nexus Design System Electron App with React 19",
+  "type": "module",
+  "main": "dist/electron/main.js",
+  "homepage": "./",
+  "scripts": {
+    "dev": "concurrently \"pnpm dev:react\" \"wait-on http://localhost:3000 && pnpm dev:electron\"",
+    "dev:react": "vite",
+    "dev:electron": "cross-env NODE_ENV=development electron .",
+    "dev:electron:devtools": "cross-env NODE_ENV=development OPEN_DEVTOOLS=true electron .",
+    "build": "pnpm build:react && pnpm build:electron",
+    "build:react": "tsc -b && vite build",
+    "build:electron": "tsup",
+    "build:app": "pnpm build && electron-builder",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "type-check": "tsc --noEmit",
+    "clean": "rm -rf dist release .turbo node_modules"
+  },
+  "dependencies": {
+    "@nexus/electron-builder": "workspace:*",
+    "@nexus/ui": "workspace:*",
+    "clsx": "^2.1.1",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "react-router-dom": "^6.28.0",
+    "tailwind-merge": "^3.3.1"
+  },
+  "devDependencies": {
+    "@nexus/eslint-config": "workspace:*",
+    "@tailwindcss/postcss": "^4.1.13",
+    "@types/node": "^22.9.2",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "autoprefixer": "catalog:",
+    "concurrently": "^9.2.1",
+    "cross-env": "^7.0.3",
+    "electron": "catalog:",
+    "electron-builder": "catalog:",
+    "postcss": "catalog:",
+    "tailwindcss": "catalog:",
+    "tsup": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "wait-on": "^8.0.5"
+  },
+  "build": {
+    "appId": "com.nexus.electron-app",
+    "productName": "Nexus Electron App",
+    "directories": {
+      "output": "release",
+      "buildResources": "assets"
+    },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "dist/electron/main.js"
+    },
+    "mac": {
+      "category": "public.app-category.productivity",
+      "hardenedRuntime": true
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}
