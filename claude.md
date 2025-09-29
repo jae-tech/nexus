@@ -1,91 +1,191 @@
-# Claude.md - Turborepo 디자인 시스템 가이드
+# 클로드 코드 작업 가이드
 
-## 프로젝트 컨텍스트
+## 프로젝트 개요
 
 - **타입**: Turborepo 모노레포 디자인 시스템
-- **패키지 매니저**: pnpm (workspace)
+- **패키지 매니저**: pnpm (워크스페이스)
 - **빌드 도구**: Turbo + tsup
-- **스택**: TypeScript + React + shadcn/ui + Tailwind CSS + Electron
+- **기술 스택**: TypeScript + React 19 + shadcn/ui + TailwindCSS v4 + Electron
 
 ## 핵심 패키지 구조
 
 ```
 @nexus/ui              # shadcn/ui 기반 컴포넌트 라이브러리
-@nexus/design-tokens   # 색상, 간격, 타이포그래피 등 디자인 토큰
-@nexus/electron-builder # Electron 앱 빌드 설정
+@nexus/design-tokens   # 디자인 토큰 (색상, 간격, 타이포그래피)
+@nexus/electron-builder # 일렉트론 앱 빌드 설정
 @nexus/tailwind-config # Tailwind CSS 공통 설정
+@nexus/eslint-config   # ESLint 공유 설정
 ```
 
-## 신규 앱 생성 패턴
+## 신규 앱 생성 방법
 
-### 1. 기본 React 앱
+### 1. 기본 React 앱 생성
 
 ```bash
-# apps/app-name/ 생성
-pnpm turbo gen workspace --type app
+# 새 앱 생성
+pnpm create-app 앱이름
+
+# 또는 수동 생성
+cp -r apps/react-boilerplate apps/새앱이름
+cd apps/새앱이름
+# package.json에서 name 수정
 ```
 
-**package.json 템플릿:**
+### 2. 필수 의존성 설정
 
 ```json
 {
-  "name": "app-name",
   "dependencies": {
     "@nexus/ui": "workspace:*",
     "@nexus/design-tokens": "workspace:*",
-    "react": "catalog:react",
-    "react-dom": "catalog:react-dom"
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "@tanstack/react-router": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
-    "vite": "catalog:vite",
-    "@vitejs/plugin-react": "catalog:@vitejs/plugin-react"
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "@nexus/eslint-config": "workspace:*",
+    "@nexus/tailwind-config": "workspace:*",
+    "typescript": "catalog:",
+    "vite": "catalog:"
   }
 }
 ```
 
-**필수 설정 파일들:**
+## 필수 설정 규칙
 
-- `tsconfig.json` - 절대경로 설정 포함
-- `vite.config.ts` - alias 절대경로 설정 포함
+### 1. 절대경로 설정 (최우선)
 
-### 2. Electron 앱
+**tsconfig.json**
 
-**main.ts 템플릿:**
-
-```typescript
-import { ElectronApp } from "@nexus/electron-builder";
-
-const app = new ElectronApp({
-  name: "App Name",
-  devUrl: "http://localhost:5173",
-  window: { width: 1200, height: 800 },
-});
-```
-
-## 일관된 디자인 적용
-
-### 1. 테마 설정
-
-```typescript
-// main.tsx
-import { ThemeProvider } from '@nexus/ui'
-
-export default function main() {
-  return (
-    <ThemeProvider defaultTheme="system" storageKey="app-theme">
-      {/* 앱 내용 */}
-    </ThemeProvider>
-  )
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/types/*": ["./src/types/*"]
+    }
+  }
 }
 ```
 
-### 2. Tailwind 설정
+**vite.config.ts**
+
+```typescript
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import path from "path";
+
+export default defineConfig({
+  plugins: [TanStackRouterVite(), react()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+      "@/components": path.resolve(__dirname, "./src/components"),
+      "@/hooks": path.resolve(__dirname, "./src/hooks"),
+      "@/lib": path.resolve(__dirname, "./src/lib"),
+      "@/types": path.resolve(__dirname, "./src/types"),
+    },
+  },
+});
+```
+
+### 2. 디렉토리 구조 (반드시 준수)
+
+```
+src/
+├── routes/               # TanStack Router 파일 기반 라우팅
+│   ├── __root.tsx        # 루트 레이아웃
+│   ├── index.tsx         # 홈페이지
+│   └── [기타 페이지들]
+├── components/
+│   ├── ui/               # 재사용 UI 컴포넌트
+│   ├── features/         # 기능별 컴포넌트
+│   └── common/           # 공통 컴포넌트
+├── hooks/                # 커스텀 훅
+├── lib/
+│   ├── utils.ts          # 유틸리티 함수
+│   └── constants.ts      # 상수 정의
+├── stores/               # 상태 관리
+├── types/                # 타입 정의
+├── styles/
+│   └── globals.css       # 글로벌 스타일
+├── main.tsx             # 앱 진입점 (App.tsx 사용 금지)
+└── router.tsx           # 라우터 설정
+```
+
+### 3. Import 경로 우선순위
+
+1. **절대경로 (최우선)**: `@/components/Button`
+2. **워크스페이스 패키지**: `@nexus/ui`
+3. **외부 패키지**: `react`, `lodash`
+4. **상대경로 (최후)**: `./Button` (같은 폴더만)
+
+## 컴포넌트 사용 패턴
+
+### 올바른 Import 방식
+
+```typescript
+// 1순위: @nexus/ui 컴포넌트
+import { Button, Card, ThemeProvider } from "@nexus/ui";
+
+// 2순위: 절대경로 내부 컴포넌트
+import { Header } from "@/components/layout/Header";
+import { useAuth } from "@/hooks/use-auth";
+import { cn } from "@/lib/utils";
+
+// 3순위: 상대경로 (같은 폴더만)
+import { helper } from "./helper";
+```
+
+### 테마 설정 (필수)
+
+```typescript
+// src/routes/__root.tsx
+import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { ThemeProvider } from '@nexus/ui'
+
+export const Route = createRootRoute({
+  component: () => (
+    <ThemeProvider defaultTheme="system" storageKey="app-theme">
+      <div className="min-h-screen bg-background">
+        <Outlet />
+      </div>
+    </ThemeProvider>
+  )
+})
+```
+
+## 라우팅 시스템 (TanStack Router 필수)
+
+### React Router 사용 금지
+
+- `BrowserRouter`, `Routes`, `Route` 사용 금지
+- `react-router-dom` 의존성 제거
+- TanStack Router 파일 기반 라우팅만 사용
+
+### 올바른 라우트 파일 작성
+
+```typescript
+// src/routes/index.tsx
+import { createFileRoute } from '@tanstack/react-router'
+
+export const Route = createFileRoute('/')({
+  component: HomePage
+})
+
+function HomePage() {
+  return <div>홈페이지</div>
+}
+```
+
+## 스타일링 규칙
+
+### TailwindCSS 설정
 
 ```javascript
 // tailwind.config.js
@@ -97,120 +197,30 @@ export default {
 };
 ```
 
-## 컴포넌트 사용 패턴
+### 글로벌 스타일
 
-```typescript
-// 1순위: 절대경로 (권장)
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  ThemeProvider,
-  LoadingSpinner,
-} from "@nexus/ui";
-
-import { cn } from "@/lib/utils";
-import { useAuth } from "@/hooks/use-auth";
-import { UserType } from "@/types/user";
-import Header from "@/components/Header";
-
-// 2순위: 상대경로 (절대경로 불가능한 경우)
-import Button from "./Button";
-import { helper } from "../utils/helper";
+```css
+/* src/styles/globals.css */
+@import "tailwindcss";
+@import "@nexus/ui/styles";
 ```
 
-### Import 경로 결정 가이드
+## 일렉트론 앱 생성
 
-- **같은 폴더**: `./ComponentName` (상대경로)
-- **다른 폴더**: `@/components/ComponentName` (절대경로 우선)
-- **라이브러리**: `@nexus/ui` (workspace 패키지)
-- **외부 패키지**: `react`, `lodash` (패키지명)
-
-## 클로드 코드 작업 지침
-
-### 필수 설정 - Import 경로 우선순위
-
-**경로 사용 우선순위: 절대경로 > 상대경로**
-
-1. **TypeScript 설정** (`tsconfig.json`):
-
-```json
-{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"],
-      "@/lib/*": ["./src/lib/*"],
-      "@/hooks/*": ["./src/hooks/*"],
-      "@/types/*": ["./src/types/*"],
-      "@/utils/*": ["./src/utils/*"]
-    }
-  }
-}
-```
-
-2. **Vite 설정** (`vite.config.ts`):
+### 일렉트론 설정
 
 ```typescript
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
+// main.ts
+import { ElectronApp } from "@nexus/electron-builder";
 
-export default defineConfig({
-  plugins: [react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "@/components": path.resolve(__dirname, "./src/components"),
-      "@/lib": path.resolve(__dirname, "./src/lib"),
-      "@/hooks": path.resolve(__dirname, "./src/hooks"),
-      "@/types": path.resolve(__dirname, "./src/types"),
-      "@/utils": path.resolve(__dirname, "./src/utils"),
-    },
-  },
+const app = new ElectronApp({
+  name: "앱 이름",
+  devUrl: "http://localhost:3000",
+  window: { width: 1200, height: 800 },
 });
 ```
 
-### 토큰 최적화 원칙
-
-1. **절대경로 최우선**: `@/`로 시작하는 절대경로 사용 (권장)
-2. **상대경로 차선**: 절대경로 설정 불가 시에만 `./`, `../` 사용
-3. **기존 패키지 참조**: 새 컴포넌트 생성 시 `@nexus/ui`에서 기존 것 재사용
-4. **설정 재사용**: tailwind.config, tsconfig, eslint는 workspace 패키지 활용
-5. **패턴 반복**: 위 템플릿 구조를 일관되게 적용
-
-### 작업 우선순위
-
-1. 신규 앱 디렉토리 구조 생성
-2. 기본 설정 파일 복사/수정
-3. 핵심 컴포넌트 구현 (기존 UI 패키지 활용)
-4. Electron 설정 적용
-5. 빌드/배포 스크립트 설정
-
-### 금지사항
-
-- 디자인 토큰 중복 정의 (항상 `@nexus/design-tokens` 사용)
-- shadcn/ui 컴포넌트 직접 복사 (항상 `@nexus/ui`에서 import)
-- 개별 앱별 Tailwind 설정 (공통 config 사용)
-- **절대경로 가능한데 상대경로 사용** (절대경로 우선 원칙)
-
-### 디버깅 가이드
-
-```bash
-# 의존성 문제
-pnpm install
-
-# 빌드 오류
-pnpm turbo build --filter=app-name
-
-# 타입 에러
-pnpm turbo type-check
-```
-
-### 일렉트론 빌드
+### 개발 스크립트
 
 ```json
 {
@@ -221,21 +231,152 @@ pnpm turbo type-check
 }
 ```
 
-## 명령어 치트시트
+## 금지 사항 (반드시 지키기)
+
+1. **App.tsx 사용 금지** - main.tsx만 사용
+2. **React Router 사용 금지** - TanStack Router만 사용
+3. **상대경로 남용 금지** - 절대경로 우선 사용
+4. **개별 Tailwind 설정 금지** - 공통 설정 사용
+5. **shadcn 컴포넌트 직접 복사 금지** - @nexus/ui 사용
+6. **디자인 토큰 중복 정의 금지** - @nexus/design-tokens 사용
+
+## 디버깅 명령어
 
 ```bash
-# 새 앱 생성
-pnpm turbo gen workspace --type app
+# 의존성 문제 해결
+pnpm install
 
-# 개발 서버 실행
-pnpm turbo dev --filter=app-name
+# 특정 앱 빌드
+pnpm --filter 앱이름 build
 
 # 전체 빌드
 pnpm turbo build
 
-# 컴포넌트 추가 (UI 패키지에)
-pnpm --filter @nexus/ui exec shadcn@latest add [component]
+# 타입 검사
+pnpm turbo type-check
 
-# Electron 앱 빌드
-pnpm --filter app-name run electron:build
+# 린트 검사
+pnpm turbo lint
+
+# 개발 서버 실행
+pnpm --filter 앱이름 dev
+```
+
+## 상태 관리 (Zustand 사용)
+
+### Zustand 스토어 생성
+
+```typescript
+// src/stores/auth-store.ts
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+interface AuthState {
+  user: User | null;
+  isAuthenticated: boolean;
+  login: (user: User) => void;
+  logout: () => void;
+}
+
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      isAuthenticated: false,
+      login: (user) => set({ user, isAuthenticated: true }),
+      logout: () => set({ user: null, isAuthenticated: false }),
+    }),
+    {
+      name: "auth-storage",
+    }
+  )
+);
+```
+
+### 스토어 사용 패턴
+
+```typescript
+// 컴포넌트에서 사용
+import { useAuthStore } from '@/stores/auth-store'
+
+function Profile() {
+  const { user, logout } = useAuthStore()
+
+  return (
+    <div>
+      <p>{user?.name}</p>
+      <button onClick={logout}>로그아웃</button>
+    </div>
+  )
+}
+```
+
+### Zustand 의존성 설정
+
+```json
+{
+  "dependencies": {
+    "zustand": "catalog:"
+  }
+}
+```
+
+## 커밋 메시지 규칙
+
+### 작업 분류 기준
+
+커밋 메시지는 다음 형식을 사용합니다:
+
+```
+타입(범위): 설명
+
+예시:
+feat(ui): 버튼 컴포넌트 추가
+fix(auth): 로그인 에러 수정
+style(design): 색상 토큰 업데이트
+refactor(router): TanStack Router로 마이그레이션
+chore(deps): 의존성 업데이트
+docs(readme): 설치 가이드 추가
+```
+
+### 커밋 타입 분류
+
+- **feat**: 새로운 기능 추가
+- **fix**: 버그 수정
+- **style**: 스타일링 변경 (CSS, 디자인 토큰 등)
+- **refactor**: 코드 리팩토링 (기능 변경 없음)
+- **chore**: 빌드, 의존성, 설정 변경
+- **docs**: 문서 변경
+- **test**: 테스트 추가/수정
+- **perf**: 성능 개선
+
+### 범위 예시
+
+- **ui**: UI 컴포넌트 관련
+- **auth**: 인증 관련
+- **router**: 라우팅 관련
+- **store**: 상태 관리 관련
+- **build**: 빌드 시스템 관련
+- **config**: 설정 파일 관련
+
+## 클로드 코드 응답 규칙
+
+### 한글 응답 필수
+
+- 모든 설명과 안내는 한글로 작성
+- 코드 주석도 한글 사용 권장
+- 에러 메시지 설명도 한글로 제공
+
+### 응답 형식 예시
+
+```
+작업을 완료했습니다.
+
+변경 사항:
+- TanStack Router로 마이그레이션 완료
+- 절대경로 설정 적용
+- Zustand 스토어 추가
+
+다음 명령어로 실행하세요:
+pnpm dev
 ```
