@@ -137,7 +137,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                               if (el) el.indeterminate = someSelected;
                             }}
                             onChange={() => handleCategoryToggle(categoryName)}
-                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus-ring"
                           />
                           <span className="ml-2 font-medium text-gray-900">{categoryName}</span>
                         </label>
@@ -153,7 +153,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                               type="checkbox"
                               checked={selectedServices.includes(service.id)}
                               onChange={() => handleServiceToggle(service.id)}
-                              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus-ring"
                             />
                             <div className="ml-2 flex-1">
                               <span className="text-sm text-gray-900">{service.name}</span>
@@ -186,7 +186,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                         value="fixed"
                         checked={adjustmentType === 'fixed'}
                         onChange={(e) => setAdjustmentType(e.target.value as 'fixed')}
-                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus-ring"
                       />
                       <span className="ml-2">고정 금액 추가/차감</span>
                     </label>
@@ -197,7 +197,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                         value="percent"
                         checked={adjustmentType === 'percent'}
                         onChange={(e) => setAdjustmentType(e.target.value as 'percent')}
-                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus-ring"
                       />
                       <span className="ml-2">퍼센트 증감</span>
                     </label>
@@ -214,7 +214,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                         value="increase"
                         checked={direction === 'increase'}
                         onChange={(e) => setDirection(e.target.value as 'increase')}
-                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus-ring"
                       />
                       <span className="ml-2 text-green-600">증가</span>
                     </label>
@@ -225,7 +225,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                         value="decrease"
                         checked={direction === 'decrease'}
                         onChange={(e) => setDirection(e.target.value as 'decrease')}
-                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus-ring"
                       />
                       <span className="ml-2 text-red-600">감소</span>
                     </label>
@@ -242,7 +242,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                       value={adjustmentValue}
                       onChange={(e) => setAdjustmentValue(Number(e.target.value))}
                       min="0"
-                      className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                     />
                     <span className="text-gray-600">
                       {adjustmentType === 'fixed' ? '원' : '%'}

@@ -134,7 +134,7 @@ export default function CustomerInfoPanel({ customer, onEdit }: CustomerInfoPane
                 onChange={(e) => setMemoText(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="고객의 특이사항, 알레르기, 선호스타일 등을 기록하세요..."
-                className="w-full h-32 p-3 border border-gray-200 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                className="w-full h-32 p-3 border border-gray-200 rounded-lg resize-none focus-ring focus:border-transparent text-sm"
                 maxLength={500}
                 autoFocus
               />

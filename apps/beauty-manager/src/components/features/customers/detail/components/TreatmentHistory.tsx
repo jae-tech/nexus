@@ -72,7 +72,7 @@ export default function TreatmentHistory({ visitHistory, onAddTreatment }: Treat
                 placeholder="서비스명 또는 담당직원으로 검색"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-80 pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-80 pl-10 pr-4 py-2 text-sm border border-gray-200 rounded-lg focus-ring focus:border-transparent"
               />
             </div>
             <Button variant="primary" onClick={onAddTreatment}>
@@ -90,7 +90,7 @@ export default function TreatmentHistory({ visitHistory, onAddTreatment }: Treat
               <select 
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
-                className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus-ring"
               >
                 <option value="all">전체</option>
                 <option value="6months">최근 6개월</option>

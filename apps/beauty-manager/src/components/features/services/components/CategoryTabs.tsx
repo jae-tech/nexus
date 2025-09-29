@@ -39,10 +39,10 @@ export default function CategoryTabs({ categories, selectedCategory, onCategoryC
             <button
               key={category.id}
               onClick={() => onCategoryChange(category.id)}
-              className={`flex items-center gap-2 px-3 md:px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200 ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200 border ${
                 isSelected
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-blue-600 text-white shadow-sm border-blue-600'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border-gray-200'
               }`}
             >
               {category.id !== 'all' && (

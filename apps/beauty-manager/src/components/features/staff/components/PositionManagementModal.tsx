@@ -340,7 +340,7 @@ export default function PositionManagementModal({
                             type="text"
                             value={editingPositionName}
                             onChange={(e) => setEditingPositionName(e.target.value)}
-                            className="flex-1 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="flex-1 px-2 py-1 border border-gray-300 rounded focus-ring"
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') handleEditPositionSave();
                               if (e.key === 'Escape') setEditingPositionId(null);
@@ -418,7 +418,7 @@ export default function PositionManagementModal({
                       value={newPositionName}
                       onChange={(e) => setNewPositionName(e.target.value)}
                       placeholder="직급명을 입력하세요"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                     />
                   </div>
 
@@ -429,7 +429,7 @@ export default function PositionManagementModal({
                     <select
                       value={newPositionLevel}
                       onChange={(e) => setNewPositionLevel(parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                     >
                       {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(level => (
                         <option key={level} value={level}>레벨 {level}</option>
@@ -477,7 +477,7 @@ export default function PositionManagementModal({
                     <select
                       value={selectedPositionTemplate}
                       onChange={(e) => setSelectedPositionTemplate(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                     >
                       <option value="">템플릿을 선택하세요</option>
                       {positionTemplates.map((template) => (
@@ -545,7 +545,7 @@ export default function PositionManagementModal({
                             type="text"
                             value={editingRoleName}
                             onChange={(e) => setEditingRoleName(e.target.value)}
-                            className="flex-1 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="flex-1 px-2 py-1 border border-gray-300 rounded focus-ring"
                             onKeyDown={(e) => {
                               if (e.key === 'Enter') handleEditRoleSave();
                               if (e.key === 'Escape') setEditingRoleId(null);
@@ -618,7 +618,7 @@ export default function PositionManagementModal({
                       value={newRoleName}
                       onChange={(e) => setNewRoleName(e.target.value)}
                       placeholder="직무명을 입력하세요"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                     />
                   </div>
 
@@ -661,7 +661,7 @@ export default function PositionManagementModal({
                     <select
                       value={selectedRoleTemplate}
                       onChange={(e) => setSelectedRoleTemplate(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                     >
                       <option value="">템플릿을 선택하세요</option>
                       {roleTemplates.map((template) => (

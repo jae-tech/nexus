@@ -1,6 +1,6 @@
 
-import { Card as NexusCard } from '@nexus/ui'
 import { cn } from '@/lib/utils'
+import { componentTokens } from '@/lib/design-tokens'
 import { ReactNode } from 'react'
 
 interface CardProps {
@@ -11,12 +11,26 @@ interface CardProps {
 }
 
 export default function Card({ children, className = '', hover = false, onClick }: CardProps) {
-  const hoverClasses = hover ? 'hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer' : ''
-  const focusClasses = onClick ? 'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2' : ''
+  const baseStyles = `
+    bg-white border border-gray-100 rounded-xl shadow-sm p-5
+  `.replace(/\s+/g, ' ').trim()
+
+  const hoverStyles = hover ? `
+    hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer
+  `.replace(/\s+/g, ' ').trim() : ''
+
+  const focusStyles = onClick ? `
+    focus-ring
+  `.replace(/\s+/g, ' ').trim() : ''
 
   return (
-    <NexusCard
-      className={cn('p-5', hoverClasses, focusClasses, className)}
+    <div
+      className={cn(
+        baseStyles,
+        hoverStyles,
+        focusStyles,
+        className
+      )}
       onClick={onClick}
       tabIndex={onClick ? 0 : undefined}
       onKeyDown={onClick ? (e) => {
@@ -27,6 +41,6 @@ export default function Card({ children, className = '', hover = false, onClick 
       } : undefined}
     >
       {children}
-    </NexusCard>
+    </div>
   )
 }

@@ -125,7 +125,7 @@ export default function ServiceTable({
                 <td className="px-4 py-4 whitespace-nowrap">
                   <button
                     onClick={() => onToggleActive(service.id)}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus-ring ${
                       service.isActive ? 'bg-blue-600' : 'bg-gray-200'
                     }`}
                   >

@@ -172,7 +172,7 @@ export default function AddServiceModal({ categories, onSave, onClose }: AddServ
                       type="text"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      className={`w-full px-4 py-3 border rounded-lg focus-ring focus:border-transparent ${
                         errors.name ? 'border-red-300' : 'border-gray-300'
                       }`}
                       placeholder="예: 여성 컷, 젤네일, 페이셜 케어"
@@ -187,7 +187,7 @@ export default function AddServiceModal({ categories, onSave, onClose }: AddServ
                     <select
                       value={formData.categoryId}
                       onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                      className={`w-full px-4 py-3 border rounded-lg focus-ring focus:border-transparent ${
                         errors.categoryId ? 'border-red-300' : 'border-gray-300'
                       }`}
                     >
@@ -210,7 +210,7 @@ export default function AddServiceModal({ categories, onSave, onClose }: AddServ
                         type="number"
                         value={formData.basePrice}
                         onChange={(e) => setFormData({ ...formData, basePrice: e.target.value })}
-                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                        className={`w-full px-4 py-3 border rounded-lg focus-ring focus:border-transparent ${
                           errors.basePrice ? 'border-red-300' : 'border-gray-300'
                         }`}
                         placeholder="30000"
@@ -227,7 +227,7 @@ export default function AddServiceModal({ categories, onSave, onClose }: AddServ
                         type="number"
                         value={formData.duration}
                         onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
-                        className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                        className={`w-full px-4 py-3 border rounded-lg focus-ring focus:border-transparent ${
                           errors.duration ? 'border-red-300' : 'border-gray-300'
                         }`}
                         placeholder="60"
@@ -246,7 +246,7 @@ export default function AddServiceModal({ categories, onSave, onClose }: AddServ
                       value={formData.description}
                       onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                       rows={3}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus-ring focus:border-transparent"
                       placeholder="서비스에 대한 간단한 설명을 입력해주세요"
                     />
                   </div>
@@ -257,7 +257,7 @@ export default function AddServiceModal({ categories, onSave, onClose }: AddServ
                         type="checkbox"
                         checked={formData.isActive}
                         onChange={(e) => setFormData({ ...formData, isActive: e.target.checked })}
-                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        className="w-4 h-4 text-blue-600 border-gray-300 rounded focus-ring"
                       />
                       <span className="text-sm text-gray-700">서비스 활성화</span>
                     </label>
@@ -303,14 +303,14 @@ export default function AddServiceModal({ categories, onSave, onClose }: AddServ
                               value={option.name}
                               onChange={(e) => updatePriceOption(index, 'name', e.target.value)}
                               placeholder="옵션명 (예: 긴 머리 추가)"
-                              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus-ring focus:border-transparent"
                             />
                             <input
                               type="number"
                               value={option.additionalPrice}
                               onChange={(e) => updatePriceOption(index, 'additionalPrice', parseInt(e.target.value) || 0)}
                               placeholder="추가 금액"
-                              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              className="px-3 py-2 border border-gray-300 rounded-lg text-sm focus-ring focus:border-transparent"
                               min="0"
                               step="1000"
                             />
@@ -320,7 +320,7 @@ export default function AddServiceModal({ categories, onSave, onClose }: AddServ
                             value={option.description || ''}
                             onChange={(e) => updatePriceOption(index, 'description', e.target.value)}
                             placeholder="옵션 설명 (선택사항)"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus-ring focus:border-transparent"
                           />
                         </div>
                       ))}

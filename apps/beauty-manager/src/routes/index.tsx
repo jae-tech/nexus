@@ -2,8 +2,9 @@ import { createFileRoute, Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { Button } from '@nexus/ui'
 import Card from '@/components/ui/Card'
-import PageHeader from '@/components/ui/PageHeader'
+import PageHeader from '@/components/common/PageHeader'
 import { mockCustomers } from '@/mocks/customers'
+import { Calendar, CalendarPlus, UserPlus, Clock, Scissors } from 'lucide-react'
 
 function HomePage() {
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -58,7 +59,7 @@ function HomePage() {
     {
       title: '새 예약 추가',
       description: '고객 예약을 빠르게 등록',
-      icon: 'ri-calendar-event-line',
+      icon: CalendarPlus,
       color: 'bg-gradient-to-r from-blue-500 to-blue-600',
       hoverColor: 'hover:from-blue-600 hover:to-blue-700',
       path: '/reservations'
@@ -66,7 +67,7 @@ function HomePage() {
     {
       title: '신규 고객 등록',
       description: '새로운 고객 정보 등록',
-      icon: 'ri-user-add-line',
+      icon: UserPlus,
       color: 'bg-gradient-to-r from-green-500 to-green-600',
       hoverColor: 'hover:from-green-600 hover:to-green-700',
       path: '/customers'
@@ -74,7 +75,7 @@ function HomePage() {
     {
       title: '직원 스케줄 확인',
       description: '직원 근무 일정 관리',
-      icon: 'ri-calendar-schedule-line',
+      icon: Clock,
       color: 'bg-gradient-to-r from-purple-500 to-purple-600',
       hoverColor: 'hover:from-purple-600 hover:to-purple-700',
       path: '/staff'
@@ -82,7 +83,7 @@ function HomePage() {
     {
       title: '서비스 관리',
       description: '서비스 메뉴 관리',
-      icon: 'ri-scissors-line',
+      icon: Scissors,
       color: 'bg-gradient-to-r from-orange-500 to-orange-600',
       hoverColor: 'hover:from-orange-600 hover:to-orange-700',
       path: '/services'
@@ -116,24 +117,21 @@ function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Sticky Header */}
-      <div className="sticky top-0 z-40 bg-white shadow-sm">
-        <PageHeader
-          title="대시보드"
-          actions={
-            <div className="flex items-center gap-2 md:gap-4">
-              <Link to="/reservations">
-                <Button className="bg-blue-600 hover:bg-blue-700 text-white text-xs md:text-sm px-2 md:px-4">
-                  <i className="ri-add-line mr-1 md:mr-2"></i>
-                  <span className="hidden sm:inline">새 예약</span>
-                  <span className="sm:hidden">예약</span>
-                </Button>
-              </Link>
-            </div>
-          }
-        />
-      </div>
+    <div className="transition-all duration-300 pt-20">
+      <PageHeader
+        title="대시보드"
+        actions={
+          <div className="flex items-center gap-2 md:gap-4">
+            <Link to="/reservations">
+              <Button variant="primary" size="sm">
+                <i className="ri-add-line mr-1 md:mr-2"></i>
+                <span className="hidden sm:inline">새 예약</span>
+                <span className="sm:hidden">예약</span>
+              </Button>
+            </Link>
+          </div>
+        }
+      />
 
       {/* Main Content */}
       <div className="p-4 md:p-8">
@@ -215,7 +213,7 @@ function HomePage() {
                     </p>
                   </div>
                   <Link to="/reservations">
-                    <Button variant="outline">전체 보기</Button>
+                    <Button variant="outline" size="sm">전체 보기</Button>
                   </Link>
                 </div>
 
@@ -262,59 +260,131 @@ function HomePage() {
               <div className="p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-6">빠른 작업</h3>
                 <div className="space-y-3">
-                  {quickActions.map((action, index) => (
-                    <Link key={index} to={action.path}>
-                      <button
-                        className={`w-full flex items-center p-4 rounded-xl ${action.color} ${action.hoverColor} text-white transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl`}
-                      >
-                        <div className="p-2 bg-white bg-opacity-20 rounded-lg mr-4">
-                          <i className={`${action.icon} text-xl`}></i>
-                        </div>
-                        <div className="text-left">
-                          <p className="font-medium text-white">{action.title}</p>
-                          <p className="text-sm text-white text-opacity-90">{action.description}</p>
-                        </div>
-                        <i className="ri-arrow-right-s-line ml-auto text-white text-opacity-70"></i>
-                      </button>
-                    </Link>
-                  ))}
+                  {quickActions.map((action, index) => {
+                    const IconComponent = action.icon;
+                    return (
+                      <Link key={index} to={action.path}>
+                        <button
+                          className={`w-full flex items-center p-4 rounded-xl ${action.color} ${action.hoverColor} text-white transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl`}
+                        >
+                          <div className="p-2 bg-white bg-opacity-20 rounded-lg mr-4">
+                            <IconComponent size={24} className="text-white" />
+                          </div>
+                          <div className="text-left">
+                            <p className="font-medium text-white">{action.title}</p>
+                            <p className="text-sm text-white text-opacity-90">{action.description}</p>
+                          </div>
+                          <i className="ri-arrow-right-s-line ml-auto text-white text-opacity-70"></i>
+                        </button>
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </Card>
           </div>
         </div>
 
-        {/* 하단 영역 - 최근 등록 고객 */}
-        <Card>
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">최근 등록 고객</h3>
-              <Link to="/customers">
-                <Button variant="outline">전체 보기</Button>
-              </Link>
-            </div>
+        {/* 하단 영역 - 3개 섹션 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+          {/* 최근 등록 고객 */}
+          <Card>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">최근 등록 고객</h3>
+                <Link to="/customers">
+                  <Button variant="outline" size="sm">전체 보기</Button>
+                </Link>
+              </div>
 
-            <div className="space-y-3">
-              {recentCustomers.map((customer) => (
-                <div
-                  key={customer.id}
-                  className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
-                >
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                    <i className="ri-user-line text-blue-600"></i>
+              <div className="space-y-3">
+                {recentCustomers.map((customer) => (
+                  <div
+                    key={customer.id}
+                    className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
+                  >
+                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                      <i className="ri-user-line text-blue-600"></i>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-gray-900 truncate">{customer.name}</p>
+                      <p className="text-sm text-gray-600 truncate">{customer.phone}</p>
+                    </div>
+                    <span className="text-xs text-gray-500">
+                      {Math.floor((new Date().getTime() - new Date(customer.registeredDate).getTime()) / (1000 * 60 * 60 * 24))}일 전
+                    </span>
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 truncate">{customer.name}</p>
-                    <p className="text-sm text-gray-600 truncate">{customer.phone}</p>
-                  </div>
-                  <span className="text-xs text-gray-500">
-                    {Math.floor((new Date().getTime() - new Date(customer.registeredDate).getTime()) / (1000 * 60 * 60 * 24))}일 전
-                  </span>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </Card>
+          </Card>
+
+          {/* 인기 서비스 TOP 5 */}
+          <Card>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">인기 서비스 TOP 5</h3>
+                <span className="text-sm text-gray-500">이번 주</span>
+              </div>
+
+              <div className="space-y-3">
+                {[
+                  { rank: 1, name: '여성 컷', price: '35,000원', count: '46회' },
+                  { rank: 2, name: '마시지', price: '80,000원', count: '46회' },
+                  { rank: 3, name: '아이브로우', price: '25,000원', count: '46회' },
+                  { rank: 4, name: '페이셜 케어', price: '70,000원', count: '43회' },
+                  { rank: 5, name: '화장', price: '', count: '43회' }
+                ].map((service) => (
+                  <div key={service.rank} className="flex items-center justify-between">
+                    <div className="flex items-center">
+                      <span className="w-6 h-6 bg-yellow-100 text-yellow-800 text-xs font-bold rounded-full flex items-center justify-center mr-3">
+                        {service.rank}
+                      </span>
+                      <div>
+                        <p className="font-medium text-gray-900">{service.name}</p>
+                        <p className="text-sm text-gray-600">{service.price}</p>
+                      </div>
+                    </div>
+                    <span className="text-sm text-blue-600 font-medium">{service.count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Card>
+
+          {/* 미방문 고객 알림 */}
+          <Card>
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">미방문 고객 알림</h3>
+                <span className="text-sm text-red-500">30일 이상</span>
+              </div>
+
+              <div className="space-y-3">
+                {[
+                  { name: '정유진', phone: '010-5678-9012', days: '305일', isOverdue: true },
+                  { name: '최서연', phone: '010-3456-7890', days: '298일', isOverdue: true },
+                  { name: '김민지', phone: '010-1234-5678', days: '오늘방문', isOverdue: false }
+                ].map((customer, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
+                        <i className="ri-user-line text-red-600"></i>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">{customer.name}</p>
+                        <p className="text-sm text-gray-600">{customer.phone}</p>
+                      </div>
+                    </div>
+                    <span className={`text-sm font-medium ${customer.isOverdue ? 'text-red-600' : 'text-green-600'}`}>
+                      {customer.days}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </Card>
+        </div>
       </div>
     </div>
   )

@@ -347,7 +347,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                         <textarea
                           value={memoText}
                           onChange={(e) => setMemoText(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent resize-none"
                           rows={4}
                           placeholder="개인 메모를 입력하세요..."
                         />
@@ -577,7 +577,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                             type="date"
                             value={newHoliday.startDate}
                             onChange={(e) => setNewHoliday(prev => ({ ...prev, startDate: e.target.value }))}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent"
                           />
                         </div>
                         <div>
@@ -588,7 +588,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                             type="date"
                             value={newHoliday.endDate}
                             onChange={(e) => setNewHoliday(prev => ({ ...prev, endDate: e.target.value }))}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent"
                           />
                         </div>
                         <div>
@@ -598,7 +598,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                           <select
                             value={newHoliday.type}
                             onChange={(e) => setNewHoliday(prev => ({ ...prev, type: e.target.value as Holiday['type'] }))}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent"
                           >
                             <option value="annual">연차</option>
                             <option value="sick">병가</option>
@@ -635,7 +635,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                           onChange={(e) => setNewHoliday(prev => ({ ...prev, reason: e.target.value }))}
                           placeholder="휴일 신청 사유를 입력하세요..."
                           rows={3}
-                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                          className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent resize-none"
                           maxLength={500}
                         />
                         <div className="text-xs text-gray-500 mt-1">

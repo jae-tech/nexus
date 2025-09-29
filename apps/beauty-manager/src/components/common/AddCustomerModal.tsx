@@ -119,7 +119,7 @@ export default function AddCustomerModal({ onClose, onAdd, existingCustomers }: 
                 type="text"
                 value={formData.name}
                 onChange={e => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                className={`w-full px-3 py-2 border rounded-lg focus-ring ${
                   errors.name ? 'border-red-300' : 'border-gray-300'
                 }`}
                 placeholder="고객 이름"
@@ -135,7 +135,7 @@ export default function AddCustomerModal({ onClose, onAdd, existingCustomers }: 
                 type="tel"
                 value={formData.phone}
                 onChange={e => handlePhoneChange(e.target.value)}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                className={`w-full px-3 py-2 border rounded-lg focus-ring ${
                   errors.phone ? 'border-red-300' : 'border-gray-300'
                 }`}
                 placeholder="010-0000-0000"
@@ -151,7 +151,7 @@ export default function AddCustomerModal({ onClose, onAdd, existingCustomers }: 
               <select
                 value={formData.gender}
                 onChange={e => setFormData(prev => ({ ...prev, gender: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
               >
                 <option value="여성">여성</option>
                 <option value="남성">남성</option>
@@ -166,7 +166,7 @@ export default function AddCustomerModal({ onClose, onAdd, existingCustomers }: 
                 type="date"
                 value={formData.birthday}
                 onChange={e => setFormData(prev => ({ ...prev, birthday: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
               />
             </div>
 
@@ -178,7 +178,7 @@ export default function AddCustomerModal({ onClose, onAdd, existingCustomers }: 
                 value={formData.memo}
                 onChange={e => setFormData(prev => ({ ...prev, memo: e.target.value }))}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                 placeholder="특이사항이나 메모를 입력하세요"
               />
             </div>

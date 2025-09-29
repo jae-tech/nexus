@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useRouter } from '@tanstack/react-router';
+import { Link, useLocation } from '@tanstack/react-router';
 import { useUIStore } from '@/stores/ui-store';
 
 interface MenuItem {
@@ -21,8 +21,9 @@ const menuItems: MenuItem[] = [
 export function Sidebar() {
   const { isSidebarOpen, toggleSidebar } = useUIStore();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const router = useRouter();
-  const currentPath = router.state.location.pathname;
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1200);
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   // 데스크톱에서는 Zustand 상태를 사용, 모바일에서는 로컬 상태 사용
   const isCollapsed = !isSidebarOpen;
@@ -30,11 +31,7 @@ export function Sidebar() {
   // 화면 크기에 따른 반응형 처리
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setIsCollapsed(true);
-      } else if (window.innerWidth < 1200) {
-        setIsCollapsed(false);
-      }
+      setWindowWidth(window.innerWidth);
     };
 
     handleResize();
@@ -44,7 +41,7 @@ export function Sidebar() {
 
   // 모바일에서 메뉴 클릭 시 사이드바 닫기
   const handleMenuClick = () => {
-    if (window.innerWidth < 768) {
+    if (windowWidth < 768) {
       setIsMobileOpen(false);
     }
   };
@@ -70,9 +67,9 @@ export function Sidebar() {
       {/* 사이드바 */}
       <div className={`
         bg-white border-r border-gray-200 transition-all duration-300 fixed left-0 top-0 h-full z-30
-        ${window.innerWidth < 768
+        ${windowWidth < 768
           ? `${isMobileOpen ? 'translate-x-0' : '-translate-x-full'} w-60`
-          : window.innerWidth < 1200
+          : windowWidth < 1200
             ? (isCollapsed ? 'w-16' : 'w-48')
             : (isCollapsed ? 'w-16' : 'w-60')
         }

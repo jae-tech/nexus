@@ -101,7 +101,7 @@ export default function EditCustomerModal({ customer, onClose, onSuccess }: Edit
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+              className={`w-full px-3 py-2 border rounded-lg focus-ring focus:border-transparent ${
                 errors.name ? 'border-red-300' : 'border-gray-200'
               }`}
               disabled={isSubmitting}
@@ -119,7 +119,7 @@ export default function EditCustomerModal({ customer, onClose, onSuccess }: Edit
               value={formData.phone}
               onChange={handleChange}
               placeholder="010-0000-0000"
-              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+              className={`w-full px-3 py-2 border rounded-lg focus-ring focus:border-transparent ${
                 errors.phone ? 'border-red-300' : 'border-gray-200'
               }`}
               disabled={isSubmitting}
@@ -135,7 +135,7 @@ export default function EditCustomerModal({ customer, onClose, onSuccess }: Edit
               name="gender"
               value={formData.gender}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent"
               disabled={isSubmitting}
             >
               <option value="">선택하세요</option>
@@ -153,7 +153,7 @@ export default function EditCustomerModal({ customer, onClose, onSuccess }: Edit
               name="birthDate"
               value={formData.birthDate}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent"
               disabled={isSubmitting}
             />
           </div>
@@ -168,7 +168,7 @@ export default function EditCustomerModal({ customer, onClose, onSuccess }: Edit
               onChange={handleChange}
               rows={4}
               placeholder="알레르기, 특이사항, 선호스타일 등을 기록하세요..."
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent resize-none"
               maxLength={500}
               disabled={isSubmitting}
             />

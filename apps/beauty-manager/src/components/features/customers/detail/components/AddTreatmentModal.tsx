@@ -131,7 +131,7 @@ export default function AddTreatmentModal({ customerId, onClose, onSuccess }: Ad
                   name="date"
                   value={formData.date}
                   onChange={handleChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                  className={`w-full px-3 py-2 border rounded-lg focus-ring focus:border-transparent ${
                     errors.date ? 'border-red-300' : 'border-gray-200'
                   }`}
                   disabled={isSubmitting}
@@ -149,7 +149,7 @@ export default function AddTreatmentModal({ customerId, onClose, onSuccess }: Ad
                   name="time"
                   value={formData.time}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent"
                   disabled={isSubmitting}
                 />
               </div>
@@ -221,7 +221,7 @@ export default function AddTreatmentModal({ customerId, onClose, onSuccess }: Ad
                 onChange={handleChange}
                 rows={3}
                 placeholder="시술 상세 내용, 스타일 요청사항 등을 기록하세요..."
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent resize-none"
                 maxLength={300}
                 disabled={isSubmitting}
               />
@@ -242,7 +242,7 @@ export default function AddTreatmentModal({ customerId, onClose, onSuccess }: Ad
                   value={formData.amount}
                   onChange={handleChange}
                   placeholder={calculateTotalAmount().toLocaleString()}
-                  className="w-full px-3 py-2 pr-8 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2 pr-8 border border-gray-200 rounded-lg focus-ring focus:border-transparent"
                   disabled={isSubmitting}
                 />
                 <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">원</span>

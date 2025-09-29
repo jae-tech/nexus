@@ -255,7 +255,7 @@ export default function AddReservationModal({
                         placeholder="고객명 또는 전화번호로 검색"
                         value={customerSearch}
                         onChange={e => setCustomerSearch(e.target.value)}
-                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                       />
                       <button
                         onClick={() => setShowNewCustomerForm(true)}
@@ -311,7 +311,7 @@ export default function AddReservationModal({
                           type="text"
                           value={newCustomer.name}
                           onChange={e => setNewCustomer(prev => ({ ...prev, name: e.target.value }))}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                           placeholder="고객 이름"
                         />
                       </div>
@@ -323,7 +323,7 @@ export default function AddReservationModal({
                           type="tel"
                           value={newCustomer.phone}
                           onChange={e => setNewCustomer(prev => ({ ...prev, phone: e.target.value }))}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                           placeholder="010-0000-0000"
                         />
                       </div>
@@ -334,7 +334,7 @@ export default function AddReservationModal({
                         <select
                           value={newCustomer.gender}
                           onChange={e => setNewCustomer(prev => ({ ...prev, gender: e.target.value }))}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                         >
                           <option value="여성">여성</option>
                           <option value="남성">남성</option>
@@ -348,7 +348,7 @@ export default function AddReservationModal({
                           type="date"
                           value={newCustomer.birthday}
                           onChange={e => setNewCustomer(prev => ({ ...prev, birthday: e.target.value }))}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                         />
                       </div>
                     </div>
@@ -360,7 +360,7 @@ export default function AddReservationModal({
                         value={newCustomer.memo}
                         onChange={e => setNewCustomer(prev => ({ ...prev, memo: e.target.value }))}
                         rows={3}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                         placeholder="특이사항이나 메모를 입력하세요"
                       />
                     </div>
@@ -397,7 +397,7 @@ export default function AddReservationModal({
                       value={selectedDate}
                       onChange={e => setSelectedDate(e.target.value)}
                       min={format(new Date(), 'yyyy-MM-dd')}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                     />
                   </div>
                   <div>
@@ -407,7 +407,7 @@ export default function AddReservationModal({
                     <select
                       value={selectedTime}
                       onChange={e => setSelectedTime(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                     >
                       {timeSlots.map(time => (
                         <option key={time} value={time}>{time}</option>
@@ -529,7 +529,7 @@ export default function AddReservationModal({
                       onChange={e => setMemo(e.target.value)}
                       placeholder="특별한 요청사항이나 주의사항을 입력하세요"
                       rows={3}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                     />
                   </div>
                   <div>
@@ -541,7 +541,7 @@ export default function AddReservationModal({
                       value={customAmount}
                       onChange={e => setCustomAmount(e.target.value)}
                       placeholder={`기본 금액: ${totalAmount.toLocaleString()}원`}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                     />
                     <p className="text-sm text-gray-500 mt-1">
                       입력하지 않으면 서비스 기본 금액이 적용됩니다.

@@ -95,7 +95,7 @@ export default function PriceRangeFilter({
                     min={min}
                     max={max}
                     step={1000}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus-ring focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -109,7 +109,7 @@ export default function PriceRangeFilter({
                     min={min}
                     max={max}
                     step={1000}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus-ring focus:border-transparent"
                   />
                 </div>
               </div>

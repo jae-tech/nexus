@@ -263,7 +263,7 @@ export default function ListView({
                   type="checkbox"
                   checked={selectedIds.length === paginatedReservations.length && paginatedReservations.length > 0}
                   onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="rounded border-gray-300 text-blue-600 focus-ring"
                 />
               </th>
               <th 
@@ -336,7 +336,7 @@ export default function ListView({
                     type="checkbox"
                     checked={selectedIds.includes(reservation.id)}
                     onChange={(e) => handleSelectOne(reservation.id, e.target.checked)}
-                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="rounded border-gray-300 text-blue-600 focus-ring"
                   />
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
@@ -389,7 +389,7 @@ export default function ListView({
                   <select
                     value={reservation.status}
                     onChange={(e) => handleStatusChange(reservation.id, e.target.value as Reservation['status'])}
-                    className={`text-xs font-medium px-2 py-1 rounded-full border-0 focus:ring-2 focus:ring-blue-500 cursor-pointer ${getStatusColor(reservation.status)}`}
+                    className={`text-xs font-medium px-2 py-1 rounded-full border-0 focus-ring cursor-pointer ${getStatusColor(reservation.status)}`}
                   >
                     <option value="scheduled">예약됨</option>
                     <option value="completed">완료</option>
@@ -512,7 +512,7 @@ export default function ListView({
                 <select
                   value={deleteReason}
                   onChange={(e) => setDeleteReason(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus-ring"
                 >
                   <option value="">사유 선택</option>
                   <option value="customer_cancel">고객 취소</option>

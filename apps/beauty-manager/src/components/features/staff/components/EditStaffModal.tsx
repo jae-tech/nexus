@@ -155,7 +155,7 @@ export default function EditStaffModal({ staff, onClose, onSave }: EditStaffModa
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  className={`w-full px-3 py-2 border rounded-lg focus-ring ${
                     errors.name ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="직원 이름을 입력하세요"
@@ -170,7 +170,7 @@ export default function EditStaffModal({ staff, onClose, onSave }: EditStaffModa
                 <select
                   value={formData.role}
                   onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value, specialties: [] }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                 >
                   {roles.map(role => (
                     <option key={role} value={role}>{role}</option>
@@ -188,7 +188,7 @@ export default function EditStaffModal({ staff, onClose, onSave }: EditStaffModa
                   type="tel"
                   value={formData.phone}
                   onChange={handlePhoneChange}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  className={`w-full px-3 py-2 border rounded-lg focus-ring ${
                     errors.phone ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="010-0000-0000"
@@ -205,7 +205,7 @@ export default function EditStaffModal({ staff, onClose, onSave }: EditStaffModa
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  className={`w-full px-3 py-2 border rounded-lg focus-ring ${
                     errors.email ? 'border-red-500' : 'border-gray-300'
                   }`}
                   placeholder="example@salon.com"
@@ -222,7 +222,7 @@ export default function EditStaffModal({ staff, onClose, onSave }: EditStaffModa
                 type="date"
                 value={formData.hireDate}
                 onChange={(e) => setFormData(prev => ({ ...prev, hireDate: e.target.value }))}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                className={`w-full px-3 py-2 border rounded-lg focus-ring ${
                   errors.hireDate ? 'border-red-500' : 'border-gray-300'
                 }`}
                 max={new Date().toISOString().split('T')[0]}
@@ -262,7 +262,7 @@ export default function EditStaffModal({ staff, onClose, onSave }: EditStaffModa
                 value={formData.personalMemo}
                 onChange={(e) => setFormData(prev => ({ ...prev, personalMemo: e.target.value }))}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                 placeholder="특기, 자격증, 특이사항 등을 입력하세요"
                 maxLength={500}
               />

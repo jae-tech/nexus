@@ -208,7 +208,7 @@ export default function EditReservationModal({
                       type="date"
                       value={selectedDate}
                       onChange={(e) => setSelectedDate(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                     />
                   </div>
                   <div>
@@ -218,7 +218,7 @@ export default function EditReservationModal({
                     <select
                       value={selectedTime}
                       onChange={(e) => setSelectedTime(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                     >
                       {timeSlots.map(time => (
                         <option key={time} value={time}>{time}</option>
@@ -304,7 +304,7 @@ export default function EditReservationModal({
                 <select
                   value={selectedStatus}
                   onChange={(e) => setSelectedStatus(e.target.value as Reservation['status'])}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                 >
                   <option value="scheduled">예약됨</option>
                   <option value="completed">완료</option>
@@ -324,7 +324,7 @@ export default function EditReservationModal({
                     onChange={(e) => setMemo(e.target.value)}
                     placeholder="특별한 요청사항이나 주의사항"
                     rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                   />
                 </div>
                 <div>
@@ -336,7 +336,7 @@ export default function EditReservationModal({
                     value={customAmount}
                     onChange={(e) => setCustomAmount(e.target.value)}
                     placeholder={`기본 금액: ${totalAmount.toLocaleString()}원`}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                   />
                 </div>
               </div>
