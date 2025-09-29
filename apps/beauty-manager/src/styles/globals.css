@@ -1,0 +1,16 @@
+@import "tailwindcss";
+@import "remixicon/fonts/remixicon.css";
+
+/* Global styles for the application */
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+}
