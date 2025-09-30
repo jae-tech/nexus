@@ -3,7 +3,7 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm"],
-  dts: false, // Disabled due to path resolution issues with @/ imports
+  dts: false, // Temporarily disabled due to path resolution issues
   sourcemap: true,
   clean: true,
   external: ["react", "react-dom"],
