@@ -3,8 +3,8 @@ import {
   spacing,
   typography,
   borderRadius,
-  boxShadow,
-  animation,
+  shadows,
+  transitions,
 } from "@nexus/design-tokens";
 import typographyPlugin from "@tailwindcss/typography";
 import animatePlugin from "tailwindcss-animate";
@@ -22,14 +22,38 @@ export default {
       },
     },
     extend: {
-      colors,
+      colors: {
+        // Semantic colors for Tailwind
+        primary: colors.primary,
+        success: colors.success,
+        warning: colors.warning,
+        danger: colors.danger,
+        gray: colors.gray,
+        white: colors.white,
+        black: colors.black,
+        transparent: colors.transparent,
+      },
       spacing,
       fontFamily: typography.fontFamily,
       fontSize: typography.fontSize,
       fontWeight: typography.fontWeight,
       borderRadius,
-      boxShadow,
-      animation,
+      boxShadow: shadows,
+      transitionDuration: transitions.duration,
+      transitionTimingFunction: transitions.timing,
+      animation: {
+        none: "none",
+        spin: "spin 1s linear infinite",
+        ping: "ping 1s cubic-bezier(0, 0, 0.2, 1) infinite",
+        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        bounce: "bounce 1s infinite",
+        "fade-in": "fadeIn 0.5s ease-in-out",
+        "fade-out": "fadeOut 0.5s ease-in-out",
+        "slide-in-left": "slideInLeft 0.3s ease-out",
+        "slide-in-right": "slideInRight 0.3s ease-out",
+        "slide-in-up": "slideInUp 0.3s ease-out",
+        "slide-in-down": "slideInDown 0.3s ease-out",
+      },
       keyframes: {
         fadeIn: {
           "0%": { opacity: "0" },

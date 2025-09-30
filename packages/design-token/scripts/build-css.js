@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 // Import design tokens
-import { colors, spacing, typography, borderRadius, boxShadow, animation } from '../dist/index.js';
+import { colors, spacing, typography, borderRadius, shadows } from '../dist/index.js';
 
 // Generate CSS custom properties
 const generateCSSTokens = () => {
@@ -58,10 +58,10 @@ const generateCSSTokens = () => {
   });
 
   css += `
-  /* Box Shadow */
+  /* Shadows */
 `;
 
-  Object.entries(boxShadow).forEach(([key, value]) => {
+  Object.entries(shadows).forEach(([key, value]) => {
     css += `  --shadow-${key}: ${value};\n`;
   });
 
