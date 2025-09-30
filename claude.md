@@ -215,7 +215,7 @@ import { ElectronApp } from "@nexus/electron-builder";
 
 const app = new ElectronApp({
   name: "앱 이름",
-  devUrl: "http://localhost:3000",
+  devUrl: "http://localhost:5173",
   window: { width: 1200, height: 800 },
 });
 ```
