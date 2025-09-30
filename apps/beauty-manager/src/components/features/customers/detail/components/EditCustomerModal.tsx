@@ -1,7 +1,5 @@
-
-import { useState } from 'react';
-import Button from '@/components/ui/Button';
-import { Customer } from '@/mocks/customerDetail';
+import { useState } from "react";
+import { Customer } from "@/mocks/customerDetail";
 
 interface EditCustomerModalProps {
   customer: Customer;
@@ -9,13 +7,17 @@ interface EditCustomerModalProps {
   onSuccess: () => void;
 }
 
-export default function EditCustomerModal({ customer, onClose, onSuccess }: EditCustomerModalProps) {
+export default function EditCustomerModal({
+  customer,
+  onClose,
+  onSuccess,
+}: EditCustomerModalProps) {
   const [formData, setFormData] = useState({
     name: customer.name,
     phone: customer.phone,
-    gender: customer.gender || '',
-    birthDate: customer.birthDate || '',
-    personalMemo: customer.personalMemo
+    gender: customer.gender || "",
+    birthDate: customer.birthDate || "",
+    personalMemo: customer.personalMemo,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -24,13 +26,13 @@ export default function EditCustomerModal({ customer, onClose, onSuccess }: Edit
     const newErrors: { [key: string]: string } = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = '이름을 입력해주세요.';
+      newErrors.name = "이름을 입력해주세요.";
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = '전화번호를 입력해주세요.';
+      newErrors.phone = "전화번호를 입력해주세요.";
     } else if (!/^010-\d{4}-\d{4}$/.test(formData.phone)) {
-      newErrors.phone = '올바른 전화번호 형식이 아닙니다. (010-0000-0000)';
+      newErrors.phone = "올바른 전화번호 형식이 아닙니다. (010-0000-0000)";
     }
 
     setErrors(newErrors);
@@ -39,59 +41,71 @@ export default function EditCustomerModal({ customer, onClose, onSuccess }: Edit
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) return;
 
     setIsSubmitting(true);
-    
+
     try {
       // 실제로는 API 호출로 고객 정보 업데이트
-      await new Promise(resolve => setTimeout(resolve, 1000)); // 시뮬레이션
-      console.log('고객 정보 업데이트:', formData);
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // 시뮬레이션
+      // 고객 정보 업데이트: formData
       onSuccess();
     } catch (error) {
-      console.error('고객 정보 업데이트 실패:', error);
+      console.error("고객 정보 업데이트 실패:", error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
     const { name, value } = e.target;
-    
+
     // 전화번호 자동 포맷팅
-    if (name === 'phone') {
-      const formatted = value.replace(/[^\d]/g, '').replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
-      setFormData(prev => ({ ...prev, [name]: formatted }));
+    if (name === "phone") {
+      const formatted = value
+        .replace(/[^\d]/g, "")
+        .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3");
+      setFormData((prev) => ({ ...prev, [name]: formatted }));
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData((prev) => ({ ...prev, [name]: value }));
     }
 
     // 에러 제거
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       onClose();
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onKeyDown={handleKeyDown}>
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-md mx-4">
+    <div className="modal-overlay" onKeyDown={handleKeyDown}>
+      <div className="bg-white rounded-xl w-full max-w-md max-h-[90vh] overflow-hidden flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-800">고객 정보 수정</h2>
-          <Button variant="icon" onClick={onClose} disabled={isSubmitting}>
+        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
+          <h2 className="text-xl font-bold text-gray-900">
+            고객 정보 수정
+          </h2>
+          <button
+            onClick={onClose}
+            disabled={isSubmitting}
+            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+          >
             <i className="ri-close-line text-xl"></i>
-          </Button>
+          </button>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+        {/* Body */}
+        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               이름 <span className="text-red-500">*</span>
@@ -102,11 +116,13 @@ export default function EditCustomerModal({ customer, onClose, onSuccess }: Edit
               value={formData.name}
               onChange={handleChange}
               className={`w-full px-3 py-2 border rounded-lg focus-ring focus:border-transparent ${
-                errors.name ? 'border-red-300' : 'border-gray-200'
+                errors.name ? "border-red-300" : "border-gray-200"
               }`}
               disabled={isSubmitting}
             />
-            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+            )}
           </div>
 
           <div>
@@ -120,11 +136,13 @@ export default function EditCustomerModal({ customer, onClose, onSuccess }: Edit
               onChange={handleChange}
               placeholder="010-0000-0000"
               className={`w-full px-3 py-2 border rounded-lg focus-ring focus:border-transparent ${
-                errors.phone ? 'border-red-300' : 'border-gray-200'
+                errors.phone ? "border-red-300" : "border-gray-200"
               }`}
               disabled={isSubmitting}
             />
-            {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
+            {errors.phone && (
+              <p className="text-red-500 text-xs mt-1">{errors.phone}</p>
+            )}
           </div>
 
           <div>
@@ -176,24 +194,34 @@ export default function EditCustomerModal({ customer, onClose, onSuccess }: Edit
               {formData.personalMemo.length}/500자
             </div>
           </div>
-
-          {/* Actions */}
-          <div className="flex items-center justify-end gap-3 pt-4">
-            <Button variant="secondary" type="button" onClick={onClose} disabled={isSubmitting}>
-              취소
-            </Button>
-            <Button variant="primary" type="submit" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <>
-                  <i className="ri-loader-4-line animate-spin"></i>
-                  저장 중...
-                </>
-              ) : (
-                '저장'
-              )}
-            </Button>
-          </div>
         </form>
+
+        {/* Footer - 통일된 버튼 배치 */}
+        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-end gap-3 flex-shrink-0">
+          <button
+            type="button"
+            onClick={onClose}
+            disabled={isSubmitting}
+            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors disabled:opacity-50"
+          >
+            취소
+          </button>
+          <button
+            type="submit"
+            onClick={handleSubmit}
+            disabled={isSubmitting}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+          >
+            {isSubmitting ? (
+              <>
+                <i className="ri-loader-4-line animate-spin mr-2"></i>
+                저장 중...
+              </>
+            ) : (
+              "저장"
+            )}
+          </button>
+        </div>
       </div>
     </div>
   );
