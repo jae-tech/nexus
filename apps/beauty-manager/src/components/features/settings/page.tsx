@@ -1,7 +1,6 @@
 import { useState } from "react";
 import PageHeader from "@/components/common/PageHeader";
-import Button from "@/components/ui/Button";
-import Card from "@/components/ui/Card";
+import { Card, Button } from "@nexus/ui";
 import { useUIStore } from "@/stores/ui-store";
 import { cn } from "@/lib/utils";
 

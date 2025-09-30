@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
 import SearchBar from "@/components/ui/SearchBar";
-import Button from "@/components/ui/Button";
+import { Button } from "@nexus/ui";
 import CalendarView from "./components/CalendarView";
 import ListView from "./components/ListView";
 import AddReservationModal from "./components/AddReservationModal";

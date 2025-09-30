@@ -1,8 +1,7 @@
 import { useState, useMemo } from "react";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
+import { Card, Button } from "@nexus/ui";
 import SearchBar from "@/components/ui/SearchBar";
 import { mockStaff } from "@/mocks/staff";
 import { Staff as StaffType } from "@/types";
@@ -136,7 +135,7 @@ export function Staff() {
 
   const handleDeleteStaffType = (staffId: string) => {
     if (confirm("정말로 이 직원을 삭제하시겠습니까?")) {
-      setStaffTypeList((prev) => prev.filter((s) => s.id !== staffId));
+      setStaffList((prev) => prev.filter((s) => s.id !== staffId));
     }
     setShowMenuId(null);
   };
@@ -613,10 +612,10 @@ export function Staff() {
 
       {/* 모달들 */}
       {showAddModal && (
-        <AddStaffTypeModal
+        <AddStaffModal
           onClose={() => setShowAddModal(false)}
           onAdd={(newStaffType) => {
-            setStaffTypeList((prev) => [
+            setStaffList((prev) => [
               ...prev,
               { ...newStaffType, id: Date.now().toString() },
             ]);
@@ -626,14 +625,14 @@ export function Staff() {
       )}
 
       {showEditModal && selectedStaffType && (
-        <EditStaffTypeModal
+        <EditStaffModal
           staff={selectedStaffType}
           onClose={() => {
             setShowEditModal(false);
             setSelectedStaffType(null);
           }}
           onSave={(updatedStaffType) => {
-            setStaffTypeList((prev) =>
+            setStaffList((prev) =>
               prev.map((s) =>
                 s.id === updatedStaffType.id ? updatedStaffType : s
               )
@@ -645,14 +644,14 @@ export function Staff() {
       )}
 
       {showDetailModal && selectedStaffType && (
-        <StaffTypeDetailModal
+        <StaffDetailModal
           staff={selectedStaffType}
           onClose={() => {
             setShowDetailModal(false);
             setSelectedStaffType(null);
           }}
           onUpdate={(updatedStaffType) => {
-            setStaffTypeList((prev) =>
+            setStaffList((prev) =>
               prev.map((s) =>
                 s.id === updatedStaffType.id ? updatedStaffType : s
               )
@@ -662,7 +661,7 @@ export function Staff() {
       )}
 
       {showScheduleModal && selectedStaffType && (
-        <StaffTypeScheduleModal
+        <StaffScheduleModal
           staff={selectedStaffType}
           onClose={() => {
             setShowScheduleModal(false);

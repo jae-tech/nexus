@@ -3,34 +3,21 @@ import { useNavigate } from "@tanstack/react-router";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
 import SearchBar from "@/components/ui/SearchBar";
-import Card from "@/components/ui/Card";
-import Button from "@/components/ui/Button";
+import { Card, Button } from "@nexus/ui";
 import AddCustomerModal from "@/components/common/AddCustomerModal";
+import CustomerDetailModal from "./components/CustomerDetailModal";
 import Toast from "@/components/common/Toast";
 import FloatingButton from "@/components/common/FloatingButton";
 import { useToast } from "@/hooks/useToast";
 import { mockCustomers } from "@/mocks/customers";
 import { useUIStore } from "@/stores/ui-store";
 import { cn } from "@/lib/utils";
+import type { Customer } from "@/types";
 
 type FilterType = "all" | "recent" | "regular" | "new";
 type SortType = "name" | "lastVisit" | "visitCount" | "registered";
 type GradeFilter = "all" | "VIP" | "골드" | "실버" | "브론즈";
 type SortOption = "name" | "recent" | "totalSpent" | "visitCount";
-
-interface Customer {
-  id: number;
-  name: string;
-  phone: string;
-  gender: string;
-  birthday: string;
-  registeredDate: string;
-  memo: string;
-  visitCount: number;
-  lastVisit: string;
-  lastService: string;
-  mainStaff: string;
-}
 
 export function Customers() {
   const navigate = useNavigate();
@@ -40,6 +27,10 @@ export function Customers() {
   const [selectedFilter, setSelectedFilter] = useState<FilterType>("all");
   const [sortBy, setSortBy] = useState<SortType>("name");
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showDetailModal, setShowDetailModal] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
+    null
+  );
   const [customerList, setCustomerList] = useState<Customer[]>(mockCustomers);
   const [gradeFilter, setGradeFilter] = useState<GradeFilter>("all");
   const [sortOption, setSortOption] = useState<SortOption>("name");
@@ -59,19 +50,21 @@ export function Customers() {
       const registeredDate = new Date(customer.registeredDate);
 
       switch (selectedFilter) {
-        case "recent":
+        case "recent": {
           if (!lastVisitDate) return false;
           const daysSinceVisit = Math.floor(
             (today.getTime() - lastVisitDate.getTime()) / (1000 * 60 * 60 * 24)
           );
           return daysSinceVisit <= 30;
+        }
         case "regular":
           return customer.visitCount >= 5;
-        case "new":
+        case "new": {
           const daysSinceRegistered = Math.floor(
             (today.getTime() - registeredDate.getTime()) / (1000 * 60 * 60 * 24)
           );
           return daysSinceRegistered <= 30;
+        }
         default:
           return true;
       }
@@ -117,8 +110,30 @@ export function Customers() {
     success("새 고객이 성공적으로 등록되었습니다.");
   };
 
-  const handleCustomerClick = (customerId: number) => {
-    navigate(`/customers/${customerId}`);
+  const handleCustomerClick = (customer: Customer) => {
+    setSelectedCustomer(customer);
+    setShowDetailModal(true);
+  };
+
+  const handleCloseDetailModal = () => {
+    setShowDetailModal(false);
+    setSelectedCustomer(null);
+  };
+
+  const handleEditFromModal = () => {
+    if (selectedCustomer) {
+      handleCloseDetailModal();
+      // 상세 페이지로 이동하여 수정
+      navigate(`/customers/${selectedCustomer.id}`);
+    }
+  };
+
+  const handleAddTreatmentFromModal = () => {
+    if (selectedCustomer) {
+      handleCloseDetailModal();
+      // 상세 페이지로 이동하여 시술 추가
+      navigate(`/customers/${selectedCustomer.id}`);
+    }
   };
 
   const handlePhoneCall = (phone: string, e: React.MouseEvent) => {
@@ -131,7 +146,7 @@ export function Customers() {
     navigate("/reservations", { state: { preselectedCustomer: customer } });
   };
 
-  const getVisitStatus = (lastVisit: string) => {
+  const getVisitStatus = (lastVisit?: string) => {
     if (!lastVisit) return { text: "방문 기록 없음", color: "text-gray-500" };
 
     const lastVisitDate = new Date(lastVisit);
@@ -175,35 +190,22 @@ export function Customers() {
           </div>
         }
         actions={
-          <div className="flex items-center gap-2 md:gap-4 flex-wrap">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                /* 엑셀 내보내기 */
-              }}
-            >
-              <i className="ri-download-line mr-1 md:mr-2"></i>
-              <span className="hidden sm:inline">엑셀 내보내기</span>
-              <span className="sm:hidden">내보내기</span>
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => setShowAddModal(true)}
-            >
-              <i className="ri-add-line mr-1 md:mr-2"></i>
-              <span className="hidden sm:inline">새 고객 추가</span>
-              <span className="sm:hidden">추가</span>
-            </Button>
-          </div>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={() => setShowAddModal(true)}
+          >
+            <i className="ri-add-line mr-1 md:mr-2"></i>
+            <span className="hidden sm:inline">새 고객 추가</span>
+            <span className="sm:hidden">추가</span>
+          </Button>
         }
       />
 
       {/* Filter Bar */}
       <div className="sticky top-20 z-30 bg-white border-b border-gray-200">
         <FilterBar>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 w-full">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-4 w-full">
             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">등급:</span>
@@ -235,6 +237,21 @@ export function Customers() {
                 </select>
               </div>
             </div>
+
+            {/* 엑셀 내보내기 버튼 */}
+            <div className="flex items-center">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  /* 엑셀 내보내기 */
+                }}
+                className="flex items-center gap-1 sm:gap-2"
+              >
+                <i className="ri-download-line text-sm"></i>
+                <span className="text-xs sm:text-sm">엑셀 내보내기</span>
+              </Button>
+            </div>
           </div>
         </FilterBar>
       </div>
@@ -252,7 +269,7 @@ export function Customers() {
                 key={customer.id}
                 hover
                 className="relative cursor-pointer"
-                onClick={() => handleCustomerClick(customer.id)}
+                onClick={() => handleCustomerClick(customer)}
               >
                 {/* Customer Type Badge */}
                 {customerType && (
@@ -381,6 +398,16 @@ export function Customers() {
           onClose={() => setShowAddModal(false)}
           onAdd={handleAddCustomer}
           existingCustomers={customerList}
+        />
+      )}
+
+      {/* Customer Detail Modal */}
+      {showDetailModal && selectedCustomer && (
+        <CustomerDetailModal
+          customer={selectedCustomer}
+          onClose={handleCloseDetailModal}
+          onEdit={handleEditFromModal}
+          onAddTreatment={handleAddTreatmentFromModal}
         />
       )}
 

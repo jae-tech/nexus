@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
 import SearchBar from "@/components/ui/SearchBar";
-import Button from "@/components/ui/Button";
+import { Button } from "@nexus/ui";
 import Toast from "@/components/common/Toast";
 import { useToast } from "@/hooks/useToast";
 import { mockServices, mockServiceCategories } from "@/mocks/services";
