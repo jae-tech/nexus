@@ -1,6 +1,5 @@
 
 import { useState } from 'react';
-import Button from '@/components/ui/Button';
 
 interface Category {
   id: string;
@@ -222,14 +221,14 @@ export default function CategoryManagementModal({
                 </div>
               </div>
 
-              <Button
+              <button
                 onClick={handleAddCategory}
                 disabled={!newCategoryName.trim()}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50"
+                className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
                 <i className="ri-add-line mr-2"></i>
                 카테고리 추가
-              </Button>
+              </button>
             </div>
 
             {/* 미리보기 */}
@@ -245,14 +244,20 @@ export default function CategoryManagementModal({
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-end gap-3 p-6 border-t border-gray-200">
-          <Button variant="outline" onClick={onClose}>
+        {/* Footer - 통일된 버튼 배치 */}
+        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-end gap-3 flex-shrink-0">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
+          >
             취소
-          </Button>
-          <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700 text-white">
+          </button>
+          <button
+            onClick={handleSave}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+          >
             변경사항 저장
-          </Button>
+          </button>
         </div>
       </div>
     </div>

@@ -1,7 +1,6 @@
 
 import { useState } from 'react';
-import Button from '@/components/ui/Button';
-import Card from '@/components/ui/Card';
+import { Card } from '@nexus/ui';
 import { Staff, Holiday } from '@/mocks/staff';
 
 interface StaffDetailModalProps {
@@ -303,14 +302,13 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                         </div>
                       </div>
                       <div className="relative">
-                        <Button
-                          variant="outline"
+                        <button
                           onClick={() => setShowPositionDropdown(!showPositionDropdown)}
-                          className="text-sm"
+                          className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors text-sm"
                         >
                           변경
                           <i className="ri-arrow-down-s-line ml-1"></i>
-                        </Button>
+                        </button>
                         {showPositionDropdown && (
                           <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20 min-w-[120px]">
                             {(['owner', 'manager', 'senior', 'junior', 'intern'] as Staff['position'][]).map((position) => (
@@ -352,23 +350,21 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                           placeholder="개인 메모를 입력하세요..."
                         />
                         <div className="flex items-center justify-end gap-2 mt-3">
-                          <Button
-                            variant="outline"
+                          <button
                             onClick={() => {
                               setEditingMemo(false);
                               setMemoText(currentStaff.personalMemo);
                             }}
-                            className="text-sm"
+                            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors text-sm"
                           >
                             취소
-                          </Button>
-                          <Button
-                            variant="primary"
+                          </button>
+                          <button
                             onClick={handleMemoSave}
-                            className="text-sm"
+                            className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm"
                           >
                             저장
-                          </Button>
+                          </button>
                         </div>
                       </div>
                     ) : (
@@ -556,14 +552,13 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                 <Card>
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-lg font-semibold text-gray-900">휴일 등록</h3>
-                    <Button
-                      variant="primary"
+                    <button
                       onClick={() => setShowAddHolidayForm(!showAddHolidayForm)}
-                      className="text-sm"
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm"
                     >
                       <i className="ri-add-line mr-2"></i>
                       새 휴일 등록
-                    </Button>
+                    </button>
                   </div>
 
                   {showAddHolidayForm && (
@@ -643,24 +638,22 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                         </div>
                       </div>
                       <div className="flex items-center justify-end gap-3">
-                        <Button
-                          variant="outline"
+                        <button
                           onClick={() => {
                             setShowAddHolidayForm(false);
                             setNewHoliday({ startDate: '', endDate: '', type: 'annual', isHalfDay: false, reason: '' });
                           }}
-                          className="text-sm"
+                          className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors text-sm"
                         >
                           취소
-                        </Button>
-                        <Button
-                          variant="primary"
+                        </button>
+                        <button
                           onClick={handleAddHoliday}
                           disabled={!newHoliday.startDate || !newHoliday.reason.trim()}
-                          className="text-sm"
+                          className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm disabled:opacity-50"
                         >
                           등록
-                        </Button>
+                        </button>
                       </div>
                     </div>
                   )}
@@ -741,16 +734,14 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
             )}
           </div>
 
-          {/* 푸터 */}
-          <div className="p-6 border-t border-gray-200">
-            <div className="flex justify-end">
-              <Button
-                onClick={onClose}
-                variant="outline"
-              >
-                닫기
-              </Button>
-            </div>
+          {/* Footer - 통일된 버튼 배치 */}
+          <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-end gap-3 flex-shrink-0">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
+            >
+              닫기
+            </button>
           </div>
         </div>
       </div>

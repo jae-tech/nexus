@@ -2,11 +2,11 @@
 import { useState, useEffect } from 'react';
 import { format, startOfWeek, addDays, addWeeks, subWeeks, isSameDay, isToday } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { mockReservations } from '../../../mocks/reservations';
+import { mockReservations } from '@/mocks/reservations';
 import AddReservationModal from '../../reservations/components/AddReservationModal';
-import { mockCustomers } from '../../../mocks/customers';
-import { mockStaff } from '../../../mocks/staff';
-import { mockServices } from '../../../mocks/services';
+import { mockCustomers } from '@/mocks/customers';
+import { mockStaff } from '@/mocks/staff';
+import { mockServices } from '@/mocks/services';
 
 interface Staff {
   id: string;
@@ -389,8 +389,8 @@ export default function StaffScheduleModal({ staff, onClose, onAddReservation }:
           </div>
         </div>
 
-        {/* 범례 */}
-        <div className="flex items-center justify-between p-6 border-t border-gray-200 bg-gray-50">
+        {/* Footer - 통일된 버튼 배치 */}
+        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-6 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-blue-50 border-l-4 border-l-blue-400 rounded-sm"></div>

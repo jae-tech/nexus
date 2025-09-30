@@ -1,6 +1,5 @@
 
 import { useState } from 'react';
-import Button from '@/components/ui/Button';
 
 interface Service {
   id: string;
@@ -307,35 +306,41 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
           )}
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between p-6 border-t border-gray-200">
-          <div className="flex gap-2">
+        {/* Footer - 통일된 버튼 배치 */}
+        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between flex-shrink-0">
+          <div className="flex gap-3">
             {step > 1 && (
-              <Button variant="outline" onClick={() => setStep(step - 1)}>
+              <button
+                onClick={() => setStep(step - 1)}
+                className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
+              >
                 이전
-              </Button>
+              </button>
             )}
           </div>
-          
-          <div className="flex gap-2">
-            <Button variant="outline" onClick={onClose}>
+
+          <div className="flex gap-3">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
+            >
               취소
-            </Button>
+            </button>
             {step < 3 ? (
-              <Button 
+              <button
                 onClick={() => setStep(step + 1)}
                 disabled={step === 1 && selectedServices.length === 0}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
                 다음
-              </Button>
+              </button>
             ) : (
-              <Button 
+              <button
                 onClick={handleApply}
-                className="bg-blue-600 hover:bg-blue-700 text-white"
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
               >
                 적용
-              </Button>
+              </button>
             )}
           </div>
         </div>
