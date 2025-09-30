@@ -1,7 +1,6 @@
-
-import { useState, useEffect } from 'react';
-import { format } from 'date-fns';
-import { ko } from 'date-fns/locale';
+import { useState, useEffect } from "react";
+import { format } from "date-fns";
+import { ko } from "date-fns/locale";
 
 interface Customer {
   id: number;
@@ -22,7 +21,7 @@ interface Staff {
   name: string;
   role: string;
   phone: string;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
   monthlyCustomers: number;
 }
 
@@ -51,7 +50,7 @@ interface Reservation {
   }>;
   employeeId: string;
   employeeName: string;
-  status: 'scheduled' | 'completed' | 'cancelled' | 'no-show';
+  status: "scheduled" | "completed" | "cancelled" | "no-show";
   memo?: string;
   amount?: number;
   createdAt: string;
@@ -67,9 +66,25 @@ interface EditReservationModalProps {
 }
 
 const timeSlots = [
-  '09:00', '09:30', '10:00', '10:30', '11:00', '11:30',
-  '12:00', '12:30', '13:00', '13:30', '14:00', '14:30',
-  '15:00', '15:30', '16:00', '16:30', '17:00', '17:30', '18:00'
+  "09:00",
+  "09:30",
+  "10:00",
+  "10:30",
+  "11:00",
+  "11:30",
+  "12:00",
+  "12:30",
+  "13:00",
+  "13:30",
+  "14:00",
+  "14:30",
+  "15:00",
+  "15:30",
+  "16:00",
+  "16:30",
+  "17:00",
+  "17:30",
+  "18:00",
 ];
 
 export default function EditReservationModal({
@@ -78,58 +93,72 @@ export default function EditReservationModal({
   onSave,
   customers,
   staff,
-  services
+  services,
 }: EditReservationModalProps) {
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
+    null
+  );
   const [selectedDate, setSelectedDate] = useState(reservation.date);
   const [selectedTime, setSelectedTime] = useState(reservation.startTime);
   const [selectedServices, setSelectedServices] = useState<Service[]>([]);
   const [selectedEmployee, setSelectedEmployee] = useState<Staff | null>(null);
   const [selectedStatus, setSelectedStatus] = useState(reservation.status);
-  const [memo, setMemo] = useState(reservation.memo || '');
-  const [customAmount, setCustomAmount] = useState(reservation.amount?.toString() || '');
+  const [memo, setMemo] = useState(reservation.memo || "");
+  const [customAmount, setCustomAmount] = useState(
+    reservation.amount?.toString() || ""
+  );
 
   // 초기 데이터 설정
   useEffect(() => {
     // 고객 설정
-    const customer = customers.find(c => c.id.toString() === reservation.customerId);
+    const customer = customers.find(
+      (c) => c.id.toString() === reservation.customerId
+    );
     if (customer) {
       setSelectedCustomer(customer);
     }
 
     // 직원 설정
-    const employee = staff.find(s => s.id === reservation.employeeId);
+    const employee = staff.find((s) => s.id === reservation.employeeId);
     if (employee) {
       setSelectedEmployee(employee);
     }
 
     // 서비스 설정
-    const reservationServices = reservation.services.map(resService => {
-      return services.find(s => s.id === resService.id);
-    }).filter(Boolean) as Service[];
+    const reservationServices = reservation.services
+      .map((resService) => {
+        return services.find((s) => s.id === resService.id);
+      })
+      .filter(Boolean) as Service[];
     setSelectedServices(reservationServices);
   }, [reservation, customers, staff, services]);
 
   // 선택된 서비스들의 총 소요시간 계산
-  const totalDuration = selectedServices.reduce((sum, service) => sum + service.duration, 0);
-  
+  const totalDuration = selectedServices.reduce(
+    (sum, service) => sum + service.duration,
+    0
+  );
+
   // 종료 시간 계산
   const calculateEndTime = (startTime: string, duration: number) => {
-    const [hours, minutes] = startTime.split(':').map(Number);
+    const [hours, minutes] = startTime.split(":").map(Number);
     const totalMinutes = hours * 60 + minutes + duration;
     const endHours = Math.floor(totalMinutes / 60);
     const endMinutes = totalMinutes % 60;
-    return `${endHours.toString().padStart(2, '0')}:${endMinutes.toString().padStart(2, '0')}`;
+    return `${endHours.toString().padStart(2, "0")}:${endMinutes.toString().padStart(2, "0")}`;
   };
 
   // 총 금액 계산
-  const totalAmount = selectedServices.reduce((sum, service) => sum + service.price, 0);
+  const totalAmount = selectedServices.reduce(
+    (sum, service) => sum + service.price,
+    0
+  );
 
   const handleServiceToggle = (service: Service) => {
-    setSelectedServices(prev => {
-      const exists = prev.find(s => s.id === service.id);
+    setSelectedServices((prev) => {
+      const exists = prev.find((s) => s.id === service.id);
       if (exists) {
-        return prev.filter(s => s.id !== service.id);
+        return prev.filter((s) => s.id !== service.id);
       } else {
         return [...prev, service];
       }
@@ -137,8 +166,12 @@ export default function EditReservationModal({
   };
 
   const handleSave = () => {
-    if (!selectedCustomer || !selectedEmployee || selectedServices.length === 0) {
-      alert('필수 정보를 모두 입력해주세요.');
+    if (
+      !selectedCustomer ||
+      !selectedEmployee ||
+      selectedServices.length === 0
+    ) {
+      alert("필수 정보를 모두 입력해주세요.");
       return;
     }
 
@@ -150,24 +183,24 @@ export default function EditReservationModal({
       date: selectedDate,
       startTime: selectedTime,
       endTime: calculateEndTime(selectedTime, totalDuration),
-      services: selectedServices.map(service => ({
+      services: selectedServices.map((service) => ({
         id: service.id,
         name: service.name,
         duration: service.duration,
-        price: service.price
+        price: service.price,
       })),
       employeeId: selectedEmployee.id,
       employeeName: selectedEmployee.name,
       status: selectedStatus,
       memo: memo.trim() || undefined,
-      amount: customAmount ? parseInt(customAmount) : totalAmount
+      amount: customAmount ? parseInt(customAmount) : totalAmount,
     };
 
     onSave(updatedReservation);
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="modal-overlay">
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-hidden flex">
         {/* 메인 컨텐츠 */}
         <div className="flex-1 flex flex-col">
@@ -189,16 +222,24 @@ export default function EditReservationModal({
             <div className="space-y-6">
               {/* 고객 정보 */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-3">고객 정보</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-3">
+                  고객 정보
+                </h3>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <div className="font-medium text-gray-900">{selectedCustomer?.name}</div>
-                  <div className="text-sm text-gray-600">{selectedCustomer?.phone}</div>
+                  <div className="font-medium text-gray-900">
+                    {selectedCustomer?.name}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {selectedCustomer?.phone}
+                  </div>
                 </div>
               </div>
 
               {/* 날짜 및 시간 */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-3">날짜 및 시간</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-3">
+                  날짜 및 시간
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -220,8 +261,10 @@ export default function EditReservationModal({
                       onChange={(e) => setSelectedTime(e.target.value)}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                     >
-                      {timeSlots.map(time => (
-                        <option key={time} value={time}>{time}</option>
+                      {timeSlots.map((time) => (
+                        <option key={time} value={time}>
+                          {time}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -230,34 +273,47 @@ export default function EditReservationModal({
 
               {/* 서비스 선택 */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-3">서비스</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-3">
+                  서비스
+                </h3>
                 <div className="space-y-4">
-                  {['헤어', '네일', '케어'].map(category => {
-                    const categoryServices = services.filter(service => service.category === category);
+                  {["헤어", "네일", "케어"].map((category) => {
+                    const categoryServices = services.filter(
+                      (service) => service.category === category
+                    );
                     if (categoryServices.length === 0) return null;
-                    
+
                     return (
                       <div key={category}>
-                        <h4 className="font-medium text-gray-900 mb-2">{category}</h4>
+                        <h4 className="font-medium text-gray-900 mb-2">
+                          {category}
+                        </h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                          {categoryServices.map(service => (
+                          {categoryServices.map((service) => (
                             <div
                               key={service.id}
                               onClick={() => handleServiceToggle(service)}
                               className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                                selectedServices.find(s => s.id === service.id)
-                                  ? 'border-blue-500 bg-blue-50'
-                                  : 'border-gray-200 hover:border-gray-300'
+                                selectedServices.find(
+                                  (s) => s.id === service.id
+                                )
+                                  ? "border-blue-500 bg-blue-50"
+                                  : "border-gray-200 hover:border-gray-300"
                               }`}
                             >
                               <div className="flex items-center justify-between">
                                 <div>
-                                  <div className="font-medium text-gray-900">{service.name}</div>
+                                  <div className="font-medium text-gray-900">
+                                    {service.name}
+                                  </div>
                                   <div className="text-sm text-gray-600">
-                                    {service.duration}분 · {service.price.toLocaleString()}원
+                                    {service.duration}분 ·{" "}
+                                    {service.price.toLocaleString()}원
                                   </div>
                                 </div>
-                                {selectedServices.find(s => s.id === service.id) && (
+                                {selectedServices.find(
+                                  (s) => s.id === service.id
+                                ) && (
                                   <i className="ri-check-line text-blue-500"></i>
                                 )}
                               </div>
@@ -272,16 +328,18 @@ export default function EditReservationModal({
 
               {/* 담당 직원 */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-3">담당 직원</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-3">
+                  담당 직원
+                </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {staff.map(employee => (
+                  {staff.map((employee) => (
                     <div
                       key={employee.id}
                       onClick={() => setSelectedEmployee(employee)}
                       className={`p-4 border rounded-lg cursor-pointer transition-colors ${
                         selectedEmployee?.id === employee.id
-                          ? 'border-blue-500 bg-blue-50'
-                          : 'border-gray-200 hover:border-gray-300'
+                          ? "border-blue-500 bg-blue-50"
+                          : "border-gray-200 hover:border-gray-300"
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -289,8 +347,12 @@ export default function EditReservationModal({
                           <i className="ri-user-line text-gray-600"></i>
                         </div>
                         <div>
-                          <div className="font-medium text-gray-900">{employee.name}</div>
-                          <div className="text-sm text-gray-600">{employee.role}</div>
+                          <div className="font-medium text-gray-900">
+                            {employee.name}
+                          </div>
+                          <div className="text-sm text-gray-600">
+                            {employee.role}
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -300,10 +362,14 @@ export default function EditReservationModal({
 
               {/* 예약 상태 */}
               <div>
-                <h3 className="text-lg font-medium text-gray-900 mb-3">예약 상태</h3>
+                <h3 className="text-lg font-medium text-gray-900 mb-3">
+                  예약 상태
+                </h3>
                 <select
                   value={selectedStatus}
-                  onChange={(e) => setSelectedStatus(e.target.value as Reservation['status'])}
+                  onChange={(e) =>
+                    setSelectedStatus(e.target.value as Reservation["status"])
+                  }
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                 >
                   <option value="scheduled">예약됨</option>
@@ -343,17 +409,17 @@ export default function EditReservationModal({
             </div>
           </div>
 
-          {/* 하단 버튼 */}
-          <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-end gap-3">
+          {/* Footer - 통일된 버튼 배치 */}
+          <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-end gap-3 flex-shrink-0">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50"
+              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
             >
               취소
             </button>
             <button
               onClick={handleSave}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
             >
               저장
             </button>
@@ -366,17 +432,24 @@ export default function EditReservationModal({
           <div className="space-y-4">
             <div className="bg-white p-4 rounded-lg border border-gray-200">
               <div className="text-sm text-gray-600 mb-1">고객</div>
-              <div className="font-medium text-gray-900">{selectedCustomer?.name}</div>
-              <div className="text-sm text-gray-600">{selectedCustomer?.phone}</div>
+              <div className="font-medium text-gray-900">
+                {selectedCustomer?.name}
+              </div>
+              <div className="text-sm text-gray-600">
+                {selectedCustomer?.phone}
+              </div>
             </div>
 
             <div className="bg-white p-4 rounded-lg border border-gray-200">
               <div className="text-sm text-gray-600 mb-1">일정</div>
               <div className="font-medium text-gray-900">
-                {format(new Date(selectedDate), 'M월 d일 (E)', { locale: ko })}
+                {format(new Date(selectedDate), "M월 d일 (E)", { locale: ko })}
               </div>
               <div className="text-sm text-gray-600">
-                {selectedTime} - {totalDuration > 0 ? calculateEndTime(selectedTime, totalDuration) : '미정'}
+                {selectedTime} -{" "}
+                {totalDuration > 0
+                  ? calculateEndTime(selectedTime, totalDuration)
+                  : "미정"}
               </div>
             </div>
 
@@ -384,15 +457,25 @@ export default function EditReservationModal({
               <div className="text-sm text-gray-600 mb-1">서비스</div>
               {selectedServices.length > 0 ? (
                 <div className="space-y-1">
-                  {selectedServices.map(service => (
+                  {selectedServices.map((service) => (
                     <div key={service.id} className="text-sm">
-                      <div className="font-medium text-gray-900">{service.name}</div>
-                      <div className="text-gray-600">{service.duration}분 · {service.price.toLocaleString()}원</div>
+                      <div className="font-medium text-gray-900">
+                        {service.name}
+                      </div>
+                      <div className="text-gray-600">
+                        {service.duration}분 · {service.price.toLocaleString()}
+                        원
+                      </div>
                     </div>
                   ))}
                   <div className="pt-2 border-t border-gray-200 mt-2">
                     <div className="text-sm font-medium text-gray-900">
-                      총 {totalDuration}분 · {(customAmount ? parseInt(customAmount) : totalAmount).toLocaleString()}원
+                      총 {totalDuration}분 ·{" "}
+                      {(customAmount
+                        ? parseInt(customAmount)
+                        : totalAmount
+                      ).toLocaleString()}
+                      원
                     </div>
                   </div>
                 </div>
@@ -403,21 +486,34 @@ export default function EditReservationModal({
 
             <div className="bg-white p-4 rounded-lg border border-gray-200">
               <div className="text-sm text-gray-600 mb-1">담당 직원</div>
-              <div className="font-medium text-gray-900">{selectedEmployee?.name}</div>
-              <div className="text-sm text-gray-600">{selectedEmployee?.role}</div>
+              <div className="font-medium text-gray-900">
+                {selectedEmployee?.name}
+              </div>
+              <div className="text-sm text-gray-600">
+                {selectedEmployee?.role}
+              </div>
             </div>
 
             <div className="bg-white p-4 rounded-lg border border-gray-200">
               <div className="text-sm text-gray-600 mb-1">상태</div>
-              <div className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
-                selectedStatus === 'scheduled' ? 'bg-blue-100 text-blue-800' :
-                selectedStatus === 'completed' ? 'bg-green-100 text-green-800' :
-                selectedStatus === 'cancelled' ? 'bg-red-100 text-red-800' :
-                'bg-gray-100 text-gray-800'
-              }`}>
-                {selectedStatus === 'scheduled' ? '예약됨' :
-                 selectedStatus === 'completed' ? '완료' :
-                 selectedStatus === 'cancelled' ? '취소' : '노쇼'}
+              <div
+                className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
+                  selectedStatus === "scheduled"
+                    ? "bg-blue-100 text-blue-800"
+                    : selectedStatus === "completed"
+                      ? "bg-green-100 text-green-800"
+                      : selectedStatus === "cancelled"
+                        ? "bg-red-100 text-red-800"
+                        : "bg-gray-100 text-gray-800"
+                }`}
+              >
+                {selectedStatus === "scheduled"
+                  ? "예약됨"
+                  : selectedStatus === "completed"
+                    ? "완료"
+                    : selectedStatus === "cancelled"
+                      ? "취소"
+                      : "노쇼"}
               </div>
             </div>
 
