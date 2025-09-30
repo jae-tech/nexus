@@ -1,5 +1,5 @@
 
-import Card from '@/components/ui/Card';
+import { Card } from '@nexus/ui';
 import { Customer } from '@/mocks/customerDetail';
 
 interface SummaryStatsProps {

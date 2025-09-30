@@ -2,8 +2,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from '@tanstack/react-router';
 import { Sidebar } from '@/components/layout/Sidebar';
-import Card from '@/components/ui/Card';
-import Button from '@/components/ui/Button';
+import { Card, Button } from '@nexus/ui';
 import CustomerInfoPanel from './components/CustomerInfoPanel';
 import TreatmentHistory from './components/TreatmentHistory';
 import SummaryStats from './components/SummaryStats';
