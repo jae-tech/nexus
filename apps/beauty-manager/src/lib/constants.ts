@@ -7,7 +7,7 @@ export const ROUTES = {
   SERVICES: "/services",
   STAFF: "/staff",
   SETTINGS: "/settings",
-} as const
+} as const;
 
-export const APP_NAME = "Readdy Beauty Manager"
-export const APP_DESCRIPTION = "Professional beauty salon management system"
+export const APP_NAME = "Readdy Beauty Manager";
+export const APP_DESCRIPTION = "Professional beauty salon management system";

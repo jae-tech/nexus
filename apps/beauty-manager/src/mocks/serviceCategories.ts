@@ -3,7 +3,7 @@ export const mockServiceCategories = [
     id: '1',
     name: '헤어',
     color: '#3B82F6',
-    icon: 'ri-scissors-line',
+    icon: 'Scissors',
     order: 1,
     isActive: true
   },
@@ -11,7 +11,7 @@ export const mockServiceCategories = [
     id: '2',
     name: '네일',
     color: '#EC4899',
-    icon: 'ri-hand-heart-line',
+    icon: 'Heart',
     order: 2,
     isActive: true
   },
@@ -19,7 +19,7 @@ export const mockServiceCategories = [
     id: '3',
     name: '케어',
     color: '#10B981',
-    icon: 'ri-heart-pulse-line',
+    icon: 'Sparkles',
     order: 3,
     isActive: true
   },
@@ -27,7 +27,7 @@ export const mockServiceCategories = [
     id: '4',
     name: '기타',
     color: '#6B7280',
-    icon: 'ri-more-line',
+    icon: 'MoreHorizontal',
     order: 4,
     isActive: true
   }
