@@ -23,7 +23,7 @@ export function QuickActionCard({
       <button
         className={`w-full flex items-center p-4 rounded-xl ${color} ${hoverColor} text-white transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl`}
       >
-        <div className="p-2 bg-white bg-opacity-20 rounded-lg mr-4">
+        <div className="p-3 bg-black bg-opacity-15 rounded-xl mr-4">
           <Icon size={24} className="text-white" />
         </div>
         <div className="text-left">

@@ -31,7 +31,7 @@ export function TodayReservations({
   });
 
   return (
-    <DashboardSection>
+    <DashboardSection className="h-full flex flex-col">
       <SectionHeader
         title="오늘의 예약"
         subtitle={dateString}
@@ -46,8 +46,8 @@ export function TodayReservations({
           ))}
         </div>
       ) : (
-        <div className="text-center py-12">
-          <Calendar size={48} className="text-gray-300 mb-3 mx-auto" />
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <Calendar size={48} className="text-gray-300 mb-3" />
           <p className="text-gray-500 text-lg mb-2">오늘 예약이 없습니다</p>
           <p className="text-gray-400 text-sm">새로운 예약을 추가해보세요</p>
           <Link to="/reservations">

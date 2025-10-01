@@ -131,9 +131,9 @@ function DashBoard() {
         <StatsGrid stats={stats} />
 
         {/* 메인 컨텐츠 영역 */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 md:gap-8 mb-8 lg:h-[500px]">
           {/* 좌측 영역 - 오늘의 예약 */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 h-full">
             <TodayReservations
               reservations={todayReservationList}
               currentDate={currentTime}
@@ -141,7 +141,7 @@ function DashBoard() {
           </div>
 
           {/* 우측 영역 - 빠른 작업 */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 h-full">
             <QuickActions />
           </div>
         </div>

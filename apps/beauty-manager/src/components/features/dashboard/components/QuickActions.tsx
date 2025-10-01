@@ -39,9 +39,9 @@ export function QuickActions() {
   ];
 
   return (
-    <DashboardSection>
+    <DashboardSection className="h-full flex flex-col">
       <h3 className="text-lg font-semibold text-gray-900 mb-6">빠른 작업</h3>
-      <div className="space-y-3">
+      <div className="flex-1 flex flex-col justify-between gap-4">
         {quickActions.map((action, index) => (
           <QuickActionCard key={index} {...action} />
         ))}
