@@ -1,6 +1,6 @@
 import { createRootRoute, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { ThemeProvider } from '@nexus/ui'
+import { ThemeProvider, Toaster } from '@nexus/ui'
 import { ErrorBoundary } from '@/components/common/ErrorBoundary'
 import { Sidebar } from '@/components/layout/Sidebar'
 import { useUIStore } from '@/stores/ui-store'
@@ -19,6 +19,7 @@ function RootLayout() {
             <Outlet />
           </main>
         </div>
+        <Toaster />
         <TanStackRouterDevtools />
       </ThemeProvider>
     </ErrorBoundary>
