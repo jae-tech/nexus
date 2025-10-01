@@ -20,6 +20,7 @@ export * from "./components/ui/separator.js";
 export * from "./components/ui/tooltip.js";
 export * from "./components/ui/dropdown-menu.js";
 export * from "./components/ui/popover.js";
+export * from "./components/ui/dialog.js";
 
 // ============================================================================
 // Layout Components (레이아웃 컴포넌트)

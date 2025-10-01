@@ -1,11 +1,11 @@
 import { useState, useMemo } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
+import { Plus, Download, User, Phone, Calendar, UserPlus } from "lucide-react";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
 import SearchBar from "@/components/ui/SearchBar";
 import { Card, Button } from "@nexus/ui";
 import AddCustomerModal from "@/components/common/AddCustomerModal";
-import CustomerDetailModal from "./components/CustomerDetailModal";
 import Toast from "@/components/common/Toast";
 import FloatingButton from "@/components/common/FloatingButton";
 import { useToast } from "@/hooks/useToast";
@@ -20,17 +20,12 @@ type GradeFilter = "all" | "VIP" | "골드" | "실버" | "브론즈";
 type SortOption = "name" | "recent" | "totalSpent" | "visitCount";
 
 export function Customers() {
-  const navigate = useNavigate();
   const { toasts, removeToast, success, error } = useToast();
   const { isSidebarOpen } = useUIStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<FilterType>("all");
   const [sortBy, setSortBy] = useState<SortType>("name");
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showDetailModal, setShowDetailModal] = useState(false);
-  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(
-    null
-  );
   const [customerList, setCustomerList] = useState<Customer[]>(mockCustomers);
   const [gradeFilter, setGradeFilter] = useState<GradeFilter>("all");
   const [sortOption, setSortOption] = useState<SortOption>("name");
@@ -110,40 +105,16 @@ export function Customers() {
     success("새 고객이 성공적으로 등록되었습니다.");
   };
 
-  const handleCustomerClick = (customer: Customer) => {
-    setSelectedCustomer(customer);
-    setShowDetailModal(true);
-  };
-
-  const handleCloseDetailModal = () => {
-    setShowDetailModal(false);
-    setSelectedCustomer(null);
-  };
-
-  const handleEditFromModal = () => {
-    if (selectedCustomer) {
-      handleCloseDetailModal();
-      // 상세 페이지로 이동하여 수정
-      navigate(`/customers/${selectedCustomer.id}`);
-    }
-  };
-
-  const handleAddTreatmentFromModal = () => {
-    if (selectedCustomer) {
-      handleCloseDetailModal();
-      // 상세 페이지로 이동하여 시술 추가
-      navigate(`/customers/${selectedCustomer.id}`);
-    }
-  };
-
   const handlePhoneCall = (phone: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault();
     window.location.href = `tel:${phone}`;
   };
 
   const handleBookAppointment = (customer: Customer, e: React.MouseEvent) => {
     e.stopPropagation();
-    navigate("/reservations", { state: { preselectedCustomer: customer } });
+    e.preventDefault();
+    window.location.href = "/reservations?preselectedCustomer=" + customer.id;
   };
 
   const getVisitStatus = (lastVisit?: string) => {
@@ -195,7 +166,7 @@ export function Customers() {
             size="sm"
             onClick={() => setShowAddModal(true)}
           >
-            <i className="ri-add-line mr-1 md:mr-2"></i>
+            <Plus size={20} className="mr-1 md:mr-2" />
             <span className="hidden sm:inline">새 고객 추가</span>
             <span className="sm:hidden">추가</span>
           </Button>
@@ -248,7 +219,7 @@ export function Customers() {
                 }}
                 className="flex items-center gap-1 sm:gap-2"
               >
-                <i className="ri-download-line text-sm"></i>
+                <Download size={16} />
                 <span className="text-xs sm:text-sm">엑셀 내보내기</span>
               </Button>
             </div>
@@ -265,12 +236,15 @@ export function Customers() {
             const customerType = getCustomerTypeLabel(customer);
 
             return (
-              <Card
+              <Link
                 key={customer.id}
-                hover
-                className="relative cursor-pointer"
-                onClick={() => handleCustomerClick(customer)}
+                to="/customers/$id"
+                params={{ id: customer.id }}
               >
+                <Card
+                  hover
+                  className="relative cursor-pointer"
+                >
                 {/* Customer Type Badge */}
                 {customerType && (
                   <div className="absolute top-3 right-3">
@@ -286,7 +260,7 @@ export function Customers() {
                 <div className="mb-4">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                      <i className="ri-user-line text-blue-600 text-xl"></i>
+                      <User size={20} className="text-blue-600" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-gray-800 truncate">
@@ -337,7 +311,7 @@ export function Customers() {
                     className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors"
                     title="전화걸기"
                   >
-                    <i className="ri-phone-line"></i>
+                    <Phone size={16} />
                     <span className="hidden sm:inline">전화</span>
                   </button>
                   <button
@@ -345,7 +319,7 @@ export function Customers() {
                     className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
                     title="예약하기"
                   >
-                    <i className="ri-calendar-event-line"></i>
+                    <Calendar size={16} />
                     <span className="hidden sm:inline">예약</span>
                   </button>
                 </div>
@@ -358,7 +332,8 @@ export function Customers() {
                     </p>
                   </div>
                 )}
-              </Card>
+                </Card>
+              </Link>
             );
           })}
         </div>
@@ -366,7 +341,7 @@ export function Customers() {
         {/* Empty State */}
         {filteredAndSortedCustomers.length === 0 && (
           <div className="text-center py-12">
-            <i className="ri-user-line text-6xl text-gray-300 mb-4 block"></i>
+            <User size={48} className="text-gray-300 mb-4 mx-auto" />
             <h3 className="text-lg font-medium text-gray-600 mb-2">
               {searchQuery || selectedFilter !== "all"
                 ? "검색 결과가 없습니다"
@@ -378,7 +353,7 @@ export function Customers() {
                 : "첫 번째 고객을 등록해보세요"}
             </p>
             <Button variant="primary" onClick={handleNewCustomer}>
-              <i className="ri-user-add-line mr-2"></i>
+              <UserPlus size={20} className="mr-2" />
               신규 고객 등록
             </Button>
           </div>
@@ -388,28 +363,17 @@ export function Customers() {
       {/* Floating Action Button */}
       <FloatingButton
         onClick={handleNewCustomer}
-        icon="ri-user-add-line"
+        icon={UserPlus}
         label="신규 고객 등록"
       />
 
       {/* Add Customer Modal */}
-      {showAddModal && (
-        <AddCustomerModal
-          onClose={() => setShowAddModal(false)}
-          onAdd={handleAddCustomer}
-          existingCustomers={customerList}
-        />
-      )}
-
-      {/* Customer Detail Modal */}
-      {showDetailModal && selectedCustomer && (
-        <CustomerDetailModal
-          customer={selectedCustomer}
-          onClose={handleCloseDetailModal}
-          onEdit={handleEditFromModal}
-          onAddTreatment={handleAddTreatmentFromModal}
-        />
-      )}
+      <AddCustomerModal
+        open={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onAdd={handleAddCustomer}
+        existingCustomers={customerList}
+      />
 
       {/* Toast Messages */}
       {toasts.map((toast) => (

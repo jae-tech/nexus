@@ -1,13 +1,22 @@
 import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@nexus/ui";
 import type { Customer } from "@/types";
 
 interface AddCustomerModalProps {
+  open: boolean;
   onClose: () => void;
   onAdd: (customer: Customer) => void;
   existingCustomers: Customer[];
 }
 
 export default function AddCustomerModal({
+  open,
   onClose,
   onAdd,
   existingCustomers,
@@ -87,23 +96,15 @@ export default function AddCustomerModal({
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-hidden flex flex-col">
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="max-w-md">
         {/* Header */}
-        <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
-          <h2 className="text-xl font-bold text-gray-900">
-            신규 고객 등록
-          </h2>
-          <button
-            onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
-          >
-            <i className="ri-close-line text-xl"></i>
-          </button>
-        </div>
+        <DialogHeader>
+          <DialogTitle>신규 고객 등록</DialogTitle>
+        </DialogHeader>
 
         {/* Body */}
-        <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -189,26 +190,25 @@ export default function AddCustomerModal({
               />
             </div>
           </div>
-        </form>
 
-        {/* Footer - 통일된 버튼 배치 */}
-        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-end gap-3 flex-shrink-0">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
-          >
-            취소
-          </button>
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
-          >
-            등록
-          </button>
-        </div>
-      </div>
-    </div>
+          {/* Footer - 통일된 버튼 배치 */}
+          <DialogFooter className="mt-6">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
+            >
+              취소
+            </button>
+            <button
+              type="submit"
+              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            >
+              등록
+            </button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
   );
 }
