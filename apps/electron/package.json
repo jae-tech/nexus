@@ -1,0 +1,19 @@
+{
+  "name": "electron",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "build:ts": "tsc",
+    "dev": "pnpm run build:ts && cross-env NODE_ENV=development electron .",
+    "package": "pnpm run build:ts && electron-builder"
+  },
+  "devDependencies": {
+    "cross-env": "latest",
+    "electron": "latest",
+    "electron-builder": "latest",
+    "typescript": "latest"
+  },
+  "dependencies": {
+    "electron-updater": "catalog:"
+  }
+}
