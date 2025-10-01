@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 import { ArrowDown, ArrowUp, Edit, Trash2, Calendar, MessageSquare } from 'lucide-react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface Reservation {
   id: string;
@@ -387,16 +388,20 @@ export default function ListView({
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                  <select
+                  <Select
                     value={reservation.status}
-                    onChange={(e) => handleStatusChange(reservation.id, e.target.value as Reservation['status'])}
-                    className={`text-xs font-medium px-2 py-1 rounded-full border-0 focus-ring cursor-pointer ${getStatusColor(reservation.status)}`}
+                    onValueChange={(value) => handleStatusChange(reservation.id, value as Reservation['status'])}
                   >
-                    <option value="scheduled">예약됨</option>
-                    <option value="completed">완료</option>
-                    <option value="cancelled">취소</option>
-                    <option value="no-show">노쇼</option>
-                  </select>
+                    <SelectTrigger className={`text-xs font-medium px-2 py-1 rounded-full border-0 ${getStatusColor(reservation.status)} w-auto`}>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="scheduled">예약됨</SelectItem>
+                      <SelectItem value="completed">완료</SelectItem>
+                      <SelectItem value="cancelled">취소</SelectItem>
+                      <SelectItem value="no-show">노쇼</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">
@@ -510,17 +515,20 @@ export default function ListView({
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   삭제 사유 (선택사항)
                 </label>
-                <select
+                <Select
                   value={deleteReason}
-                  onChange={(e) => setDeleteReason(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus-ring"
+                  onValueChange={(value) => setDeleteReason(value)}
                 >
-                  <option value="">사유 선택</option>
-                  <option value="customer_cancel">고객 취소</option>
-                  <option value="staff_unavailable">직원 사정</option>
-                  <option value="duplicate">중복 예약</option>
-                  <option value="other">기타</option>
-                </select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="사유 선택" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="customer_cancel">고객 취소</SelectItem>
+                    <SelectItem value="staff_unavailable">직원 사정</SelectItem>
+                    <SelectItem value="duplicate">중복 예약</SelectItem>
+                    <SelectItem value="other">기타</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
             

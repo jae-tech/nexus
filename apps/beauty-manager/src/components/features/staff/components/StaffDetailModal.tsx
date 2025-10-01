@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Card } from '@nexus/ui';
 import { Staff, Holiday } from '@/mocks/staff';
 import { X, Edit, Plus, Calendar, Trash2, ChevronDown, Check } from 'lucide-react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface StaffDetailModalProps {
   staff: Staff;
@@ -591,17 +592,21 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             휴일 종류 <span className="text-red-500">*</span>
                           </label>
-                          <select
+                          <Select
                             value={newHoliday.type}
-                            onChange={(e) => setNewHoliday(prev => ({ ...prev, type: e.target.value as Holiday['type'] }))}
-                            className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent"
+                            onValueChange={(value) => setNewHoliday(prev => ({ ...prev, type: value as Holiday['type'] }))}
                           >
-                            <option value="annual">연차</option>
-                            <option value="sick">병가</option>
-                            <option value="personal">개인사정</option>
-                            <option value="family">경조사</option>
-                            <option value="other">기타</option>
-                          </select>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder="휴일 종류 선택" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="annual">연차</SelectItem>
+                              <SelectItem value="sick">병가</SelectItem>
+                              <SelectItem value="personal">개인사정</SelectItem>
+                              <SelectItem value="family">경조사</SelectItem>
+                              <SelectItem value="other">기타</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
                         <div className="flex items-center">
                           <label className="flex items-center cursor-pointer">

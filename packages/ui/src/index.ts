@@ -21,6 +21,8 @@ export * from "./components/ui/tooltip.js";
 export * from "./components/ui/dropdown-menu.js";
 export * from "./components/ui/popover.js";
 export * from "./components/ui/dialog.js";
+export * from "./components/ui/form.js";
+export * from "./components/ui/tabs.js";
 
 // ============================================================================
 // Layout Components (레이아웃 컴포넌트)

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Staff } from '@/mocks/staff';
 import { X, Edit, Trash2, Plus, GripVertical, Check, User } from 'lucide-react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface Position {
   id: string;
@@ -426,15 +427,19 @@ export default function PositionManagementModal({
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       직급 레벨
                     </label>
-                    <select
-                      value={newPositionLevel}
-                      onChange={(e) => setNewPositionLevel(parseInt(e.target.value))}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
+                    <Select
+                      value={newPositionLevel.toString()}
+                      onValueChange={(value) => setNewPositionLevel(parseInt(value))}
                     >
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(level => (
-                        <option key={level} value={level}>레벨 {level}</option>
-                      ))}
-                    </select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="레벨 선택" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(level => (
+                          <SelectItem key={level} value={level.toString()}>레벨 {level}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     <p className="text-xs text-gray-500 mt-1">높은 레벨일수록 상급자입니다</p>
                   </div>
 
@@ -474,18 +479,21 @@ export default function PositionManagementModal({
                 <div className="mt-6 pt-6 border-t border-gray-200">
                   <h4 className="text-sm font-medium text-gray-700 mb-3">기본 템플릿 적용</h4>
                   <div className="space-y-3">
-                    <select
+                    <Select
                       value={selectedPositionTemplate}
-                      onChange={(e) => setSelectedPositionTemplate(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
+                      onValueChange={(value) => setSelectedPositionTemplate(value)}
                     >
-                      <option value="">템플릿을 선택하세요</option>
-                      {positionTemplates.map((template) => (
-                        <option key={template.name} value={template.name}>
-                          {template.name}
-                        </option>
-                      ))}
-                    </select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="템플릿을 선택하세요" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {positionTemplates.map((template) => (
+                          <SelectItem key={template.name} value={template.name}>
+                            {template.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     {selectedPositionTemplate && (
                       <div className="p-3 bg-gray-50 rounded-lg">
                         <h5 className="text-sm font-medium text-gray-700 mb-2">미리보기:</h5>
@@ -658,18 +666,21 @@ export default function PositionManagementModal({
                 <div className="mt-6 pt-6 border-t border-gray-200">
                   <h4 className="text-sm font-medium text-gray-700 mb-3">기본 템플릿 적용</h4>
                   <div className="space-y-3">
-                    <select
+                    <Select
                       value={selectedRoleTemplate}
-                      onChange={(e) => setSelectedRoleTemplate(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
+                      onValueChange={(value) => setSelectedRoleTemplate(value)}
                     >
-                      <option value="">템플릿을 선택하세요</option>
-                      {roleTemplates.map((template) => (
-                        <option key={template.name} value={template.name}>
-                          {template.name}
-                        </option>
-                      ))}
-                    </select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="템플릿을 선택하세요" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {roleTemplates.map((template) => (
+                          <SelectItem key={template.name} value={template.name}>
+                            {template.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     {selectedRoleTemplate && (
                       <div className="p-3 bg-gray-50 rounded-lg">
                         <h5 className="text-sm font-medium text-gray-700 mb-2">미리보기:</h5>

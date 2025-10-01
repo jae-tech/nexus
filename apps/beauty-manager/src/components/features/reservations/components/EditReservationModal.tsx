@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { X, Check, User } from "lucide-react";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface Customer {
   id: number;
@@ -257,17 +258,21 @@ export default function EditReservationModal({
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       시작 시간
                     </label>
-                    <select
+                    <Select
                       value={selectedTime}
-                      onChange={(e) => setSelectedTime(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
+                      onValueChange={(value) => setSelectedTime(value)}
                     >
-                      {timeSlots.map((time) => (
-                        <option key={time} value={time}>
-                          {time}
-                        </option>
-                      ))}
-                    </select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="시간 선택" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {timeSlots.map((time) => (
+                          <SelectItem key={time} value={time}>
+                            {time}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </div>
@@ -366,18 +371,22 @@ export default function EditReservationModal({
                 <h3 className="text-lg font-medium text-gray-900 mb-3">
                   예약 상태
                 </h3>
-                <select
+                <Select
                   value={selectedStatus}
-                  onChange={(e) =>
-                    setSelectedStatus(e.target.value as Reservation["status"])
+                  onValueChange={(value) =>
+                    setSelectedStatus(value as Reservation["status"])
                   }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
                 >
-                  <option value="scheduled">예약됨</option>
-                  <option value="completed">완료</option>
-                  <option value="cancelled">취소</option>
-                  <option value="no-show">노쇼</option>
-                </select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="상태 선택" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="scheduled">예약됨</SelectItem>
+                    <SelectItem value="completed">완료</SelectItem>
+                    <SelectItem value="cancelled">취소</SelectItem>
+                    <SelectItem value="no-show">노쇼</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
 
               {/* 메모 및 금액 */}

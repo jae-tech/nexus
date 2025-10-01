@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { X } from 'lucide-react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface AddStaffModalProps {
   onClose: () => void;
@@ -143,15 +144,19 @@ export default function AddStaffModal({ onClose, onAdd }: AddStaffModalProps) {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   역할 <span className="text-red-500">*</span>
                 </label>
-                <select
+                <Select
                   value={formData.role}
-                  onChange={(e) => setFormData(prev => ({ ...prev, role: e.target.value, specialties: [] }))}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
+                  onValueChange={(value) => setFormData(prev => ({ ...prev, role: value, specialties: [] }))}
                 >
-                  {roles.map(role => (
-                    <option key={role} value={role}>{role}</option>
-                  ))}
-                </select>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="역할 선택" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {roles.map(role => (
+                      <SelectItem key={role} value={role}>{role}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
             </div>
           </div>
 

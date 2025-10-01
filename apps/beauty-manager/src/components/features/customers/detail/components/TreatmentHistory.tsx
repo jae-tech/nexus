@@ -4,6 +4,7 @@ import { Search, Plus, Edit, Trash2, Scissors, User } from 'lucide-react';
 import { Card, Button } from '@nexus/ui';
 import { VisitRecord } from '@/mocks/customerDetail';
 import { useToast } from '@/hooks/useToast';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface TreatmentHistoryProps {
   visitHistory: VisitRecord[];
@@ -87,15 +88,19 @@ export default function TreatmentHistory({ visitHistory, onAddTreatment }: Treat
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-600">기간:</span>
-              <select 
+              <Select
                 value={filter}
-                onChange={(e) => setFilter(e.target.value)}
-                className="text-sm border border-gray-200 rounded-lg px-3 py-1.5 focus-ring"
+                onValueChange={(value) => setFilter(value)}
               >
-                <option value="all">전체</option>
-                <option value="6months">최근 6개월</option>
-                <option value="1year">최근 1년</option>
-              </select>
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue placeholder="기간 선택" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">전체</SelectItem>
+                  <SelectItem value="6months">최근 6개월</SelectItem>
+                  <SelectItem value="1year">최근 1년</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
           

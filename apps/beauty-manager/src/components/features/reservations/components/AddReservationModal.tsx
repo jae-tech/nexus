@@ -2,6 +2,7 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { X, Check, User, Calendar } from "lucide-react";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface Customer {
   id: number;
@@ -407,19 +408,23 @@ export default function AddReservationModal({
                         <label className="block text-sm font-medium text-gray-700 mb-1">
                           성별
                         </label>
-                        <select
+                        <Select
                           value={newCustomer.gender}
-                          onChange={(e) =>
+                          onValueChange={(value) =>
                             setNewCustomer((prev) => ({
                               ...prev,
-                              gender: e.target.value,
+                              gender: value,
                             }))
                           }
-                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                         >
-                          <option value="여성">여성</option>
-                          <option value="남성">남성</option>
-                        </select>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="성별 선택" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="여성">여성</SelectItem>
+                            <SelectItem value="남성">남성</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -497,17 +502,21 @@ export default function AddReservationModal({
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       시작 시간
                     </label>
-                    <select
+                    <Select
                       value={selectedTime}
-                      onChange={(e) => setSelectedTime(e.target.value)}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus-ring"
+                      onValueChange={(value) => setSelectedTime(value)}
                     >
-                      {timeSlots.map((time) => (
-                        <option key={time} value={time}>
-                          {time}
-                        </option>
-                      ))}
-                    </select>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="시간 선택" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {timeSlots.map((time) => (
+                          <SelectItem key={time} value={time}>
+                            {time}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
                 <div className="mt-4 p-4 bg-blue-50 rounded-lg">

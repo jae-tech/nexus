@@ -1,7 +1,20 @@
 import { useState, useMemo } from "react";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
-import { Card, Button } from "@nexus/ui";
+import {
+  Card,
+  Button,
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  Badge,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@nexus/ui";
 import SearchBar from "@/components/ui/SearchBar";
 import { mockStaff } from "@/mocks/staff";
 import { Staff as StaffType } from "@/types";
@@ -46,7 +59,6 @@ export function Staff() {
   const [selectedStaffType, setSelectedStaffType] = useState<StaffType | null>(
     null
   );
-  const [showMenuId, setShowMenuId] = useState<string | null>(null);
   const [staffList, setStaffList] = useState<StaffType[]>(mockStaff);
 
   const filteredAndSortedStaff = useMemo(() => {
@@ -99,13 +111,11 @@ export function Staff() {
           : staff
       )
     );
-    setShowMenuId(null);
   };
 
   const handleEditStaffType = (staff: StaffType) => {
     setSelectedStaffType(staff);
     setShowEditModal(true);
-    setShowMenuId(null);
   };
 
   const handleViewDetail = (staff: StaffType) => {
@@ -129,16 +139,10 @@ export function Staff() {
     window.location.href = `mailto:${email}`;
   };
 
-  const handleMenuToggle = (staffId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setShowMenuId(showMenuId === staffId ? null : staffId);
-  };
-
   const handleDeleteStaffType = (staffId: string) => {
     if (confirm("정말로 이 직원을 삭제하시겠습니까?")) {
       setStaffList((prev) => prev.filter((s) => s.id !== staffId));
     }
-    setShowMenuId(null);
   };
 
   const getRoleBadgeColor = (role: string) => {
@@ -228,49 +232,48 @@ export function Staff() {
             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">직급:</span>
-                <select
-                  value={positionFilter}
-                  onChange={(e) =>
-                    setPositionFilter(e.target.value as PositionFilter)
-                  }
-                  className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-200 rounded-lg focus-ring"
-                >
-                  <option value="all">전체 직급</option>
-                  <option value="owner">사장</option>
-                  <option value="manager">매니저</option>
-                  <option value="senior">시니어</option>
-                  <option value="junior">주니어</option>
-                  <option value="intern">인턴</option>
-                </select>
+                <Select value={positionFilter} onValueChange={(value) => setPositionFilter(value as PositionFilter)}>
+                  <SelectTrigger className="w-[130px] text-xs sm:text-sm">
+                    <SelectValue placeholder="전체 직급" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">전체 직급</SelectItem>
+                    <SelectItem value="owner">사장</SelectItem>
+                    <SelectItem value="manager">매니저</SelectItem>
+                    <SelectItem value="senior">시니어</SelectItem>
+                    <SelectItem value="junior">주니어</SelectItem>
+                    <SelectItem value="intern">인턴</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">
                   근무 상태:
                 </span>
-                <select
-                  value={statusFilter}
-                  onChange={(e) =>
-                    setStatusFilter(e.target.value as StatusFilter)
-                  }
-                  className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-200 rounded-lg focus-ring"
-                >
-                  <option value="all">전체 상태</option>
-                  <option value="active">재직중</option>
-                  <option value="on_leave">휴직</option>
-                  <option value="terminated">퇴사</option>
-                </select>
+                <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as StatusFilter)}>
+                  <SelectTrigger className="w-[130px] text-xs sm:text-sm">
+                    <SelectValue placeholder="전체 상태" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">전체 상태</SelectItem>
+                    <SelectItem value="active">재직중</SelectItem>
+                    <SelectItem value="on_leave">휴직</SelectItem>
+                    <SelectItem value="terminated">퇴사</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">정렬:</span>
-                <select
-                  value={sortOption}
-                  onChange={(e) => setSortOption(e.target.value as SortOption)}
-                  className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-200 rounded-lg focus-ring"
-                >
-                  <option value="name">이름순</option>
-                  <option value="hireDate">입사일순</option>
-                  <option value="performance">실적순</option>
-                </select>
+                <Select value={sortOption} onValueChange={(value) => setSortOption(value as SortOption)}>
+                  <SelectTrigger className="w-[130px] text-xs sm:text-sm">
+                    <SelectValue placeholder="이름순" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="name">이름순</SelectItem>
+                    <SelectItem value="hireDate">입사일순</SelectItem>
+                    <SelectItem value="performance">실적순</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
@@ -292,51 +295,52 @@ export function Staff() {
               >
                 {/* 더보기 메뉴 */}
                 <div className="absolute top-3 right-3">
-                  <button
-                    onClick={(e) => handleMenuToggle(staff.id, e)}
-                    className="p-1 rounded-full hover:bg-gray-100 transition-colors"
-                  >
-                    <MoreHorizontal size={20} className="text-gray-400" />
-                  </button>
-
-                  {showMenuId === staff.id && (
-                    <div className="absolute right-0 top-8 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-10 min-w-[120px]">
-                      <button
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="h-8 w-8 p-0"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <MoreHorizontal size={20} className="text-gray-400" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-[160px]">
+                      <DropdownMenuItem
                         onClick={(e) => {
                           e.stopPropagation();
                           handleEditStaffType(staff);
                         }}
-                        className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
                       >
-                        <Edit size={16} className="inline mr-2" />
+                        <Edit size={16} className="mr-2" />
                         수정
-                      </button>
-                      <button
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
                         onClick={(e) => {
                           e.stopPropagation();
                           handleStatusToggle(staff.id);
                         }}
-                        className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
                       >
                         {staff.status === "active" ? (
-                          <Pause size={16} className="inline mr-2" />
+                          <Pause size={16} className="mr-2" />
                         ) : (
-                          <Play size={16} className="inline mr-2" />
+                          <Play size={16} className="mr-2" />
                         )}
                         {staff.status === "active" ? "비활성화" : "활성화"}
-                      </button>
-                      <button
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
                         onClick={(e) => {
                           e.stopPropagation();
                           handleDeleteStaffType(staff.id);
                         }}
-                        className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+                        className="text-red-600"
                       >
-                        <Trash2 size={16} className="inline mr-2" />
+                        <Trash2 size={16} className="mr-2" />
                         삭제
-                      </button>
-                    </div>
-                  )}
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
 
                 {/* 직원 정보 */}

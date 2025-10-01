@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Info, PlusCircle, Eye, X, Plus, Trash2, Clock } from 'lucide-react';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface Category {
   id: string;
@@ -217,22 +218,23 @@ export default function AddServiceModal({
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       카테고리 *
                     </label>
-                    <select
+                    <Select
                       value={formData.categoryId}
-                      onChange={(e) =>
-                        setFormData({ ...formData, categoryId: e.target.value })
-                      }
-                      className={`w-full px-4 py-3 border rounded-lg focus-ring focus:border-transparent ${
-                        errors.categoryId ? "border-red-300" : "border-gray-300"
-                      }`}
+                      onValueChange={(value) => setFormData({ ...formData, categoryId: value })}
                     >
-                      <option value="">카테고리 선택</option>
-                      {categories.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </select>
+                      <SelectTrigger className={`w-full ${
+                        errors.categoryId ? "border-red-300" : ""
+                      }`}>
+                        <SelectValue placeholder="카테고리 선택" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map((category) => (
+                          <SelectItem key={category.id} value={category.id}>
+                            {category.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
                     {errors.categoryId && (
                       <p className="text-red-500 text-sm mt-1">
                         {errors.categoryId}

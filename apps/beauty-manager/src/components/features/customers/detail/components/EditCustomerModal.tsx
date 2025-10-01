@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { X, Loader2 } from "lucide-react";
 import { Customer } from "@/mocks/customerDetail";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface EditCustomerModalProps {
   customer: Customer;
@@ -150,17 +151,19 @@ export default function EditCustomerModal({
             <label className="block text-sm font-medium text-gray-700 mb-2">
               성별
             </label>
-            <select
-              name="gender"
+            <Select
               value={formData.gender}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg focus-ring focus:border-transparent"
+              onValueChange={(value) => setFormData((prev) => ({ ...prev, gender: value }))}
               disabled={isSubmitting}
             >
-              <option value="">선택하세요</option>
-              <option value="female">여성</option>
-              <option value="male">남성</option>
-            </select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="선택하세요" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="female">여성</SelectItem>
+                <SelectItem value="male">남성</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PageHeader from "@/components/common/PageHeader";
-import { Card, Button } from "@nexus/ui";
+import { Card, Button, Input, Label } from "@nexus/ui";
 import { useUIStore } from "@/stores/ui-store";
 import { cn } from "@/lib/utils";
 import { Save, Download, Upload, FileSpreadsheet, Trash2 } from "lucide-react";
@@ -41,37 +41,32 @@ export function Settings() {
               사업장 정보
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  사업장명
-                </label>
-                <input
+              <div className="space-y-2">
+                <Label htmlFor="business-name">사업장명</Label>
+                <Input
+                  id="business-name"
                   type="text"
                   value={businessInfo.name}
                   onChange={(e) =>
                     setBusinessInfo({ ...businessInfo, name: e.target.value })
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  전화번호
-                </label>
-                <input
+              <div className="space-y-2">
+                <Label htmlFor="business-phone">전화번호</Label>
+                <Input
+                  id="business-phone"
                   type="text"
                   value={businessInfo.phone}
                   onChange={(e) =>
                     setBusinessInfo({ ...businessInfo, phone: e.target.value })
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                 />
               </div>
-              <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  주소
-                </label>
-                <input
+              <div className="md:col-span-2 space-y-2">
+                <Label htmlFor="business-address">주소</Label>
+                <Input
+                  id="business-address"
                   type="text"
                   value={businessInfo.address}
                   onChange={(e) =>
@@ -80,27 +75,23 @@ export function Settings() {
                       address: e.target.value,
                     })
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  이메일
-                </label>
-                <input
+              <div className="space-y-2">
+                <Label htmlFor="business-email">이메일</Label>
+                <Input
+                  id="business-email"
                   type="email"
                   value={businessInfo.email}
                   onChange={(e) =>
                     setBusinessInfo({ ...businessInfo, email: e.target.value })
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                 />
               </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  웹사이트
-                </label>
-                <input
+              <div className="space-y-2">
+                <Label htmlFor="business-website">웹사이트</Label>
+                <Input
+                  id="business-website"
                   type="text"
                   value={businessInfo.website}
                   onChange={(e) =>
@@ -109,7 +100,6 @@ export function Settings() {
                       website: e.target.value,
                     })
                   }
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
                 />
               </div>
             </div>
