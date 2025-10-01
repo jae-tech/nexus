@@ -1,11 +1,4 @@
-export { Spinner, spinnerVariants } from "./spinner.js"
-export type { SpinnerProps } from "./spinner.js"
-
-export { Skeleton } from "./skeleton.js"
-export type { SkeletonProps } from "./skeleton.js"
-
-export { ProgressBar } from "./progress-bar.js"
-export type { ProgressBarProps } from "./progress-bar.js"
-
-export { EmptyState } from "./empty-state.js"
-export type { EmptyStateProps } from "./empty-state.js"
+// utility 디렉토리는 현재 비어있습니다
+// shadcn/ui의 기본 컴포넌트를 사용하세요:
+// - Skeleton: @nexus/ui에서 직접 import
+// - Progress: @nexus/ui에서 직접 import

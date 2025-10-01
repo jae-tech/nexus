@@ -38,5 +38,4 @@ yarn-error.log*
 *.pem
 
 apps/beauty-manager/tsconfig.tsbuildinfo
-
 .tanstack

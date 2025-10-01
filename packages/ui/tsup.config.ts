@@ -1,9 +1,10 @@
 import { defineConfig } from "tsup";
+import path from "path";
 
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm"],
-  dts: false, // 일시적으로 비활성화 (개발 모드에서는 불필요)
+  dts: false,
   sourcemap: true,
   clean: true,
   external: ["react", "react-dom"],
@@ -13,7 +14,9 @@ export default defineConfig({
   esbuildOptions: (options) => {
     options.conditions = ["module"];
     options.alias = {
-      "@": "./src",
+      "@": path.resolve(__dirname, "./src"),
+      "@/lib": path.resolve(__dirname, "./src/lib"),
+      "@/components": path.resolve(__dirname, "./src/components"),
     };
   },
 });

@@ -26,9 +26,9 @@ const cardVariants = cva(
 )
 
 export interface CardProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onClick'>,
     VariantProps<typeof cardVariants> {
-  onClick?: () => void
+  onClick?: React.MouseEventHandler<HTMLDivElement>
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
@@ -52,7 +52,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
             ? (e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault()
-                  onClick?.()
+                  onClick?.(e as any)
                 }
               }
             : undefined

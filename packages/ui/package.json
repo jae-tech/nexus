@@ -17,7 +17,7 @@
     "dist/**"
   ],
   "scripts": {
-    "build": "tsup",
+    "build": "tsup && tsc --emitDeclarationOnly --declaration --declarationMap --outDir dist && node scripts/fix-dts.js",
     "dev": "tsup --watch",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -66,7 +66,9 @@
     "eslint": "^9.36.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "rollup-plugin-dts": "^6.2.3",
     "tailwindcss": "^4.1.13",
+    "tsc-alias": "^1.8.16",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"

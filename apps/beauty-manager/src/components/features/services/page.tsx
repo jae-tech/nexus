@@ -18,7 +18,16 @@ import {
   Badge,
 } from "@nexus/ui";
 import { mockServices, mockServiceCategories } from "@/mocks/services";
-import { Settings, Tag, Grid, List, Plus, Scissors, X, Edit } from 'lucide-react';
+import {
+  Settings,
+  Tag,
+  Grid,
+  List,
+  Plus,
+  Scissors,
+  X,
+  Edit,
+} from "lucide-react";
 import AddServiceModal from "./components/AddServiceModal";
 import EditServiceModal from "./components/EditServiceModal";
 import CategoryManagementModal from "./components/CategoryManagementModal";
@@ -27,7 +36,6 @@ import CategoryTabs from "./components/CategoryTabs";
 import PriceRangeFilter from "./components/PriceRangeFilter";
 import ServiceCard from "./components/ServiceCard";
 import ServiceTable from "./components/ServiceTable";
-import { useUIStore } from "@/stores/ui-store";
 import { cn } from "@/lib/utils";
 
 type ViewMode = "card" | "table";
@@ -57,7 +65,6 @@ interface Category {
 }
 
 export function Services() {
-  const { isSidebarOpen } = useUIStore();
   const [viewMode, setViewMode] = useState<ViewMode>("card");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -199,7 +206,9 @@ export function Services() {
         return { ...service, basePrice: newPrice };
       })
     );
-    toast.success(`${selectedServices.length}개 서비스의 가격이 수정되었습니다.`);
+    toast.success(
+      `${selectedServices.length}개 서비스의 가격이 수정되었습니다.`
+    );
   };
 
   return (
@@ -282,7 +291,12 @@ export function Services() {
             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">상태:</span>
-                <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as StatusFilter)}>
+                <Select
+                  value={statusFilter}
+                  onValueChange={(value) =>
+                    setStatusFilter(value as StatusFilter)
+                  }
+                >
                   <SelectTrigger className="w-[150px] text-sm">
                     <SelectValue placeholder="전체 상태" />
                   </SelectTrigger>
@@ -295,7 +309,10 @@ export function Services() {
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">정렬:</span>
-                <Select value={sortOption} onValueChange={(value) => setSortOption(value as SortOption)}>
+                <Select
+                  value={sortOption}
+                  onValueChange={(value) => setSortOption(value as SortOption)}
+                >
                   <SelectTrigger className="w-[150px] text-sm">
                     <SelectValue placeholder="이름순" />
                   </SelectTrigger>
@@ -472,9 +489,7 @@ export function Services() {
                   <h3 className="text-lg font-medium text-gray-900 mb-4">
                     서비스 설명
                   </h3>
-                  <p className="text-gray-700">
-                    {selectedService.description}
-                  </p>
+                  <p className="text-gray-700">{selectedService.description}</p>
                 </div>
               )}
 
@@ -501,9 +516,7 @@ export function Services() {
                     </p>
                   </div>
                   <div className="bg-purple-50 p-4 rounded-lg">
-                    <p className="text-sm text-purple-600 font-medium">
-                      상태
-                    </p>
+                    <p className="text-sm text-purple-600 font-medium">상태</p>
                     <p
                       className={`text-2xl font-bold ${selectedService.isActive ? "text-green-900" : "text-red-900"}`}
                     >

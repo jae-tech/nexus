@@ -23,6 +23,8 @@ export * from "./components/ui/popover.js";
 export * from "./components/ui/dialog.js";
 export * from "./components/ui/form.js";
 export * from "./components/ui/tabs.js";
+export * from "./components/ui/skeleton.js";
+export * from "./components/ui/progress.js";
 
 // ============================================================================
 // Layout Components (레이아웃 컴포넌트)
@@ -30,20 +32,9 @@ export * from "./components/ui/tabs.js";
 export * from "./components/layout/index.js";
 
 // ============================================================================
-// Data Display Components (데이터 표시 컴포넌트)
+// Feedback Components (피드백 컴포넌트 - shadcn/ui 사용)
 // ============================================================================
-export * from "./components/data-display/index.js";
-
-// ============================================================================
-// Feedback Components (피드백 컴포넌트)
-// ============================================================================
-export * from "./components/feedback/index.js";
 export { Toaster } from "./components/ui/sonner.js";
-
-// ============================================================================
-// Utility Components (유틸리티 컴포넌트)
-// ============================================================================
-export * from "./components/utility/index.js";
 
 // ============================================================================
 // Custom Composed Components (커스텀 조합 컴포넌트)
