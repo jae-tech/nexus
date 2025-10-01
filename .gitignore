@@ -37,5 +37,6 @@ yarn-error.log*
 .DS_Store
 *.pem
 
-referenceapps/beauty-manager/.tanstack/tmp/
 apps/beauty-manager/tsconfig.tsbuildinfo
+
+.tanstack
