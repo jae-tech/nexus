@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { X, AlertCircle } from 'lucide-react';
 
 interface Staff {
   id: string;
@@ -139,7 +140,7 @@ export default function EditStaffModal({ staff, onClose, onSave }: EditStaffModa
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <i className="ri-close-line text-xl"></i>
+            <X size={20} />
           </button>
         </div>
 
@@ -338,7 +339,7 @@ export default function EditStaffModal({ staff, onClose, onSave }: EditStaffModa
           <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
             <div className="text-center">
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <i className="ri-alert-line text-2xl text-red-600"></i>
+                <AlertCircle size={24} className="text-red-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">퇴사 처리 확인</h3>
               <p className="text-gray-600 mb-6">

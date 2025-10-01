@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { X, Edit, Trash2, Check, Plus } from 'lucide-react';
 
 interface Category {
   id: string;
@@ -109,7 +110,7 @@ export default function CategoryManagementModal({
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
           >
-            <i className="ri-close-line text-xl"></i>
+            <X size={24} />
           </button>
         </div>
 
@@ -140,14 +141,14 @@ export default function CategoryManagementModal({
                         className="p-1 text-green-600 hover:text-green-700"
                         title="저장"
                       >
-                        <i className="ri-check-line"></i>
+                        <Check size={16} />
                       </button>
                       <button
                         onClick={handleEditCancel}
                         className="p-1 text-gray-400 hover:text-gray-600"
                         title="취소"
                       >
-                        <i className="ri-close-line"></i>
+                        <X size={16} />
                       </button>
                     </div>
                   ) : (
@@ -164,14 +165,14 @@ export default function CategoryManagementModal({
                           className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
                           title="편집"
                         >
-                          <i className="ri-edit-line"></i>
+                          <Edit size={16} />
                         </button>
                         <button
                           onClick={() => handleDeleteCategory(category.id)}
                           className="p-1 text-gray-400 hover:text-red-600 transition-colors"
                           title="삭제"
                         >
-                          <i className="ri-delete-bin-line"></i>
+                          <Trash2 size={16} />
                         </button>
                       </div>
                     </>
@@ -224,9 +225,9 @@ export default function CategoryManagementModal({
               <button
                 onClick={handleAddCategory}
                 disabled={!newCategoryName.trim()}
-                className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+                className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
               >
-                <i className="ri-add-line mr-2"></i>
+                <Plus size={16} />
                 카테고리 추가
               </button>
             </div>

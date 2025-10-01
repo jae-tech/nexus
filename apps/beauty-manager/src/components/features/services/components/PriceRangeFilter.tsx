@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from 'react';
+import { Filter } from 'lucide-react';
 
 interface PriceRangeFilterProps {
   value: [number, number];
@@ -63,7 +64,7 @@ export default function PriceRangeFilter({
             : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
         }`}
       >
-        <i className="ri-filter-line"></i>
+        <Filter size={16} />
         <span className="hidden sm:inline">가격 필터</span>
         <span className="sm:hidden">가격</span>
         {isFiltered && (

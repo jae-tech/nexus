@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Info, PlusCircle, BarChart3, X, Plus, Trash2, Clock, Calendar, Star, DollarSign, Flame } from 'lucide-react';
 
 interface Category {
   id: string;
@@ -160,14 +161,14 @@ export default function EditServiceModal({
                 {
                   key: "basic",
                   label: "기본 정보",
-                  icon: "ri-information-line",
+                  icon: Info,
                 },
                 {
                   key: "options",
                   label: "가격 옵션",
-                  icon: "ri-add-circle-line",
+                  icon: PlusCircle,
                 },
-                { key: "stats", label: "통계", icon: "ri-bar-chart-line" },
+                { key: "stats", label: "통계", icon: BarChart3 },
               ].map((tab) => (
                 <button
                   key={tab.key}
@@ -178,7 +179,7 @@ export default function EditServiceModal({
                       : "text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  <i className={tab.icon}></i>
+                  <tab.icon size={16} />
                   {tab.label}
                 </button>
               ))}
@@ -188,7 +189,7 @@ export default function EditServiceModal({
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <i className="ri-close-line text-xl"></i>
+            <X size={24} />
           </button>
         </div>
 
@@ -366,14 +367,14 @@ export default function EditServiceModal({
                       onClick={addPriceOption}
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2"
                     >
-                      <i className="ri-add-line"></i>
+                      <Plus size={16} />
                       옵션 추가
                     </button>
                   </div>
 
                   {priceOptions.length === 0 ? (
                     <div className="text-center py-8 text-gray-500">
-                      <i className="ri-add-circle-line text-4xl mb-2"></i>
+                      <PlusCircle size={48} className="mx-auto mb-2" />
                       <p>추가 가격 옵션이 없습니다</p>
                       <p className="text-sm">
                         고객이 선택할 수 있는 추가 옵션을 만들어보세요
@@ -394,7 +395,7 @@ export default function EditServiceModal({
                               onClick={() => removePriceOption(index)}
                               className="text-red-500 hover:text-red-700 p-1"
                             >
-                              <i className="ri-delete-bin-line"></i>
+                              <Trash2 size={16} />
                             </button>
                           </div>
                           <div className="grid grid-cols-2 gap-3 mb-3">
@@ -460,7 +461,7 @@ export default function EditServiceModal({
                             {service.monthlyUsage}회
                           </p>
                         </div>
-                        <i className="ri-calendar-line text-2xl text-blue-600"></i>
+                        <Calendar size={24} className="text-blue-600" />
                       </div>
                     </div>
 
@@ -474,7 +475,7 @@ export default function EditServiceModal({
                             {service.averageRating.toFixed(1)}
                           </p>
                         </div>
-                        <i className="ri-star-line text-2xl text-green-600"></i>
+                        <Star size={24} className="text-green-600" />
                       </div>
                     </div>
 
@@ -488,7 +489,7 @@ export default function EditServiceModal({
                             {formatPrice(service.totalRevenue)}원
                           </p>
                         </div>
-                        <i className="ri-money-dollar-circle-line text-2xl text-purple-600"></i>
+                        <DollarSign size={24} className="text-purple-600" />
                       </div>
                     </div>
 
@@ -504,7 +505,7 @@ export default function EditServiceModal({
                                 : "보통"}
                           </p>
                         </div>
-                        <i className="ri-fire-line text-2xl text-yellow-600"></i>
+                        <Flame size={24} className="text-yellow-600" />
                       </div>
                     </div>
                   </div>

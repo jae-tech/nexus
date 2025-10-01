@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import { X, Check, User } from "lucide-react";
 
 interface Customer {
   id: number;
@@ -212,7 +213,7 @@ export default function EditReservationModal({
                 onClick={onClose}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <i className="ri-close-line text-xl"></i>
+                <X size={20} />
               </button>
             </div>
           </div>
@@ -314,7 +315,7 @@ export default function EditReservationModal({
                                 {selectedServices.find(
                                   (s) => s.id === service.id
                                 ) && (
-                                  <i className="ri-check-line text-blue-500"></i>
+                                  <Check size={20} className="text-blue-500" />
                                 )}
                               </div>
                             </div>
@@ -344,7 +345,7 @@ export default function EditReservationModal({
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
-                          <i className="ri-user-line text-gray-600"></i>
+                          <User size={20} className="text-gray-600" />
                         </div>
                         <div>
                           <div className="font-medium text-gray-900">

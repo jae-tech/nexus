@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { X, Info } from 'lucide-react';
 
 interface Service {
   id: string;
@@ -96,7 +97,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
           >
-            <i className="ri-close-line text-xl"></i>
+            <X size={24} />
           </button>
         </div>
 
@@ -258,7 +259,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
               
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
                 <div className="flex items-center gap-2">
-                  <i className="ri-information-line text-yellow-600"></i>
+                  <Info size={20} className="text-yellow-600" />
                   <span className="text-sm text-yellow-800">
                     총 {selectedServices.length}개 서비스의 가격이 변경됩니다.
                   </span>

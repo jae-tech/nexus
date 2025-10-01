@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { X } from "lucide-react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -90,7 +91,7 @@ export function ModalHeader({
           onClick={onClose}
           className="p-2 hover:bg-gray-100 rounded-full transition-colors"
         >
-          <i className="ri-close-line text-2xl text-gray-600"></i>
+          <X size={24} className="text-gray-600" />
         </button>
       )}
     </div>

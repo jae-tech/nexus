@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Edit, Trash2, Star } from 'lucide-react';
 
 interface Service {
   id: string;
@@ -143,16 +144,15 @@ export default function ServiceTable({
                   <div className="flex items-center gap-1">
                     <div className="flex text-yellow-400">
                       {[...Array(5)].map((_, i) => (
-                        <i
+                        <Star
                           key={i}
-                          className={`text-xs ${
+                          size={12}
+                          className={
                             i < Math.floor(service.averageRating)
-                              ? 'ri-star-fill'
-                              : i === Math.floor(service.averageRating) &&
-                                service.averageRating % 1 >= 0.5
-                              ? 'ri-star-half-fill'
-                              : 'ri-star-line text-gray-300'
-                          }`}
+                              ? 'fill-yellow-400'
+                              : 'text-gray-300'
+                          }
+                          fill={i < Math.floor(service.averageRating) ? 'currentColor' : 'none'}
                         />
                       ))}
                     </div>
@@ -168,14 +168,14 @@ export default function ServiceTable({
                       className="p-1 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded transition-colors"
                       title="수정"
                     >
-                      <i className="ri-edit-line text-sm"></i>
+                      <Edit size={16} />
                     </button>
                     <button
                       onClick={() => onDelete(service.id)}
                       className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
                       title="삭제"
                     >
-                      <i className="ri-delete-bin-line text-sm"></i>
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 </td>

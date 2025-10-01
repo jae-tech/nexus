@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { X } from 'lucide-react';
 
 interface AddStaffModalProps {
   onClose: () => void;
@@ -114,7 +115,7 @@ export default function AddStaffModal({ onClose, onAdd }: AddStaffModalProps) {
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <i className="ri-close-line text-xl"></i>
+            <X size={20} />
           </button>
         </div>
 

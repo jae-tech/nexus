@@ -11,6 +11,7 @@ import StaffDetailModal from "./components/StaffDetailModal";
 import StaffScheduleModal from "./components/StaffScheduleModal";
 import { useUIStore } from "@/stores/ui-store";
 import { cn } from "@/lib/utils";
+import { Plus, Users, User, Edit, Trash2, Phone, Mail, Calendar, Eye, MoreHorizontal, Pause, Play } from "lucide-react";
 
 type ViewMode = "card" | "table";
 type StatusFilter = "all" | "active" | "on_leave" | "terminated";
@@ -212,7 +213,7 @@ export function Staff() {
               size="sm"
               onClick={() => setShowAddModal(true)}
             >
-              <i className="ri-add-line mr-1 md:mr-2"></i>
+              <Plus size={20} className="mr-1 md:mr-2" />
               <span className="hidden sm:inline">새 직원 추가</span>
               <span className="sm:hidden">추가</span>
             </Button>
@@ -295,7 +296,7 @@ export function Staff() {
                     onClick={(e) => handleMenuToggle(staff.id, e)}
                     className="p-1 rounded-full hover:bg-gray-100 transition-colors"
                   >
-                    <i className="ri-more-2-line text-gray-400"></i>
+                    <MoreHorizontal size={20} className="text-gray-400" />
                   </button>
 
                   {showMenuId === staff.id && (
@@ -307,7 +308,7 @@ export function Staff() {
                         }}
                         className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
                       >
-                        <i className="ri-edit-line mr-2"></i>
+                        <Edit size={16} className="inline mr-2" />
                         수정
                       </button>
                       <button
@@ -317,9 +318,11 @@ export function Staff() {
                         }}
                         className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
                       >
-                        <i
-                          className={`${staff.status === "active" ? "ri-pause-line" : "ri-play-line"} mr-2`}
-                        ></i>
+                        {staff.status === "active" ? (
+                          <Pause size={16} className="inline mr-2" />
+                        ) : (
+                          <Play size={16} className="inline mr-2" />
+                        )}
                         {staff.status === "active" ? "비활성화" : "활성화"}
                       </button>
                       <button
@@ -329,7 +332,7 @@ export function Staff() {
                         }}
                         className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
                       >
-                        <i className="ri-delete-bin-line mr-2"></i>
+                        <Trash2 size={16} className="inline mr-2" />
                         삭제
                       </button>
                     </div>
@@ -383,7 +386,7 @@ export function Staff() {
                 {/* 연락처 정보 */}
                 <div className="space-y-2 mb-4">
                   <p className="text-sm text-gray-600">
-                    <i className="ri-phone-line mr-2"></i>
+                    <Phone size={16} className="inline mr-2" />
                     <button
                       onClick={(e) => handlePhoneCall(staff.phone, e)}
                       className="hover:text-blue-600 underline"
@@ -392,7 +395,7 @@ export function Staff() {
                     </button>
                   </p>
                   <p className="text-sm text-gray-600">
-                    <i className="ri-mail-line mr-2"></i>
+                    <Mail size={16} className="inline mr-2" />
                     <button
                       onClick={(e) => handleEmailClick(staff.email, e)}
                       className="hover:text-blue-600 underline"
@@ -401,7 +404,7 @@ export function Staff() {
                     </button>
                   </p>
                   <p className="text-sm text-gray-600">
-                    <i className="ri-calendar-line mr-2"></i>
+                    <Calendar size={16} className="inline mr-2" />
                     입사: {new Date(staff.hireDate).toLocaleDateString("ko-KR")}
                   </p>
                 </div>
@@ -431,7 +434,7 @@ export function Staff() {
                   onClick={(e) => handleViewSchedule(staff, e)}
                   className="w-full flex items-center justify-center gap-1 px-3 py-2 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
                 >
-                  <i className="ri-calendar-line"></i>
+                  <Calendar size={16} />
                   스케줄
                 </button>
               </Card>
@@ -563,7 +566,7 @@ export function Staff() {
                             className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
                             title="상세보기"
                           >
-                            <i className="ri-eye-line"></i>
+                            <Eye size={20} />
                           </button>
                           <button
                             onClick={(e) => {
@@ -573,14 +576,14 @@ export function Staff() {
                             className="p-1 text-gray-400 hover:text-green-600 transition-colors"
                             title="수정"
                           >
-                            <i className="ri-edit-line"></i>
+                            <Edit size={20} />
                           </button>
                           <button
                             onClick={(e) => handleViewSchedule(staff, e)}
                             className="p-1 text-gray-400 hover:text-purple-600 transition-colors"
                             title="스케줄"
                           >
-                            <i className="ri-calendar-line"></i>
+                            <Calendar size={20} />
                           </button>
                         </div>
                       </td>
@@ -595,7 +598,7 @@ export function Staff() {
         {/* 검색 결과 없음 */}
         {filteredAndSortedStaff.length === 0 && (
           <div className="text-center py-12">
-            <i className="ri-team-line text-6xl text-gray-300 mb-4"></i>
+            <Users size={64} className="text-gray-300 mb-4 mx-auto" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               검색 결과가 없습니다
             </h3>
@@ -603,7 +606,7 @@ export function Staff() {
               다른 검색어나 필터를 시도해보세요.
             </p>
             <Button variant="primary" onClick={() => setShowAddModal(true)}>
-              <i className="ri-user-add-line mr-2"></i>
+              <Plus size={20} className="inline mr-2" />
               신규 직원 등록
             </Button>
           </div>

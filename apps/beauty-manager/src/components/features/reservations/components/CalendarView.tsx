@@ -2,6 +2,7 @@
 import { useState, useMemo } from 'react';
 import { format, startOfWeek, endOfWeek, eachDayOfInterval, isSameDay, addDays, subDays, addWeeks, subWeeks, addMonths, subMonths, startOfMonth, endOfMonth } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { Plus, Trash2, Phone, Scissors, User, ArrowLeft, ArrowRight, MessageCircle } from 'lucide-react';
 
 interface Reservation {
   id: string;
@@ -268,7 +269,7 @@ export default function CalendarView({
                       onClick={onAddReservation}
                       className="w-full h-full text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-lg border-2 border-dashed border-gray-200 hover:border-gray-300 transition-colors text-xs md:text-sm"
                     >
-                      <i className="ri-add-line mr-1"></i>
+                      <Plus size={16} className="mr-1 inline" />
                       예약 추가
                     </button>
                   ) : (
@@ -294,25 +295,25 @@ export default function CalendarView({
                                 }}
                                 className="text-gray-400 hover:text-red-600 transition-colors p-1"
                               >
-                                <i className="ri-delete-bin-line text-sm"></i>
+                                <Trash2 size={16} />
                               </button>
                             </div>
                           </div>
                           <div className="text-xs md:text-sm text-gray-600 mb-1">
-                            <i className="ri-phone-line mr-1"></i>
+                            <Phone size={16} className="mr-1 inline" />
                             {reservation.customerPhone}
                           </div>
                           <div className="text-xs md:text-sm text-gray-600 mb-1">
-                            <i className="ri-scissors-line mr-1"></i>
+                            <Scissors size={16} className="mr-1 inline" />
                             {reservation.services.map(s => s.name).join(', ')}
                           </div>
                           <div className="text-xs md:text-sm text-gray-600 mb-1">
-                            <i className="ri-user-line mr-1"></i>
+                            <User size={16} className="mr-1 inline" />
                             {reservation.employeeName}
                           </div>
                           {reservation.memo && (
                             <div className="text-xs md:text-sm text-gray-600">
-                              <i className="ri-chat-3-line mr-1"></i>
+                              <MessageCircle size={12} className="mr-1 inline" />
                               {reservation.memo}
                             </div>
                           )}
@@ -379,7 +380,7 @@ export default function CalendarView({
               onClick={() => navigateDate('prev')}
               className="p-1.5 md:p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <i className="ri-arrow-left-line text-sm md:text-base"></i>
+              <ArrowLeft size={16} />
             </button>
             <h2 className="text-sm md:text-lg font-semibold text-gray-900 min-w-[150px] md:min-w-[200px] text-center">
               {viewType === 'month' && format(selectedDate, 'yyyy년 M월', { locale: ko })}
@@ -390,7 +391,7 @@ export default function CalendarView({
               onClick={() => navigateDate('next')}
               className="p-1.5 md:p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
             >
-              <i className="ri-arrow-right-line text-sm md:text-base"></i>
+              <ArrowRight size={16} />
             </button>
           </div>
         </div>

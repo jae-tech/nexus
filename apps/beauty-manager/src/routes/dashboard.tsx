@@ -3,7 +3,17 @@ import { useState, useEffect } from "react";
 import { Button, Card } from "@nexus/ui";
 import PageHeader from "@/components/common/PageHeader";
 import { mockCustomers } from "@/mocks/customers";
-import { CalendarPlus, UserPlus, Clock, Scissors } from "lucide-react";
+import {
+  CalendarPlus,
+  UserPlus,
+  Clock,
+  Scissors,
+  Plus,
+  User,
+  Calendar,
+  Users,
+  ChevronRight,
+} from "lucide-react";
 
 function DashBoard() {
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -123,7 +133,7 @@ function DashBoard() {
           <div className="flex items-center gap-2 md:gap-4">
             <Link to="/reservations">
               <Button variant="primary" size="sm">
-                <i className="ri-add-line mr-1 md:mr-2"></i>
+                <Plus size={16} className="mr-1 md:mr-2" />
                 <span className="hidden sm:inline">새 예약</span>
                 <span className="sm:hidden">예약</span>
               </Button>
@@ -139,7 +149,7 @@ function DashBoard() {
           <Card hover className="cursor-pointer">
             <div className="flex items-center">
               <div className="p-3 bg-blue-100 rounded-lg">
-                <i className="ri-user-line text-2xl text-blue-600"></i>
+                <User size={24} className="text-blue-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">총 고객</p>
@@ -154,7 +164,7 @@ function DashBoard() {
           <Card hover className="cursor-pointer">
             <div className="flex items-center">
               <div className="p-3 bg-green-100 rounded-lg">
-                <i className="ri-calendar-event-line text-2xl text-green-600"></i>
+                <Calendar size={24} className="text-green-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">오늘 예약</p>
@@ -173,7 +183,7 @@ function DashBoard() {
           <Card hover className="cursor-pointer">
             <div className="flex items-center">
               <div className="p-3 bg-purple-100 rounded-lg">
-                <i className="ri-team-line text-2xl text-purple-600"></i>
+                <Users size={24} className="text-purple-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">활성 직원</p>
@@ -188,7 +198,7 @@ function DashBoard() {
           <Card hover className="cursor-pointer">
             <div className="flex items-center">
               <div className="p-3 bg-orange-100 rounded-lg">
-                <i className="ri-scissors-line text-2xl text-orange-600"></i>
+                <Scissors size={24} className="text-orange-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-gray-600">활성 서비스</p>
@@ -236,7 +246,7 @@ function DashBoard() {
                     >
                       <div className="flex items-center flex-1">
                         <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
-                          <i className="ri-user-line text-blue-600"></i>
+                          <User size={20} className="text-blue-600" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-1">
@@ -262,7 +272,7 @@ function DashBoard() {
                         >
                           {getStatusText(reservation.status)}
                         </span>
-                        <i className="ri-arrow-right-s-line text-gray-400"></i>
+                        <ChevronRight size={20} className="text-gray-400" />
                       </div>
                     </div>
                   ))}
@@ -286,7 +296,7 @@ function DashBoard() {
                         <button
                           className={`w-full flex items-center p-4 rounded-xl ${action.color} ${action.hoverColor} text-white transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl`}
                         >
-                          <div className="p-2 bg-white bg-opacity-20 rounded-lg mr-4">
+                          <div className="p-2 bg-stone-400 bg-opacity-20 rounded-lg mr-4">
                             <IconComponent size={24} className="text-white" />
                           </div>
                           <div className="text-left">
@@ -297,7 +307,10 @@ function DashBoard() {
                               {action.description}
                             </p>
                           </div>
-                          <i className="ri-arrow-right-s-line ml-auto text-white text-opacity-70"></i>
+                          <ChevronRight
+                            size={20}
+                            className="ml-auto text-white text-opacity-70"
+                          />
                         </button>
                       </Link>
                     );
@@ -331,7 +344,7 @@ function DashBoard() {
                     className="flex items-center p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors cursor-pointer"
                   >
                     <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
-                      <i className="ri-user-line text-blue-600"></i>
+                      <User size={20} className="text-blue-600" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="font-medium text-gray-900 truncate">
@@ -449,7 +462,7 @@ function DashBoard() {
                   >
                     <div className="flex items-center">
                       <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center mr-3">
-                        <i className="ri-user-line text-red-600"></i>
+                        <User size={20} className="text-red-600" />
                       </div>
                       <div>
                         <p className="font-medium text-gray-900">

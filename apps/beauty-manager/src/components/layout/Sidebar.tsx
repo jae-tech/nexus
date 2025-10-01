@@ -1,11 +1,20 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { useUIStore } from "@/stores/ui-store";
+import {
+  Home,
+  User,
+  Calendar,
+  Users,
+  Scissors,
+  Settings,
+  Menu,
+} from "lucide-react";
 
 interface MenuItem {
   id: string;
   label: string;
-  icon: string;
+  icon: React.ComponentType<{ size?: number; className?: string }>;
   path: string;
 }
 
@@ -13,32 +22,32 @@ const menuItems: MenuItem[] = [
   {
     id: "dashboard",
     label: "대시보드",
-    icon: "ri-home-line",
+    icon: Home,
     path: "/dashboard",
   },
   {
     id: "customers",
     label: "고객관리",
-    icon: "ri-user-line",
+    icon: User,
     path: "/customers",
   },
   {
     id: "reservations",
     label: "예약관리",
-    icon: "ri-calendar-line",
+    icon: Calendar,
     path: "/reservations",
   },
-  { id: "staff", label: "직원관리", icon: "ri-team-line", path: "/staff" },
+  { id: "staff", label: "직원관리", icon: Users, path: "/staff" },
   {
     id: "services",
     label: "서비스관리",
-    icon: "ri-scissors-line",
+    icon: Scissors,
     path: "/services",
   },
   {
     id: "settings",
     label: "설정",
-    icon: "ri-settings-line",
+    icon: Settings,
     path: "/settings",
   },
 ];
@@ -80,9 +89,11 @@ export function Sidebar() {
         onClick={() => setIsMobileOpen(!isMobileOpen)}
         className="lg:hidden fixed top-4 left-4 z-50 p-2 bg-white rounded-lg shadow-md border border-gray-200"
       >
-        <i
-          className={`ri-menu-${isMobileOpen ? "fold" : "unfold"}-line text-lg text-gray-600`}
-        ></i>
+        {isMobileOpen ? (
+          <Menu size={18} className="text-gray-600" />
+        ) : (
+          <Menu size={18} className="text-gray-600" />
+        )}
       </button>
 
       {/* 모바일 오버레이 */}
@@ -116,7 +127,7 @@ export function Sidebar() {
             {!isCollapsed && (
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                  <i className="ri-scissors-line text-white text-lg"></i>
+                  <Scissors size={18} className="text-white" />
                 </div>
                 <span
                   className="font-bold text-gray-800 hidden sm:block"
@@ -130,34 +141,35 @@ export function Sidebar() {
               onClick={toggleSidebar}
               className="hidden lg:block p-1.5 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors"
             >
-              <i
-                className={`ri-menu-${isCollapsed ? "unfold" : "fold"}-line text-lg`}
-              ></i>
+              {isCollapsed ? <Menu size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
 
         {/* Navigation */}
         <nav className="p-2 mt-4">
-          {menuItems.map((item) => (
-            <Link
-              key={item.id}
-              to={item.path}
-              onClick={handleMenuClick}
-              className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-all duration-200 mb-1 ${
-                currentPath === item.path
-                  ? "bg-blue-600 text-white shadow-sm"
-                  : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
-              }`}
-            >
-              <div className="w-5 h-5 flex items-center justify-center">
-                <i className={`${item.icon} text-lg`}></i>
-              </div>
-              {!isCollapsed && (
-                <span className="text-sm font-medium">{item.label}</span>
-              )}
-            </Link>
-          ))}
+          {menuItems.map((item) => {
+            const IconComponent = item.icon;
+            return (
+              <Link
+                key={item.id}
+                to={item.path}
+                onClick={handleMenuClick}
+                className={`w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-all duration-200 mb-1 ${
+                  currentPath === item.path
+                    ? "bg-blue-600 text-white shadow-sm"
+                    : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
+                }`}
+              >
+                <div className="w-5 h-5 flex items-center justify-center">
+                  <IconComponent size={18} />
+                </div>
+                {!isCollapsed && (
+                  <span className="text-sm font-medium">{item.label}</span>
+                )}
+              </Link>
+            );
+          })}
         </nav>
 
         {/* User Profile Section */}

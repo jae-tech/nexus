@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { MoreVertical, Edit, Copy, Play, Pause, Trash2, Clock, PlusCircle, Calendar } from 'lucide-react';
 
 interface Service {
   id: string;
@@ -99,7 +100,7 @@ export default function ServiceCard({ service, onStatusToggle, onEdit, onDelete,
           onClick={handleMenuToggle}
           className="p-1 rounded-full hover:bg-gray-100 transition-colors"
         >
-          <i className="ri-more-2-line text-gray-400"></i>
+          <MoreVertical size={20} className="text-gray-400" />
         </button>
         
         {showMenu && (
@@ -110,9 +111,9 @@ export default function ServiceCard({ service, onStatusToggle, onEdit, onDelete,
                 onEdit(service);
                 setShowMenu(false);
               }}
-              className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+              className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
             >
-              <i className="ri-edit-line mr-2"></i>
+              <Edit size={16} className="mr-2" />
               수정
             </button>
             {onDuplicate && (
@@ -122,9 +123,9 @@ export default function ServiceCard({ service, onStatusToggle, onEdit, onDelete,
                   onDuplicate(service);
                   setShowMenu(false);
                 }}
-                className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+                className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
               >
-                <i className="ri-file-copy-line mr-2"></i>
+                <Copy size={16} className="mr-2" />
                 복제
               </button>
             )}
@@ -134,9 +135,9 @@ export default function ServiceCard({ service, onStatusToggle, onEdit, onDelete,
                 onStatusToggle(service.id);
                 setShowMenu(false);
               }}
-              className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50"
+              className="w-full px-3 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
             >
-              <i className={`${service.isActive ? 'ri-pause-line' : 'ri-play-line'} mr-2`}></i>
+              {service.isActive ? <Pause size={16} className="mr-2" /> : <Play size={16} className="mr-2" />}
               {service.isActive ? '비활성화' : '활성화'}
             </button>
             <button
@@ -145,9 +146,9 @@ export default function ServiceCard({ service, onStatusToggle, onEdit, onDelete,
                 onDelete(service.id);
                 setShowMenu(false);
               }}
-              className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50"
+              className="w-full px-3 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center"
             >
-              <i className="ri-delete-bin-line mr-2"></i>
+              <Trash2 size={16} className="mr-2" />
               삭제
             </button>
           </div>
@@ -198,12 +199,12 @@ export default function ServiceCard({ service, onStatusToggle, onEdit, onDelete,
         </div>
         <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
           <div className="flex items-center gap-1">
-            <i className="ri-time-line"></i>
+            <Clock size={16} />
             <span>{formatDuration(service.duration)} 소요</span>
           </div>
           {service.priceOptions && service.priceOptions.length > 0 && (
             <div className="flex items-center gap-1">
-              <i className="ri-add-circle-line"></i>
+              <PlusCircle size={16} />
               <span>옵션 {service.priceOptions.length}개</span>
             </div>
           )}
@@ -229,7 +230,7 @@ export default function ServiceCard({ service, onStatusToggle, onEdit, onDelete,
           }}
           className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm bg-blue-50 text-blue-700 rounded-lg border border-transparent hover:bg-blue-100 hover:border-blue-200 transition-all duration-200"
         >
-          <i className="ri-edit-line"></i>
+          <Edit size={16} />
           <span className="hidden sm:inline">수정</span>
         </button>
         <button
@@ -239,7 +240,7 @@ export default function ServiceCard({ service, onStatusToggle, onEdit, onDelete,
           }}
           className="flex-1 flex items-center justify-center gap-1 px-3 py-2 text-sm bg-green-50 text-green-700 rounded-lg border border-transparent hover:bg-green-100 hover:border-green-200 transition-all duration-200"
         >
-          <i className="ri-calendar-line"></i>
+          <Calendar size={16} />
           <span className="hidden sm:inline">예약현황</span>
         </button>
       </div>

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Card } from '@nexus/ui';
 import { Staff, Holiday } from '@/mocks/staff';
+import { X, Edit, Plus, Calendar, Trash2, ChevronDown, Check } from 'lucide-react';
 
 interface StaffDetailModalProps {
   staff: Staff;
@@ -225,7 +226,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                 onClick={onClose}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                <i className="ri-close-line text-xl text-gray-500"></i>
+                <X size={20} className="text-gray-500" />
               </button>
             </div>
           </div>
@@ -307,7 +308,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                           className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors text-sm"
                         >
                           변경
-                          <i className="ri-arrow-down-s-line ml-1"></i>
+                          <ChevronDown size={16} className="ml-1" />
                         </button>
                         {showPositionDropdown && (
                           <div className="absolute right-0 top-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20 min-w-[120px]">
@@ -337,7 +338,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                         onClick={() => setEditingMemo(!editingMemo)}
                         className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
                       >
-                        <i className="ri-edit-line"></i>
+                        <Edit size={20} />
                       </button>
                     </div>
                     {editingMemo ? (
@@ -556,7 +557,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                       onClick={() => setShowAddHolidayForm(!showAddHolidayForm)}
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors text-sm"
                     >
-                      <i className="ri-add-line mr-2"></i>
+                      <Plus size={16} className="inline mr-2" />
                       새 휴일 등록
                     </button>
                   </div>
@@ -614,7 +615,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                               newHoliday.isHalfDay ? 'bg-blue-600 border-blue-600' : 'border-gray-300'
                             }`}>
                               {newHoliday.isHalfDay && (
-                                <i className="ri-check-line text-white text-sm absolute inset-0 flex items-center justify-center"></i>
+                                <Check size={14} className="text-white absolute inset-0 m-auto" />
                               )}
                             </div>
                             <span className="ml-2 text-sm text-gray-700">반일 휴가</span>
@@ -665,7 +666,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                   <div className="space-y-3">
                     {currentStaff.holidays.length === 0 ? (
                       <div className="text-center py-8">
-                        <i className="ri-calendar-line text-4xl text-gray-300 mb-2"></i>
+                        <Calendar size={48} className="text-gray-300 mb-2 mx-auto" />
                         <p className="text-gray-500">등록된 휴일이 없습니다.</p>
                       </div>
                     ) : (
@@ -722,7 +723,7 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
                               className="p-1 text-gray-400 hover:text-red-600 transition-colors"
                               title="삭제"
                             >
-                              <i className="ri-delete-bin-line"></i>
+                              <Trash2 size={16} />
                             </button>
                           </div>
                         </div>

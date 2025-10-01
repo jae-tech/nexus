@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { ArrowDown, ArrowUp, Edit, Trash2, Calendar, MessageSquare } from 'lucide-react';
 
 interface Reservation {
   id: string;
@@ -207,7 +208,7 @@ export default function ListView({
                   className="px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 flex items-center gap-1"
                 >
                   일괄 작업
-                  <i className="ri-arrow-down-s-line"></i>
+                  <ArrowDown size={16} />
                 </button>
                 {showBulkActions && (
                   <>
@@ -234,7 +235,7 @@ export default function ListView({
                           onClick={() => handleBulkAction('delete')}
                           className="w-full px-3 py-2 text-left text-sm hover:bg-gray-50 text-red-600 flex items-center gap-2"
                         >
-                          <i className="ri-delete-bin-line"></i>
+                          <Trash2 size={16} />
                           일괄 삭제
                         </button>
                       </div>
@@ -273,7 +274,7 @@ export default function ListView({
                 <div className="flex items-center gap-1">
                   날짜/시간
                   {sortField === 'date' && (
-                    <i className={`ri-arrow-${sortDirection === 'asc' ? 'up' : 'down'}-line text-gray-400`}></i>
+                    sortDirection === 'asc' ? <ArrowUp size={16} className="text-gray-400" /> : <ArrowDown size={16} className="text-gray-400" />
                   )}
                 </div>
               </th>
@@ -284,7 +285,7 @@ export default function ListView({
                 <div className="flex items-center gap-1">
                   고객명
                   {sortField === 'customerName' && (
-                    <i className={`ri-arrow-${sortDirection === 'asc' ? 'up' : 'down'}-line text-gray-400`}></i>
+                    sortDirection === 'asc' ? <ArrowUp size={16} className="text-gray-400" /> : <ArrowDown size={16} className="text-gray-400" />
                   )}
                 </div>
               </th>
@@ -301,7 +302,7 @@ export default function ListView({
                 <div className="flex items-center gap-1">
                   담당직원
                   {sortField === 'employeeName' && (
-                    <i className={`ri-arrow-${sortDirection === 'asc' ? 'up' : 'down'}-line text-gray-400`}></i>
+                    sortDirection === 'asc' ? <ArrowUp size={16} className="text-gray-400" /> : <ArrowDown size={16} className="text-gray-400" />
                   )}
                 </div>
               </th>
@@ -312,7 +313,7 @@ export default function ListView({
                 <div className="flex items-center gap-1">
                   상태
                   {sortField === 'status' && (
-                    <i className={`ri-arrow-${sortDirection === 'asc' ? 'up' : 'down'}-line text-gray-400`}></i>
+                    sortDirection === 'asc' ? <ArrowUp size={16} className="text-gray-400" /> : <ArrowDown size={16} className="text-gray-400" />
                   )}
                 </div>
               </th>
@@ -366,7 +367,7 @@ export default function ListView({
                       className="text-gray-400 hover:text-gray-600 transition-colors"
                       title="SMS 보내기"
                     >
-                      <i className="ri-message-2-line text-sm"></i>
+                      <MessageSquare size={14} />
                     </button>
                   </div>
                 </td>
@@ -409,14 +410,14 @@ export default function ListView({
                       className="text-blue-600 hover:text-blue-800 transition-colors p-1"
                       title="수정"
                     >
-                      <i className="ri-edit-line"></i>
+                      <Edit size={16} />
                     </button>
                     <button
                       onClick={() => handleDeleteClick(reservation.id)}
                       className="text-red-600 hover:text-red-800 transition-colors p-1"
                       title="삭제"
                     >
-                      <i className="ri-delete-bin-line"></i>
+                      <Trash2 size={16} />
                     </button>
                   </div>
                 </td>
@@ -429,7 +430,7 @@ export default function ListView({
       {/* 빈 상태 */}
       {reservations.length === 0 && (
         <div className="text-center py-12">
-          <i className="ri-calendar-line text-4xl text-gray-300 mb-4"></i>
+          <Calendar size={48} className="text-gray-300 mb-4 mx-auto" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">예약이 없습니다</h3>
           <p className="text-gray-500">새로운 예약을 추가해보세요.</p>
         </div>

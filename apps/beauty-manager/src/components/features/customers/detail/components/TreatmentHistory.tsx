@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { Search, Plus, Edit, Trash2, Scissors, User } from 'lucide-react';
 import { Card, Button } from '@nexus/ui';
 import { VisitRecord } from '@/mocks/customerDetail';
 import { useToast } from '@/hooks/useToast';
@@ -65,7 +66,7 @@ export default function TreatmentHistory({ visitHistory, onAddTreatment }: Treat
           <h2 className="text-xl font-semibold text-gray-800">시술 이력</h2>
           <div className="flex items-center gap-4">
             <div className="relative">
-              <i className="ri-search-line absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="text"
                 placeholder="서비스명 또는 담당직원으로 검색"
@@ -75,7 +76,7 @@ export default function TreatmentHistory({ visitHistory, onAddTreatment }: Treat
               />
             </div>
             <Button variant="primary" onClick={onAddTreatment}>
-              <i className="ri-add-line"></i>
+              <Plus size={20} />
               새 시술/예약 추가
             </Button>
           </div>
@@ -139,11 +140,11 @@ export default function TreatmentHistory({ visitHistory, onAddTreatment }: Treat
                             </span>
                           )}
                           <div className="flex items-center gap-1">
-                            <Button variant="icon" size="sm" onClick={() => handleEditTreatment(visit.id)}>
-                              <i className="ri-edit-line text-gray-500 hover:text-blue-600"></i>
+                            <Button variant="ghost" size="sm" onClick={() => handleEditTreatment(visit.id)} className="h-8 w-8 p-0 text-gray-600 hover:text-blue-600">
+                              <Edit size={16} />
                             </Button>
-                            <Button variant="icon" size="sm" onClick={() => handleDeleteTreatment(visit.id)}>
-                              <i className="ri-delete-bin-line text-gray-500 hover:text-red-600"></i>
+                            <Button variant="ghost" size="sm" onClick={() => handleDeleteTreatment(visit.id)} className="h-8 w-8 p-0 text-gray-600 hover:text-red-600">
+                              <Trash2 size={16} />
                             </Button>
                           </div>
                         </div>
@@ -165,7 +166,7 @@ export default function TreatmentHistory({ visitHistory, onAddTreatment }: Treat
                                 />
                               ) : (
                                 <div className="w-full h-full flex items-center justify-center">
-                                  <i className="ri-user-line text-gray-500 text-sm"></i>
+                                  <User size={16} className="text-gray-500" />
                                 </div>
                               )}
                             </div>
@@ -193,7 +194,7 @@ export default function TreatmentHistory({ visitHistory, onAddTreatment }: Treat
             /* Empty State */
             <div className="text-center py-16">
               <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <i className="ri-scissors-line text-3xl text-gray-400"></i>
+                <Scissors size={24} className="text-gray-400" />
               </div>
               <h3 className="text-lg font-medium text-gray-600 mb-2">
                 {searchQuery ? '검색 결과가 없습니다' : '첫 번째 시술을 기록해보세요'}
@@ -202,7 +203,7 @@ export default function TreatmentHistory({ visitHistory, onAddTreatment }: Treat
                 {searchQuery ? '다른 검색어로 시도해보세요' : '고객님의 시술 이력을 관리하여 더 나은 서비스를 제공하세요'}
               </p>
               <Button variant="primary" onClick={onAddTreatment}>
-                <i className="ri-add-line"></i>
+                <Plus size={20} />
                 첫 시술 기록하기
               </Button>
             </div>

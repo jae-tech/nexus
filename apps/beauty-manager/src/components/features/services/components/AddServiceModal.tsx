@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Info, PlusCircle, Eye, X, Plus, Trash2, Clock } from 'lucide-react';
 
 interface Category {
   id: string;
@@ -156,14 +157,14 @@ export default function AddServiceModal({
                 {
                   key: "basic",
                   label: "기본 정보",
-                  icon: "ri-information-line",
+                  icon: Info,
                 },
                 {
                   key: "options",
                   label: "가격 옵션",
-                  icon: "ri-add-circle-line",
+                  icon: PlusCircle,
                 },
-                { key: "preview", label: "미리보기", icon: "ri-eye-line" },
+                { key: "preview", label: "미리보기", icon: Eye },
               ].map((tab) => (
                 <button
                   key={tab.key}
@@ -174,7 +175,7 @@ export default function AddServiceModal({
                       : "text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  <i className={tab.icon}></i>
+                  <tab.icon size={16} />
                   {tab.label}
                 </button>
               ))}
@@ -184,7 +185,7 @@ export default function AddServiceModal({
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <i className="ri-close-line text-xl"></i>
+            <X size={24} />
           </button>
         </div>
 
@@ -342,14 +343,14 @@ export default function AddServiceModal({
                       onClick={addPriceOption}
                       className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center gap-2"
                     >
-                      <i className="ri-add-line"></i>
+                      <Plus size={16} />
                       옵션 추가
                     </button>
                   </div>
 
                   {priceOptions.length === 0 ? (
                     <div className="text-center py-8 text-gray-500">
-                      <i className="ri-add-circle-line text-4xl mb-2"></i>
+                      <PlusCircle size={48} className="mx-auto mb-2" />
                       <p>추가 가격 옵션이 없습니다</p>
                       <p className="text-sm">
                         고객이 선택할 수 있는 추가 옵션을 만들어보세요
@@ -370,7 +371,7 @@ export default function AddServiceModal({
                               onClick={() => removePriceOption(index)}
                               className="text-red-500 hover:text-red-700 p-1"
                             >
-                              <i className="ri-delete-bin-line"></i>
+                              <Trash2 size={16} />
                             </button>
                           </div>
                           <div className="grid grid-cols-2 gap-3 mb-3">
@@ -454,7 +455,7 @@ export default function AddServiceModal({
                         </div>
                         <div className="flex items-center gap-4 text-sm text-gray-600">
                           <div className="flex items-center gap-1">
-                            <i className="ri-time-line"></i>
+                            <Clock size={16} />
                             <span>
                               {formData.duration
                                 ? formatDuration(parseInt(formData.duration))
@@ -463,7 +464,7 @@ export default function AddServiceModal({
                           </div>
                           {priceOptions.length > 0 && (
                             <div className="flex items-center gap-1">
-                              <i className="ri-add-circle-line"></i>
+                              <PlusCircle size={16} />
                               <span>옵션 {priceOptions.length}개</span>
                             </div>
                           )}

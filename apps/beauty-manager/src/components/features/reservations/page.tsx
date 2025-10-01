@@ -11,6 +11,7 @@ import { mockReservations } from "@/mocks/reservations";
 import { mockStaff } from "@/mocks/staff";
 import { mockServices } from "@/mocks/services";
 import { mockCustomers } from "@/mocks/customers";
+import { Calendar, List, Plus, X } from "lucide-react";
 import {
   format,
   startOfDay,
@@ -335,7 +336,7 @@ export function Reservations() {
                     : "text-gray-600 hover:text-gray-900"
                 }`}
               >
-                <i className="ri-calendar-line mr-1"></i>
+                <Calendar size={16} className="mr-1 inline" />
                 <span className="hidden sm:inline">캘린더</span>
               </button>
               <button
@@ -346,7 +347,7 @@ export function Reservations() {
                     : "text-gray-600 hover:text-gray-900"
                 }`}
               >
-                <i className="ri-list-check mr-1"></i>
+                <List size={16} className="mr-1 inline" />
                 <span className="hidden sm:inline">리스트</span>
               </button>
             </div>
@@ -355,7 +356,7 @@ export function Reservations() {
               size="sm"
               onClick={() => setShowAddModal(true)}
             >
-              <i className="ri-add-line mr-1 md:mr-2"></i>
+              <Plus size={16} className="mr-1 md:mr-2" />
               <span className="hidden sm:inline">새 예약 추가</span>
               <span className="sm:hidden">추가</span>
             </Button>
@@ -378,7 +379,7 @@ export function Reservations() {
                     className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-200 rounded-lg focus-ring flex items-center gap-2"
                   >
                     <span>{getDateRangeText()}</span>
-                    <i className="ri-calendar-line"></i>
+                    <Calendar size={16} />
                   </button>
 
                   {showDatePicker && (
@@ -612,7 +613,7 @@ export function Reservations() {
                 onClick={() => setShowDetailModal(false)}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <i className="ri-close-line text-xl"></i>
+                <X size={20} />
               </button>
             </div>
 

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Wrench, CheckCircle, DollarSign, Star } from 'lucide-react';
 
 interface ServiceStatsProps {
   totalServices?: number;
@@ -44,28 +45,28 @@ export default function ServiceStats({
     {
       title: '전체 서비스',
       value: totalServices.toString(),
-      icon: 'ri-service-line',
+      icon: Wrench,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
     },
     {
       title: '활성 서비스',
       value: activeServices.toString(),
-      icon: 'ri-check-line',
+      icon: CheckCircle,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
     },
     {
       title: '총 매출',
       value: `${formatPrice(totalRevenue)}원`,
-      icon: 'ri-money-dollar-circle-line',
+      icon: DollarSign,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
     },
     {
       title: '평균 만족도',
       value: Number.isFinite(averageRating) ? averageRating.toFixed(1) : '0.0',
-      icon: 'ri-star-line',
+      icon: Star,
       color: 'text-yellow-600',
       bgColor: 'bg-yellow-50',
     },
@@ -87,7 +88,7 @@ export default function ServiceStats({
               <div
                 className={`w-12 h-12 rounded-lg ${stat.bgColor} flex items-center justify-center`}
               >
-                <i className={`${stat.icon} text-xl ${stat.color}`}></i>
+                <stat.icon size={20} className={stat.color} />
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ import { Button } from "@nexus/ui";
 import Toast from "@/components/common/Toast";
 import { useToast } from "@/hooks/useToast";
 import { mockServices, mockServiceCategories } from "@/mocks/services";
+import { Settings, Tag, Grid, List, Plus, Scissors, X, Edit } from 'lucide-react';
 import AddServiceModal from "./components/AddServiceModal";
 import EditServiceModal from "./components/EditServiceModal";
 import CategoryManagementModal from "./components/CategoryManagementModal";
@@ -209,7 +210,7 @@ export function Services() {
               size="sm"
               onClick={() => setShowCategoryModal(true)}
             >
-              <i className="ri-settings-line mr-1 md:mr-2"></i>
+              <Settings size={16} className="mr-1 md:mr-2" />
               <span className="hidden sm:inline">카테고리 관리</span>
               <span className="sm:hidden">카테고리</span>
             </Button>
@@ -218,31 +219,31 @@ export function Services() {
               size="sm"
               onClick={() => setShowBulkPriceModal(true)}
             >
-              <i className="ri-price-tag-line mr-1 md:mr-2"></i>
+              <Tag size={16} className="mr-1 md:mr-2" />
               <span className="hidden sm:inline">일괄 가격 수정</span>
               <span className="sm:hidden">가격</span>
             </Button>
             <div className="flex bg-gray-100 rounded-lg p-1 border border-gray-200">
               <button
                 onClick={() => setViewMode("card")}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center ${
                   viewMode === "card"
                     ? "bg-white text-gray-900 shadow-sm border border-gray-200"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                 }`}
               >
-                <i className="ri-grid-line mr-1"></i>
+                <Grid size={16} className="mr-1" />
                 <span className="hidden sm:inline">카드</span>
               </button>
               <button
                 onClick={() => setViewMode("table")}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center ${
                   viewMode === "table"
                     ? "bg-white text-gray-900 shadow-sm border border-gray-200"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
                 }`}
               >
-                <i className="ri-list-check mr-1"></i>
+                <List size={16} className="mr-1" />
                 <span className="hidden sm:inline">테이블</span>
               </button>
             </div>
@@ -251,7 +252,7 @@ export function Services() {
               size="sm"
               onClick={() => setShowAddModal(true)}
             >
-              <i className="ri-add-line mr-1 md:mr-2"></i>
+              <Plus size={16} className="mr-1 md:mr-2" />
               <span className="hidden sm:inline">새 서비스 추가</span>
               <span className="sm:hidden">추가</span>
             </Button>
@@ -349,7 +350,7 @@ export function Services() {
         {/* Empty State */}
         {filteredAndSortedServices.length === 0 && (
           <div className="text-center py-12">
-            <i className="ri-scissors-line text-6xl text-gray-300 mb-4"></i>
+            <Scissors size={64} className="text-gray-300 mb-4 mx-auto" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               검색 결과가 없습니다
             </h3>
@@ -414,7 +415,7 @@ export function Services() {
                 }}
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
               >
-                <i className="ri-close-line text-xl text-gray-500"></i>
+                <X size={24} className="text-gray-500" />
               </button>
             </div>
 
@@ -517,9 +518,9 @@ export function Services() {
                     setShowDetailModal(false);
                     handleEditService(selectedService);
                   }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                  className="bg-blue-600 hover:bg-blue-700 text-white flex items-center"
                 >
-                  <i className="ri-edit-line mr-2"></i>
+                  <Edit size={16} className="mr-2" />
                   수정
                 </Button>
                 <Button

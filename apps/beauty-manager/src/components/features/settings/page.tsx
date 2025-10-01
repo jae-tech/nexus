@@ -3,6 +3,7 @@ import PageHeader from "@/components/common/PageHeader";
 import { Card, Button } from "@nexus/ui";
 import { useUIStore } from "@/stores/ui-store";
 import { cn } from "@/lib/utils";
+import { Save, Download, Upload, FileSpreadsheet, Trash2 } from "lucide-react";
 
 export function Settings() {
   const { isSidebarOpen } = useUIStore();
@@ -26,7 +27,7 @@ export function Settings() {
         title="설정"
         actions={
           <Button className="bg-blue-600 hover:bg-blue-700 text-white">
-            <i className="ri-save-line mr-2"></i>
+            <Save size={16} className="mr-2" />
             설정 저장
           </Button>
         }
@@ -292,28 +293,28 @@ export function Settings() {
                 variant="outline"
                 className="flex items-center justify-center"
               >
-                <i className="ri-download-line mr-2"></i>
+                <Download size={16} className="mr-2" />
                 데이터 백업
               </Button>
               <Button
                 variant="outline"
                 className="flex items-center justify-center"
               >
-                <i className="ri-upload-line mr-2"></i>
+                <Upload size={16} className="mr-2" />
                 데이터 복원
               </Button>
               <Button
                 variant="outline"
                 className="flex items-center justify-center"
               >
-                <i className="ri-file-excel-line mr-2"></i>
+                <FileSpreadsheet size={16} className="mr-2" />
                 고객 데이터 내보내기
               </Button>
               <Button
                 variant="outline"
                 className="flex items-center justify-center text-red-600 border-red-300 hover:bg-red-50"
               >
-                <i className="ri-delete-bin-line mr-2"></i>
+                <Trash2 size={16} className="mr-2" />
                 모든 데이터 삭제
               </Button>
             </div>

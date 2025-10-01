@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { User, Phone, Calendar, Cake, Bookmark, Edit } from 'lucide-react';
 import { Card, Button } from '@nexus/ui';
 import { Customer } from '@/mocks/customerDetail';
 import { useToast } from '@/hooks/useToast';
@@ -57,14 +58,14 @@ export default function CustomerInfoPanel({ customer, onEdit }: CustomerInfoPane
         {/* 프로필 섹션 */}
         <div className="text-center">
           <div className="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <i className="ri-user-line text-blue-600 text-3xl"></i>
+            <User size={24} className="text-blue-600" />
           </div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">{customer.name}</h2>
-          <a 
+          <a
             href={`tel:${customer.phone}`}
             className="text-blue-600 hover:text-blue-700 font-medium flex items-center justify-center gap-2 transition-colors"
           >
-            <i className="ri-phone-line"></i>
+            <Phone size={16} />
             {customer.phone}
           </a>
         </div>
@@ -75,7 +76,7 @@ export default function CustomerInfoPanel({ customer, onEdit }: CustomerInfoPane
           <div className="space-y-4">
             <div className="flex items-center justify-between py-3 border-b border-gray-100">
               <div className="flex items-center gap-3">
-                <i className="ri-user-line text-gray-500"></i>
+                <User size={20} className="text-gray-500" />
                 <span className="text-gray-600">성별</span>
               </div>
               <span className="font-medium text-gray-800">
@@ -85,7 +86,7 @@ export default function CustomerInfoPanel({ customer, onEdit }: CustomerInfoPane
 
             <div className="flex items-center justify-between py-3 border-b border-gray-100">
               <div className="flex items-center gap-3">
-                <i className="ri-cake-2-line text-gray-500"></i>
+                <Cake size={20} className="text-gray-500" />
                 <span className="text-gray-600">생일</span>
               </div>
               <span className="font-medium text-gray-800 text-sm">
@@ -95,7 +96,7 @@ export default function CustomerInfoPanel({ customer, onEdit }: CustomerInfoPane
 
             <div className="flex items-center justify-between py-3 border-b border-gray-100">
               <div className="flex items-center gap-3">
-                <i className="ri-calendar-line text-gray-500"></i>
+                <Calendar size={20} className="text-gray-500" />
                 <span className="text-gray-600">등록일</span>
               </div>
               <span className="font-medium text-gray-800">
@@ -105,7 +106,7 @@ export default function CustomerInfoPanel({ customer, onEdit }: CustomerInfoPane
 
             <div className="flex items-center justify-between py-3">
               <div className="flex items-center gap-3">
-                <i className="ri-bookmark-line text-gray-500"></i>
+                <Bookmark size={20} className="text-gray-500" />
                 <span className="text-gray-600">총 방문</span>
               </div>
               <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
@@ -120,8 +121,8 @@ export default function CustomerInfoPanel({ customer, onEdit }: CustomerInfoPane
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-gray-800">개인 메모</h3>
             {!isEditingMemo && (
-              <Button variant="icon" size="sm" onClick={() => setIsEditingMemo(true)}>
-                <i className="ri-edit-line"></i>
+              <Button variant="ghost" size="sm" onClick={() => setIsEditingMemo(true)} className="h-8 w-8 p-0">
+                <Edit size={16} />
               </Button>
             )}
           </div>
@@ -170,7 +171,7 @@ export default function CustomerInfoPanel({ customer, onEdit }: CustomerInfoPane
       {/* 하단 정보 수정 버튼 */}
       <div className="p-6 border-t border-gray-200">
         <Button variant="primary" className="w-full" onClick={onEdit}>
-          <i className="ri-edit-line"></i>
+          <Edit size={20} />
           정보 수정
         </Button>
       </div>

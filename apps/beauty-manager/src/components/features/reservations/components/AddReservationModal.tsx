@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import { X, Check, User, Calendar } from "lucide-react";
 
 interface Customer {
   id: number;
@@ -261,7 +262,7 @@ export default function AddReservationModal({
                 onClick={onClose}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <i className="ri-close-line text-xl"></i>
+                <X size={20} />
               </button>
             </div>
 
@@ -279,7 +280,7 @@ export default function AddReservationModal({
                     }`}
                   >
                     {stepNum < step ? (
-                      <i className="ri-check-line"></i>
+                      <Check size={16} />
                     ) : (
                       stepNum
                     )}
@@ -364,7 +365,7 @@ export default function AddReservationModal({
                         onClick={() => setShowNewCustomerForm(false)}
                         className="text-gray-500 hover:text-gray-700"
                       >
-                        <i className="ri-close-line"></i>
+                        <X size={20} />
                       </button>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -511,7 +512,7 @@ export default function AddReservationModal({
                 </div>
                 <div className="mt-4 p-4 bg-blue-50 rounded-lg">
                   <div className="text-sm text-blue-800">
-                    <i className="ri-calendar-line mr-1"></i>
+                    <Calendar size={16} className="mr-1 inline" />
                     선택된 일정:{" "}
                     {format(new Date(selectedDate), "yyyy년 M월 d일 EEEE", {
                       locale: ko,
@@ -566,7 +567,7 @@ export default function AddReservationModal({
                                 {selectedServices.find(
                                   (s) => s.id === service.id
                                 ) && (
-                                  <i className="ri-check-line text-blue-500"></i>
+                                  <Check size={20} className="text-blue-500" />
                                 )}
                               </div>
                             </div>
@@ -618,7 +619,7 @@ export default function AddReservationModal({
                       >
                         <div className="flex items-center gap-3">
                           <div className="w-12 h-12 bg-gray-200 rounded-full flex items-center justify-center">
-                            <i className="ri-user-line text-gray-600 text-xl"></i>
+                            <User size={20} className="text-gray-600" />
                           </div>
                           <div>
                             <div className="font-medium text-gray-900">

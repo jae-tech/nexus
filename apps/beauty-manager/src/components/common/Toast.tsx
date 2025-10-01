@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react';
+import { Check, X, AlertTriangle, Info } from 'lucide-react';
 
 interface ToastProps {
   message: string;
@@ -38,24 +39,26 @@ export default function Toast({ message, type, duration = 3000, onClose }: Toast
   const getIcon = () => {
     switch (type) {
       case 'success':
-        return 'ri-check-line';
+        return Check;
       case 'error':
-        return 'ri-close-line';
+        return X;
       case 'warning':
-        return 'ri-alert-line';
+        return AlertTriangle;
       case 'info':
-        return 'ri-information-line';
+        return Info;
       default:
-        return 'ri-information-line';
+        return Info;
     }
   };
+
+  const IconComponent = getIcon();
 
   return (
     <div className={`fixed top-4 right-4 z-50 transition-all duration-300 ${
       isVisible ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
     }`}>
       <div className={`flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg ${getToastStyles()}`}>
-        <i className={`${getIcon()} text-lg`}></i>
+        <IconComponent size={18} />
         <span className="text-sm font-medium">{message}</span>
         <button
           onClick={() => {
@@ -64,7 +67,7 @@ export default function Toast({ message, type, duration = 3000, onClose }: Toast
           }}
           className="ml-2 hover:opacity-80 transition-opacity"
         >
-          <i className="ri-close-line text-lg"></i>
+          <X size={18} />
         </button>
       </div>
     </div>

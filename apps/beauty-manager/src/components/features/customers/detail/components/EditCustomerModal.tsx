@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { X, Loader2 } from "lucide-react";
 import { Customer } from "@/mocks/customerDetail";
 
 interface EditCustomerModalProps {
@@ -100,7 +101,7 @@ export default function EditCustomerModal({
             disabled={isSubmitting}
             className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <i className="ri-close-line text-xl"></i>
+            <X size={20} />
           </button>
         </div>
 
@@ -210,11 +211,11 @@ export default function EditCustomerModal({
             type="submit"
             onClick={handleSubmit}
             disabled={isSubmitting}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2"
           >
             {isSubmitting ? (
               <>
-                <i className="ri-loader-4-line animate-spin mr-2"></i>
+                <Loader2 size={16} className="animate-spin" />
                 저장 중...
               </>
             ) : (

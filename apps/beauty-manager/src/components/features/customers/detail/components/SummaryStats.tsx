@@ -1,4 +1,5 @@
 
+import { CalendarCheck, DollarSign, BarChart, Clock, Heart } from 'lucide-react';
 import { Card } from '@nexus/ui';
 import { Customer } from '@/mocks/customerDetail';
 
@@ -35,31 +36,31 @@ export default function SummaryStats({ customer }: SummaryStatsProps) {
 
   const stats = [
     {
-      icon: 'ri-calendar-check-line',
+      icon: CalendarCheck,
       label: '총 방문 횟수',
       value: `${totalVisits}회`,
       color: 'blue'
     },
     {
-      icon: 'ri-money-dollar-circle-line',
+      icon: DollarSign,
       label: '총 결제 금액',
       value: `${totalAmount.toLocaleString()}원`,
       color: 'green'
     },
     {
-      icon: 'ri-bar-chart-line',
+      icon: BarChart,
       label: '평균 결제 금액',
       value: `${averageAmount.toLocaleString()}원`,
       color: 'purple'
     },
     {
-      icon: 'ri-time-line',
+      icon: Clock,
       label: '마지막 방문',
       value: daysSinceLastVisit === 0 ? '오늘' : `${daysSinceLastVisit}일 전`,
       color: 'orange'
     },
     {
-      icon: 'ri-heart-line',
+      icon: Heart,
       label: '선호 서비스',
       value: favoriteService,
       color: 'pink'
@@ -82,19 +83,22 @@ export default function SummaryStats({ customer }: SummaryStatsProps) {
       <h3 className="text-lg font-semibold text-gray-800 mb-6">고객 통계</h3>
       
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        {stats.map((stat, index) => (
-          <Card key={index} hover className="text-center">
-            <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 ${getColorClasses(stat.color)}`}>
-              <i className={`${stat.icon} text-xl`}></i>
-            </div>
-            <div className="text-2xl font-bold text-gray-800 mb-1">
-              {stat.value}
-            </div>
-            <div className="text-sm text-gray-600">
-              {stat.label}
-            </div>
-          </Card>
-        ))}
+        {stats.map((stat, index) => {
+          const IconComponent = stat.icon;
+          return (
+            <Card key={index} hover className="text-center">
+              <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 ${getColorClasses(stat.color)}`}>
+                <IconComponent size={20} />
+              </div>
+              <div className="text-2xl font-bold text-gray-800 mb-1">
+                {stat.value}
+              </div>
+              <div className="text-sm text-gray-600">
+                {stat.label}
+              </div>
+            </Card>
+          );
+        })}
       </div>
 
       {/* 추가 인사이트 */}

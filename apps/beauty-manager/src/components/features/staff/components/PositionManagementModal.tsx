@@ -1,6 +1,7 @@
 
 import { useState } from 'react';
 import { Staff } from '@/mocks/staff';
+import { X, Edit, Trash2, Plus, GripVertical, Check, User } from 'lucide-react';
 
 interface Position {
   id: string;
@@ -293,7 +294,7 @@ export default function PositionManagementModal({
             onClick={onClose}
             className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
           >
-            <i className="ri-close-line text-xl"></i>
+            <X size={20} />
           </button>
         </div>
 
@@ -329,7 +330,7 @@ export default function PositionManagementModal({
                   {positionList.sort((a, b) => b.level - a.level).map((position) => (
                     <div key={position.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                       <div className="cursor-move text-gray-400">
-                        <i className="ri-drag-move-2-line"></i>
+                        <GripVertical size={16} />
                       </div>
                       <div className={`w-4 h-4 rounded-full ${getColorClass(position.color)}`}></div>
                       
@@ -351,14 +352,14 @@ export default function PositionManagementModal({
                             className="p-1 text-green-600 hover:text-green-700"
                             title="저장"
                           >
-                            <i className="ri-check-line"></i>
+                            <Check size={16} />
                           </button>
                           <button
                             onClick={() => setEditingPositionId(null)}
                             className="p-1 text-gray-400 hover:text-gray-600"
                             title="취소"
                           >
-                            <i className="ri-close-line"></i>
+                            <X size={16} />
                           </button>
                         </div>
                       ) : (
@@ -380,14 +381,14 @@ export default function PositionManagementModal({
                               className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
                               title="편집"
                             >
-                              <i className="ri-edit-line"></i>
+                              <Edit size={16} />
                             </button>
                             <button
                               onClick={() => handleDeletePosition(position.id)}
                               className="p-1 text-gray-400 hover:text-red-600 transition-colors"
                               title="삭제"
                             >
-                              <i className="ri-delete-bin-line"></i>
+                              <Trash2 size={16} />
                             </button>
                           </div>
                         </>
@@ -396,7 +397,7 @@ export default function PositionManagementModal({
                   ))}
                   {positionList.length === 0 && (
                     <div className="text-center py-8 text-gray-500">
-                      <i className="ri-user-star-line text-4xl mb-2"></i>
+                      <User size={48} className="mb-2 mx-auto" />
                       <p>등록된 직급이 없습니다.</p>
                     </div>
                   )}
@@ -464,7 +465,7 @@ export default function PositionManagementModal({
                     disabled={!newPositionName.trim()}
                     className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
                   >
-                    <i className="ri-add-line mr-2"></i>
+                    <Plus size={16} className="inline mr-2" />
                     직급 추가
                   </button>
                 </div>
@@ -534,7 +535,7 @@ export default function PositionManagementModal({
                   {roleList.map((role) => (
                     <div key={role.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                       <div className="cursor-move text-gray-400">
-                        <i className="ri-drag-move-2-line"></i>
+                        <GripVertical size={16} />
                       </div>
                       <div className={`w-4 h-4 rounded-full ${getColorClass(role.color)}`}></div>
                       
@@ -556,14 +557,14 @@ export default function PositionManagementModal({
                             className="p-1 text-green-600 hover:text-green-700"
                             title="저장"
                           >
-                            <i className="ri-check-line"></i>
+                            <Check size={16} />
                           </button>
                           <button
                             onClick={() => setEditingRoleId(null)}
                             className="p-1 text-gray-400 hover:text-gray-600"
                             title="취소"
                           >
-                            <i className="ri-close-line"></i>
+                            <X size={16} />
                           </button>
                         </div>
                       ) : (
@@ -580,14 +581,14 @@ export default function PositionManagementModal({
                               className="p-1 text-gray-400 hover:text-blue-600 transition-colors"
                               title="편집"
                             >
-                              <i className="ri-edit-line"></i>
+                              <Edit size={16} />
                             </button>
                             <button
                               onClick={() => handleDeleteRole(role.id)}
                               className="p-1 text-gray-400 hover:text-red-600 transition-colors"
                               title="삭제"
                             >
-                              <i className="ri-delete-bin-line"></i>
+                              <Trash2 size={16} />
                             </button>
                           </div>
                         </>
@@ -596,7 +597,7 @@ export default function PositionManagementModal({
                   ))}
                   {roleList.length === 0 && (
                     <div className="text-center py-8 text-gray-500">
-                      <i className="ri-user-settings-line text-4xl mb-2"></i>
+                      <User size={48} className="mb-2 mx-auto" />
                       <p>등록된 직무가 없습니다.</p>
                     </div>
                   )}
@@ -648,7 +649,7 @@ export default function PositionManagementModal({
                     disabled={!newRoleName.trim()}
                     className="w-full bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
                   >
-                    <i className="ri-add-line mr-2"></i>
+                    <Plus size={16} className="inline mr-2" />
                     직무 추가
                   </button>
                 </div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { X, Loader2, User } from "lucide-react";
 import { mockServices } from "@/mocks/services";
 import { mockStaff } from "@/mocks/staff";
 
@@ -121,7 +122,7 @@ export default function AddTreatmentModal({
             disabled={isSubmitting}
             className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            <i className="ri-close-line text-xl"></i>
+            <X size={20} />
           </button>
         </div>
 
@@ -217,7 +218,7 @@ export default function AddTreatmentModal({
                       } ${isSubmitting ? "opacity-50 cursor-not-allowed" : ""}`}
                     >
                       <div className="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                        <i className="ri-user-line text-gray-500"></i>
+                        <User size={20} className="text-gray-500" />
                       </div>
                       <div>
                         <div className="font-medium text-sm">{staff.name}</div>
@@ -293,11 +294,11 @@ export default function AddTreatmentModal({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
+                className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 flex items-center gap-2"
               >
                 {isSubmitting ? (
                   <>
-                    <i className="ri-loader-4-line animate-spin mr-2"></i>
+                    <Loader2 size={16} className="animate-spin" />
                     저장 중...
                   </>
                 ) : (

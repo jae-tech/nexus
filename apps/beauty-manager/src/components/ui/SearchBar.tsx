@@ -1,5 +1,6 @@
 
 import { useState } from 'react';
+import { Search, X } from 'lucide-react';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -27,7 +28,7 @@ export default function SearchBar({
   return (
     <form onSubmit={handleSubmit} className={`relative ${className}`}>
       <div className="relative">
-        <i className="ri-search-line absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-lg"></i>
+        <Search size={18} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
         <input
           type="text"
           value={query}
@@ -41,7 +42,7 @@ export default function SearchBar({
             onClick={handleClear}
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
           >
-            <i className="ri-close-line text-lg"></i>
+            <X size={18} />
           </button>
         )}
       </div>
