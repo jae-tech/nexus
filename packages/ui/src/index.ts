@@ -38,6 +38,7 @@ export * from "./components/data-display/index.js";
 // Feedback Components (피드백 컴포넌트)
 // ============================================================================
 export * from "./components/feedback/index.js";
+export { Toaster } from "./components/ui/sonner.js";
 
 // ============================================================================
 // Utility Components (유틸리티 컴포넌트)

@@ -10,8 +10,5 @@ export type { ConfirmDialogProps } from "./confirm-dialog.js"
 export { FormDialog } from "./form-dialog.js"
 export type { FormDialogProps } from "./form-dialog.js"
 
-export { Toast } from "./toast.js"
-export type { ToastProps, ToastType } from "./toast.js"
-
 export { Alert, alertVariants } from "./alert.js"
 export type { AlertProps } from "./alert.js"
