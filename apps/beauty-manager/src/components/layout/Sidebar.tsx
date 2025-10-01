@@ -124,19 +124,19 @@ export function Sidebar() {
         {/* Header - 80px 높이로 통일 */}
         <div className="p-4 border-b border-gray-200 h-20 flex items-center">
           <div className="flex items-center justify-between w-full">
-            {!isCollapsed && (
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
-                  <Scissors size={18} className="text-white" />
-                </div>
+            <Link to="/dashboard" className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+                <Scissors size={18} className="text-white" />
+              </div>
+              {!isCollapsed && (
                 <span
                   className="font-bold text-gray-800 hidden sm:block"
                   style={{ fontFamily: '"Pacifico", serif' }}
                 >
                   Beauty Manager
                 </span>
-              </div>
-            )}
+              )}
+            </Link>
             <button
               onClick={toggleSidebar}
               className="hidden lg:block p-1.5 rounded-lg hover:bg-gray-100 text-gray-600 transition-colors"

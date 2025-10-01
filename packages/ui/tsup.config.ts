@@ -3,7 +3,7 @@ import { defineConfig } from "tsup";
 export default defineConfig({
   entry: ["src/index.ts"],
   format: ["esm"],
-  dts: false, // Temporarily disabled due to path resolution issues
+  dts: false, // 일시적으로 비활성화 (개발 모드에서는 불필요)
   sourcemap: true,
   clean: true,
   external: ["react", "react-dom"],

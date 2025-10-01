@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { Calendar, ChevronLeft, ChevronRight } from "lucide-react";
+import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "../lib/utils.js";
 
 export interface DatePickerProps {
@@ -187,7 +187,7 @@ export function DatePicker({
           <span className={cn(!value && "text-gray-500")}>
             {value ? format(value) : placeholder}
           </span>
-          <Calendar className="h-4 w-4 opacity-50" />
+          <CalendarIcon className="h-4 w-4 opacity-50" />
         </button>
       </PopoverPrimitive.Trigger>
       <PopoverPrimitive.Content
