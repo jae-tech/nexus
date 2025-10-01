@@ -1,6 +1,6 @@
-
 import { useState } from 'react';
-import { X, Edit, Trash2, Check, Plus } from 'lucide-react';
+import { Edit, Trash2, Check, Plus } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, Button } from '@nexus/ui';
 
 interface Category {
   id: string;
@@ -11,6 +11,7 @@ interface Category {
 
 interface CategoryManagementModalProps {
   categories: Category[];
+  open: boolean;
   onClose: () => void;
   onSave: (categories: Category[]) => void;
   serviceCounts: Record<string, number>;
@@ -25,11 +26,12 @@ const colorOptions = [
   { name: '회색', value: 'gray', class: 'bg-gray-500' }
 ];
 
-export default function CategoryManagementModal({ 
-  categories, 
-  onClose, 
-  onSave, 
-  serviceCounts 
+export default function CategoryManagementModal({
+  categories,
+  open,
+  onClose,
+  onSave,
+  serviceCounts
 }: CategoryManagementModalProps) {
   const [categoryList, setCategoryList] = useState<Category[]>(categories);
   const [newCategoryName, setNewCategoryName] = useState('');
@@ -59,8 +61,8 @@ export default function CategoryManagementModal({
   const handleEditSave = () => {
     if (!editingName.trim()) return;
 
-    setCategoryList(prev => prev.map(cat => 
-      cat.id === editingId 
+    setCategoryList(prev => prev.map(cat =>
+      cat.id === editingId
         ? { ...cat, name: editingName.trim() }
         : cat
     ));
@@ -101,18 +103,11 @@ export default function CategoryManagementModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">카테고리 관리</h2>
-          <button
-            onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <X size={24} />
-          </button>
-        </div>
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] p-0">
+        <DialogHeader className="p-6 border-b border-gray-200">
+          <DialogTitle>카테고리 관리</DialogTitle>
+        </DialogHeader>
 
         <div className="flex h-[600px]">
           {/* 좌측: 기존 카테고리 목록 */}
@@ -122,14 +117,14 @@ export default function CategoryManagementModal({
               {categoryList.map((category) => (
                 <div key={category.id} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
                   <div className={`w-4 h-4 rounded-full ${getColorClass(category.color)}`}></div>
-                  
+
                   {editingId === category.id ? (
                     <div className="flex-1 flex items-center gap-2">
                       <input
                         type="text"
                         value={editingName}
                         onChange={(e) => setEditingName(e.target.value)}
-                        className="flex-1 px-2 py-1 border border-gray-300 rounded focus-ring"
+                        className="flex-1 px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') handleEditSave();
                           if (e.key === 'Escape') handleEditCancel();
@@ -148,7 +143,7 @@ export default function CategoryManagementModal({
                         className="p-1 text-gray-400 hover:text-gray-600"
                         title="취소"
                       >
-                        <X size={16} />
+                        <Plus size={16} className="rotate-45" />
                       </button>
                     </div>
                   ) : (
@@ -185,7 +180,7 @@ export default function CategoryManagementModal({
           {/* 우측: 새 카테고리 추가 */}
           <div className="flex-1 p-6">
             <h3 className="text-lg font-medium text-gray-900 mb-4">새 카테고리 추가</h3>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -196,7 +191,7 @@ export default function CategoryManagementModal({
                   value={newCategoryName}
                   onChange={(e) => setNewCategoryName(e.target.value)}
                   placeholder="카테고리명을 입력하세요"
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus-ring"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -245,22 +240,22 @@ export default function CategoryManagementModal({
           </div>
         </div>
 
-        {/* Footer - 통일된 버튼 배치 */}
-        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-end gap-3 flex-shrink-0">
-          <button
+        <DialogFooter className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-end gap-3">
+          <Button
+            variant="outline"
             onClick={onClose}
             className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
           >
             취소
-          </button>
-          <button
+          </Button>
+          <Button
             onClick={handleSave}
             className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
           >
             변경사항 저장
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

@@ -1,6 +1,6 @@
-
 import { useState } from 'react';
-import { X, Info } from 'lucide-react';
+import { Info } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, Button } from '@nexus/ui';
 
 interface Service {
   id: string;
@@ -11,11 +11,12 @@ interface Service {
 
 interface BulkPriceModalProps {
   services: Service[];
+  open: boolean;
   onClose: () => void;
   onApply: (selectedServices: string[], adjustmentType: 'fixed' | 'percent', adjustmentValue: number, direction: 'increase' | 'decrease') => void;
 }
 
-export default function BulkPriceModal({ services, onClose, onApply }: BulkPriceModalProps) {
+export default function BulkPriceModal({ services, open, onClose, onApply }: BulkPriceModalProps) {
   const [step, setStep] = useState(1);
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [adjustmentType, setAdjustmentType] = useState<'fixed' | 'percent'>('fixed');
@@ -25,7 +26,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
   const categories = Array.from(new Set(services.map(s => s.categoryName)));
 
   const handleServiceToggle = (serviceId: string) => {
-    setSelectedServices(prev => 
+    setSelectedServices(prev =>
       prev.includes(serviceId)
         ? prev.filter(id => id !== serviceId)
         : [...prev, serviceId]
@@ -35,7 +36,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
   const handleCategoryToggle = (categoryName: string) => {
     const categoryServices = services.filter(s => s.categoryName === categoryName).map(s => s.id);
     const allSelected = categoryServices.every(id => selectedServices.includes(id));
-    
+
     if (allSelected) {
       setSelectedServices(prev => prev.filter(id => !categoryServices.includes(id)));
     } else {
@@ -53,11 +54,11 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
 
   const calculateNewPrice = (currentPrice: number) => {
     if (adjustmentType === 'fixed') {
-      return direction === 'increase' 
+      return direction === 'increase'
         ? currentPrice + adjustmentValue
         : Math.max(0, currentPrice - adjustmentValue);
     } else {
-      const multiplier = direction === 'increase' 
+      const multiplier = direction === 'increase'
         ? 1 + (adjustmentValue / 100)
         : 1 - (adjustmentValue / 100);
       return Math.max(0, Math.round(currentPrice * multiplier));
@@ -72,18 +73,16 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="max-w-4xl max-h-[90vh] p-0">
+        <DialogHeader className="p-6 border-b border-gray-200">
           <div className="flex items-center gap-4">
-            <h2 className="text-xl font-semibold text-gray-900">일괄 가격 수정</h2>
+            <DialogTitle>일괄 가격 수정</DialogTitle>
             <div className="flex items-center gap-2">
               {[1, 2, 3].map((stepNum) => (
                 <div key={stepNum} className="flex items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                    step >= stepNum ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'
-                  }`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step >= stepNum ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'
+                    }`}>
                     {stepNum}
                   </div>
                   {stepNum < 3 && (
@@ -93,19 +92,13 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
               ))}
             </div>
           </div>
-          <button
-            onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
-          >
-            <X size={24} />
-          </button>
-        </div>
+        </DialogHeader>
 
         <div className="p-6 max-h-[600px] overflow-y-auto">
           {step === 1 && (
             <div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">1단계: 서비스 선택</h3>
-              
+
               <div className="flex items-center justify-between mb-4">
                 <button
                   onClick={handleSelectAll}
@@ -137,7 +130,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                               if (el) el.indeterminate = someSelected;
                             }}
                             onChange={() => handleCategoryToggle(categoryName)}
-                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus-ring"
+                            className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
                           />
                           <span className="ml-2 font-medium text-gray-900">{categoryName}</span>
                         </label>
@@ -145,7 +138,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                           {selectedCount}/{categoryServices.length}개 선택
                         </span>
                       </div>
-                      
+
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-2 ml-6">
                         {categoryServices.map((service) => (
                           <label key={service.id} className="flex items-center cursor-pointer p-2 hover:bg-gray-50 rounded">
@@ -153,7 +146,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                               type="checkbox"
                               checked={selectedServices.includes(service.id)}
                               onChange={() => handleServiceToggle(service.id)}
-                              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus-ring"
+                              className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
                             />
                             <div className="ml-2 flex-1">
                               <span className="text-sm text-gray-900">{service.name}</span>
@@ -174,7 +167,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
           {step === 2 && (
             <div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">2단계: 가격 조정 방식</h3>
-              
+
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">조정 방식</label>
@@ -186,7 +179,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                         value="fixed"
                         checked={adjustmentType === 'fixed'}
                         onChange={(e) => setAdjustmentType(e.target.value as 'fixed')}
-                        className="w-4 h-4 text-blue-600 border-gray-300 focus-ring"
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-2 focus:ring-blue-500"
                       />
                       <span className="ml-2">고정 금액 추가/차감</span>
                     </label>
@@ -197,7 +190,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                         value="percent"
                         checked={adjustmentType === 'percent'}
                         onChange={(e) => setAdjustmentType(e.target.value as 'percent')}
-                        className="w-4 h-4 text-blue-600 border-gray-300 focus-ring"
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-2 focus:ring-blue-500"
                       />
                       <span className="ml-2">퍼센트 증감</span>
                     </label>
@@ -214,7 +207,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                         value="increase"
                         checked={direction === 'increase'}
                         onChange={(e) => setDirection(e.target.value as 'increase')}
-                        className="w-4 h-4 text-blue-600 border-gray-300 focus-ring"
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-2 focus:ring-blue-500"
                       />
                       <span className="ml-2 text-green-600">증가</span>
                     </label>
@@ -225,7 +218,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                         value="decrease"
                         checked={direction === 'decrease'}
                         onChange={(e) => setDirection(e.target.value as 'decrease')}
-                        className="w-4 h-4 text-blue-600 border-gray-300 focus-ring"
+                        className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-2 focus:ring-blue-500"
                       />
                       <span className="ml-2 text-red-600">감소</span>
                     </label>
@@ -242,7 +235,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                       value={adjustmentValue}
                       onChange={(e) => setAdjustmentValue(Number(e.target.value))}
                       min="0"
-                      className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus-ring"
+                      className="w-32 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <span className="text-gray-600">
                       {adjustmentType === 'fixed' ? '원' : '%'}
@@ -256,7 +249,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
           {step === 3 && (
             <div>
               <h3 className="text-lg font-medium text-gray-900 mb-4">3단계: 미리보기</h3>
-              
+
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
                 <div className="flex items-center gap-2">
                   <Info size={20} className="text-yellow-600" />
@@ -281,7 +274,7 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                     {selectedServiceData.map((service) => {
                       const newPrice = calculateNewPrice(service.basePrice);
                       const difference = newPrice - service.basePrice;
-                      
+
                       return (
                         <tr key={service.id} className="border-b border-gray-100">
                           <td className="py-3 px-4 text-sm text-gray-900">{service.name}</td>
@@ -292,9 +285,8 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
                           <td className="py-3 px-4 text-sm font-medium text-gray-900">
                             {newPrice.toLocaleString()}원
                           </td>
-                          <td className={`py-3 px-4 text-sm font-medium ${
-                            difference > 0 ? 'text-green-600' : difference < 0 ? 'text-red-600' : 'text-gray-600'
-                          }`}>
+                          <td className={`py-3 px-4 text-sm font-medium ${difference > 0 ? 'text-green-600' : difference < 0 ? 'text-red-600' : 'text-gray-600'
+                            }`}>
                             {difference > 0 ? '+' : ''}{difference.toLocaleString()}원
                           </td>
                         </tr>
@@ -307,45 +299,46 @@ export default function BulkPriceModal({ services, onClose, onApply }: BulkPrice
           )}
         </div>
 
-        {/* Footer - 통일된 버튼 배치 */}
-        <div className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between flex-shrink-0">
+        <DialogFooter className="px-6 py-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
           <div className="flex gap-3">
             {step > 1 && (
-              <button
+              <Button
+                variant="outline"
                 onClick={() => setStep(step - 1)}
                 className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
               >
                 이전
-              </button>
+              </Button>
             )}
           </div>
 
           <div className="flex gap-3">
-            <button
+            <Button
+              variant="outline"
               onClick={onClose}
               className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
             >
               취소
-            </button>
+            </Button>
             {step < 3 ? (
-              <button
+              <Button
                 onClick={() => setStep(step + 1)}
                 disabled={step === 1 && selectedServices.length === 0}
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50"
               >
                 다음
-              </button>
+              </Button>
             ) : (
-              <button
+              <Button
                 onClick={handleApply}
                 className="bg-blue-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
               >
                 적용
-              </button>
+              </Button>
             )}
           </div>
-        </div>
-      </div>
-    </div>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 }

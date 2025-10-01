@@ -2,8 +2,21 @@ import { useState, useMemo } from "react";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
 import SearchBar from "@/components/ui/SearchBar";
-import { Button } from "@nexus/ui";
-import Toast from "@/components/common/Toast";
+import {
+  Button,
+  Toast,
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  Badge,
+} from "@nexus/ui";
 import { useToast } from "@/hooks/useToast";
 import { mockServices, mockServiceCategories } from "@/mocks/services";
 import { Settings, Tag, Grid, List, Plus, Scissors, X, Edit } from 'lucide-react';
@@ -224,8 +237,10 @@ export function Services() {
               <span className="sm:hidden">가격</span>
             </Button>
             <div className="flex bg-gray-100 rounded-lg p-1 border border-gray-200">
-              <button
+              <Button
                 onClick={() => setViewMode("card")}
+                variant="ghost"
+                size="sm"
                 className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center ${
                   viewMode === "card"
                     ? "bg-white text-gray-900 shadow-sm border border-gray-200"
@@ -234,9 +249,11 @@ export function Services() {
               >
                 <Grid size={16} className="mr-1" />
                 <span className="hidden sm:inline">카드</span>
-              </button>
-              <button
+              </Button>
+              <Button
                 onClick={() => setViewMode("table")}
+                variant="ghost"
+                size="sm"
                 className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors flex items-center ${
                   viewMode === "table"
                     ? "bg-white text-gray-900 shadow-sm border border-gray-200"
@@ -245,7 +262,7 @@ export function Services() {
               >
                 <List size={16} className="mr-1" />
                 <span className="hidden sm:inline">테이블</span>
-              </button>
+              </Button>
             </div>
             <Button
               variant="primary"
@@ -267,30 +284,30 @@ export function Services() {
             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">상태:</span>
-                <select
-                  value={statusFilter}
-                  onChange={(e) =>
-                    setStatusFilter(e.target.value as StatusFilter)
-                  }
-                  className="text-sm px-3 py-2 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 focus-ring focus:border-blue-500 transition-colors"
-                >
-                  <option value="all">전체 상태</option>
-                  <option value="active">활성</option>
-                  <option value="inactive">비활성</option>
-                </select>
+                <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as StatusFilter)}>
+                  <SelectTrigger className="w-[150px] text-sm">
+                    <SelectValue placeholder="전체 상태" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">전체 상태</SelectItem>
+                    <SelectItem value="active">활성</SelectItem>
+                    <SelectItem value="inactive">비활성</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">정렬:</span>
-                <select
-                  value={sortOption}
-                  onChange={(e) => setSortOption(e.target.value as SortOption)}
-                  className="text-sm px-3 py-2 border border-gray-200 rounded-lg bg-white hover:bg-gray-50 focus-ring focus:border-blue-500 transition-colors"
-                >
-                  <option value="name">이름순</option>
-                  <option value="price">가격순</option>
-                  <option value="popularity">인기순</option>
-                  <option value="newest">최신순</option>
-                </select>
+                <Select value={sortOption} onValueChange={(value) => setSortOption(value as SortOption)}>
+                  <SelectTrigger className="w-[150px] text-sm">
+                    <SelectValue placeholder="이름순" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="name">이름순</SelectItem>
+                    <SelectItem value="price">가격순</SelectItem>
+                    <SelectItem value="popularity">인기순</SelectItem>
+                    <SelectItem value="newest">최신순</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <PriceRangeFilter
                 value={priceRange}
@@ -401,176 +418,162 @@ export function Services() {
       )}
 
       {/* 서비스 상세 모달 */}
-      {showDetailModal && selectedService && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-gray-900">
-                서비스 상세 정보
-              </h2>
-              <button
-                onClick={() => {
-                  setShowDetailModal(false);
-                  setSelectedService(null);
-                }}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <X size={24} className="text-gray-500" />
-              </button>
-            </div>
+      <Dialog open={showDetailModal} onOpenChange={setShowDetailModal}>
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>서비스 상세 정보</DialogTitle>
+          </DialogHeader>
 
-            <div className="p-6">
-              <div className="space-y-6">
-                {/* 기본 정보 */}
-                <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">
-                    기본 정보
-                  </h3>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        서비스명
-                      </label>
-                      <p className="text-gray-900">{selectedService.name}</p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        카테고리
-                      </label>
-                      <p className="text-gray-900">
-                        {selectedService.categoryName}
-                      </p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        가격
-                      </label>
-                      <p className="text-gray-900">
-                        {new Intl.NumberFormat("ko-KR").format(
-                          selectedService.basePrice
-                        )}
-                        원
-                      </p>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        소요시간
-                      </label>
-                      <p className="text-gray-900">
-                        {selectedService.duration}분
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 서비스 설명 */}
-                {selectedService.description && (
+          {selectedService && (
+            <div className="space-y-6">
+              {/* 기본 정보 */}
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-4">
+                  기본 정보
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <h3 className="text-lg font-medium text-gray-900 mb-4">
-                      서비스 설명
-                    </h3>
-                    <p className="text-gray-700">
-                      {selectedService.description}
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      서비스명
+                    </label>
+                    <p className="text-gray-900">{selectedService.name}</p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      카테고리
+                    </label>
+                    <p className="text-gray-900">
+                      {selectedService.categoryName}
                     </p>
                   </div>
-                )}
-
-                {/* 이용 통계 */}
-                <div>
-                  <h3 className="text-lg font-medium text-gray-900 mb-4">
-                    이용 통계
-                  </h3>
-                  <div className="grid grid-cols-3 gap-4">
-                    <div className="bg-blue-50 p-4 rounded-lg">
-                      <p className="text-sm text-blue-600 font-medium">
-                        이번 달 이용
-                      </p>
-                      <p className="text-2xl font-bold text-blue-900">
-                        {selectedService.monthlyUsage}회
-                      </p>
-                    </div>
-                    <div className="bg-green-50 p-4 rounded-lg">
-                      <p className="text-sm text-green-600 font-medium">
-                        총 매출
-                      </p>
-                      <p className="text-2xl font-bold text-green-900">
-                        {Math.floor(selectedService.totalRevenue / 10000)}만원
-                      </p>
-                    </div>
-                    <div className="bg-purple-50 p-4 rounded-lg">
-                      <p className="text-sm text-purple-600 font-medium">
-                        상태
-                      </p>
-                      <p
-                        className={`text-2xl font-bold ${selectedService.isActive ? "text-green-900" : "text-red-900"}`}
-                      >
-                        {selectedService.isActive ? "활성" : "비활성"}
-                      </p>
-                    </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      가격
+                    </label>
+                    <p className="text-gray-900">
+                      {new Intl.NumberFormat("ko-KR").format(
+                        selectedService.basePrice
+                      )}
+                      원
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      소요시간
+                    </label>
+                    <p className="text-gray-900">
+                      {selectedService.duration}분
+                    </p>
                   </div>
                 </div>
               </div>
 
-              {/* 액션 버튼 */}
-              <div className="flex items-center gap-3 mt-8 pt-6 border-t border-gray-200">
-                <Button
-                  onClick={() => {
-                    setShowDetailModal(false);
-                    handleEditService(selectedService);
-                  }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white flex items-center"
-                >
-                  <Edit size={16} className="mr-2" />
-                  수정
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setShowDetailModal(false);
-                    setSelectedService(null);
-                  }}
-                >
-                  닫기
-                </Button>
+              {/* 서비스 설명 */}
+              {selectedService.description && (
+                <div>
+                  <h3 className="text-lg font-medium text-gray-900 mb-4">
+                    서비스 설명
+                  </h3>
+                  <p className="text-gray-700">
+                    {selectedService.description}
+                  </p>
+                </div>
+              )}
+
+              {/* 이용 통계 */}
+              <div>
+                <h3 className="text-lg font-medium text-gray-900 mb-4">
+                  이용 통계
+                </h3>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="bg-blue-50 p-4 rounded-lg">
+                    <p className="text-sm text-blue-600 font-medium">
+                      이번 달 이용
+                    </p>
+                    <p className="text-2xl font-bold text-blue-900">
+                      {selectedService.monthlyUsage}회
+                    </p>
+                  </div>
+                  <div className="bg-green-50 p-4 rounded-lg">
+                    <p className="text-sm text-green-600 font-medium">
+                      총 매출
+                    </p>
+                    <p className="text-2xl font-bold text-green-900">
+                      {Math.floor(selectedService.totalRevenue / 10000)}만원
+                    </p>
+                  </div>
+                  <div className="bg-purple-50 p-4 rounded-lg">
+                    <p className="text-sm text-purple-600 font-medium">
+                      상태
+                    </p>
+                    <p
+                      className={`text-2xl font-bold ${selectedService.isActive ? "text-green-900" : "text-red-900"}`}
+                    >
+                      {selectedService.isActive ? "활성" : "비활성"}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {showCategoryModal && (
-        <CategoryManagementModal
-          categories={categories}
-          onClose={() => setShowCategoryModal(false)}
-          onSave={handleCategorySave}
-          serviceCounts={serviceList.reduce(
-            (acc, service) => {
-              acc[service.categoryId] = (acc[service.categoryId] || 0) + 1;
-              return acc;
-            },
-            {} as Record<string, number>
           )}
-        />
-      )}
 
-      {showBulkPriceModal && (
-        <BulkPriceModal
-          services={serviceList}
-          onClose={() => setShowBulkPriceModal(false)}
-          onApply={handleBulkPriceApply}
-        />
-      )}
+          <DialogFooter className="mt-6">
+            <Button
+              onClick={() => {
+                setShowDetailModal(false);
+                if (selectedService) handleEditService(selectedService);
+              }}
+              className="bg-blue-600 hover:bg-blue-700 text-white flex items-center"
+            >
+              <Edit size={16} className="mr-2" />
+              수정
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setShowDetailModal(false);
+                setSelectedService(null);
+              }}
+            >
+              닫기
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <CategoryManagementModal
+        categories={categories}
+        open={showCategoryModal}
+        onClose={() => setShowCategoryModal(false)}
+        onSave={handleCategorySave}
+        serviceCounts={serviceList.reduce(
+          (acc, service) => {
+            acc[service.categoryId] = (acc[service.categoryId] || 0) + 1;
+            return acc;
+          },
+          {} as Record<string, number>
+        )}
+      />
+
+      <BulkPriceModal
+        services={serviceList}
+        open={showBulkPriceModal}
+        onClose={() => setShowBulkPriceModal(false)}
+        onApply={handleBulkPriceApply}
+      />
 
       {/* Toast Messages */}
-      {toasts.map((toast) => (
-        <Toast
-          key={toast.id}
-          message={toast.message}
-          type={toast.type}
-          duration={toast.duration}
-          onClose={() => removeToast(toast.id)}
-        />
-      ))}
+      <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
+        {toasts.map((toast) => (
+          <Toast
+            key={toast.id}
+            message={toast.message}
+            type={toast.type}
+            duration={toast.duration}
+            onClose={() => removeToast(toast.id)}
+          />
+        ))}
+      </div>
     </div>
   );
 }
