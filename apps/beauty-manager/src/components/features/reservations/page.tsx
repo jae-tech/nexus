@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
 import SearchBar from "@/components/ui/SearchBar";
-import { Button } from "@nexus/ui";
+import { Button, Badge, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 import CalendarView from "./components/CalendarView";
 import ListView from "./components/ListView";
 import AddReservationModal from "./components/AddReservationModal";
@@ -472,53 +472,54 @@ export function Reservations() {
                 <span className="text-xs sm:text-sm text-gray-600">
                   담당 직원:
                 </span>
-                <select
-                  value={selectedEmployee}
-                  onChange={(e) => setSelectedEmployee(e.target.value)}
-                  className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-200 rounded-lg focus-ring"
-                >
-                  <option value="all">전체 직원</option>
-                  {mockStaff.map((staff) => (
-                    <option key={staff.id} value={staff.id}>
-                      {staff.name}
-                    </option>
-                  ))}
-                </select>
+                <Select value={selectedEmployee} onValueChange={setSelectedEmployee}>
+                  <SelectTrigger className="w-[120px]">
+                    <SelectValue placeholder="전체 직원" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">전체 직원</SelectItem>
+                    {mockStaff.map((staff) => (
+                      <SelectItem key={staff.id} value={staff.id}>
+                        {staff.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">
                   서비스:
                 </span>
-                <select
-                  value={serviceTypeFilter}
-                  onChange={(e) => setServiceTypeFilter(e.target.value)}
-                  className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-200 rounded-lg focus-ring"
-                >
-                  <option value="all">전체 서비스</option>
-                  {mockServices.map((service) => (
-                    <option key={service.id} value={service.id}>
-                      {service.name}
-                    </option>
-                  ))}
-                </select>
+                <Select value={serviceTypeFilter} onValueChange={setServiceTypeFilter}>
+                  <SelectTrigger className="w-[120px]">
+                    <SelectValue placeholder="전체 서비스" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">전체 서비스</SelectItem>
+                    {mockServices.map((service) => (
+                      <SelectItem key={service.id} value={service.id}>
+                        {service.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">상태:</span>
-                <select
-                  value={statusFilter}
-                  onChange={(e) =>
-                    setStatusFilter(e.target.value as StatusFilter)
-                  }
-                  className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-200 rounded-lg focus-ring"
-                >
-                  <option value="all">전체 상태</option>
-                  <option value="scheduled">예약됨</option>
-                  <option value="completed">완료</option>
-                  <option value="cancelled">취소</option>
-                  <option value="no-show">노쇼</option>
-                </select>
+                <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as StatusFilter)}>
+                  <SelectTrigger className="w-[100px]">
+                    <SelectValue placeholder="전체 상태" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">전체 상태</SelectItem>
+                    <SelectItem value="scheduled">예약됨</SelectItem>
+                    <SelectItem value="completed">완료</SelectItem>
+                    <SelectItem value="cancelled">취소</SelectItem>
+                    <SelectItem value="no-show">노쇼</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>
@@ -671,16 +672,16 @@ export function Reservations() {
                     </div>
                     <div>
                       <div className="text-sm text-gray-600">상태</div>
-                      <div
-                        className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${
+                      <Badge
+                        variant={
                           selectedReservation.status === "scheduled"
-                            ? "bg-blue-100 text-blue-800"
+                            ? "default"
                             : selectedReservation.status === "completed"
-                              ? "bg-green-100 text-green-800"
+                              ? "success"
                               : selectedReservation.status === "cancelled"
-                                ? "bg-red-100 text-red-800"
-                                : "bg-gray-100 text-gray-800"
-                        }`}
+                                ? "destructive"
+                                : "secondary"
+                        }
                       >
                         {selectedReservation.status === "scheduled"
                           ? "예약됨"
@@ -689,7 +690,7 @@ export function Reservations() {
                             : selectedReservation.status === "cancelled"
                               ? "취소"
                               : "노쇼"}
-                      </div>
+                      </Badge>
                     </div>
                   </div>
                 </div>

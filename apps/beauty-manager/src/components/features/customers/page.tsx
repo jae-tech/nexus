@@ -4,9 +4,8 @@ import { Plus, Download, User, Phone, Calendar, UserPlus } from "lucide-react";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
 import SearchBar from "@/components/ui/SearchBar";
-import { Card, Button } from "@nexus/ui";
+import { Card, Button, Badge, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Toast } from "@nexus/ui";
 import AddCustomerModal from "@/components/common/AddCustomerModal";
-import Toast from "@/components/common/Toast";
 import FloatingButton from "@/components/common/FloatingButton";
 import { useToast } from "@/hooks/useToast";
 import { mockCustomers } from "@/mocks/customers";
@@ -140,11 +139,11 @@ export function Customers() {
     );
 
     if (daysSinceRegistered <= 30)
-      return { text: "NEW", color: "bg-green-100 text-green-800" };
+      return { text: "NEW", variant: "success" as const };
     if (customer.visitCount >= 10)
-      return { text: "VIP", color: "bg-purple-100 text-purple-800" };
+      return { text: "VIP", variant: "secondary" as const };
     if (customer.visitCount >= 5)
-      return { text: "단골", color: "bg-blue-100 text-blue-800" };
+      return { text: "단골", variant: "default" as const };
     return null;
   };
 
@@ -180,32 +179,32 @@ export function Customers() {
             <div className="flex flex-wrap items-center gap-2 sm:gap-4">
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">등급:</span>
-                <select
-                  value={gradeFilter}
-                  onChange={(e) =>
-                    setGradeFilter(e.target.value as GradeFilter)
-                  }
-                  className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-200 rounded-lg focus-ring"
-                >
-                  <option value="all">전체 등급</option>
-                  <option value="VIP">VIP</option>
-                  <option value="골드">골드</option>
-                  <option value="실버">실버</option>
-                  <option value="브론즈">브론즈</option>
-                </select>
+                <Select value={gradeFilter} onValueChange={(value) => setGradeFilter(value as GradeFilter)}>
+                  <SelectTrigger className="w-[120px]">
+                    <SelectValue placeholder="전체 등급" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">전체 등급</SelectItem>
+                    <SelectItem value="VIP">VIP</SelectItem>
+                    <SelectItem value="골드">골드</SelectItem>
+                    <SelectItem value="실버">실버</SelectItem>
+                    <SelectItem value="브론즈">브론즈</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-xs sm:text-sm text-gray-600">정렬:</span>
-                <select
-                  value={sortOption}
-                  onChange={(e) => setSortOption(e.target.value as SortOption)}
-                  className="text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 border border-gray-200 rounded-lg focus-ring"
-                >
-                  <option value="name">이름순</option>
-                  <option value="recent">최근 방문순</option>
-                  <option value="totalSpent">총 결제금액순</option>
-                  <option value="visitCount">방문횟수순</option>
-                </select>
+                <Select value={sortOption} onValueChange={(value) => setSortOption(value as SortOption)}>
+                  <SelectTrigger className="w-[140px]">
+                    <SelectValue placeholder="이름순" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="name">이름순</SelectItem>
+                    <SelectItem value="recent">최근 방문순</SelectItem>
+                    <SelectItem value="totalSpent">총 결제금액순</SelectItem>
+                    <SelectItem value="visitCount">방문횟수순</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
 
@@ -248,11 +247,9 @@ export function Customers() {
                 {/* Customer Type Badge */}
                 {customerType && (
                   <div className="absolute top-3 right-3">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${customerType.color}`}
-                    >
+                    <Badge variant={customerType.variant}>
                       {customerType.text}
-                    </span>
+                    </Badge>
                   </div>
                 )}
 
@@ -299,9 +296,9 @@ export function Customers() {
 
                 {/* Visit Count Badge */}
                 <div className="flex items-center justify-between mb-3">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                  <Badge variant="outline">
                     총 {customer.visitCount}회 방문
-                  </span>
+                  </Badge>
                 </div>
 
                 {/* Action Buttons */}
@@ -376,15 +373,17 @@ export function Customers() {
       />
 
       {/* Toast Messages */}
-      {toasts.map((toast) => (
-        <Toast
-          key={toast.id}
-          message={toast.message}
-          type={toast.type}
-          duration={toast.duration}
-          onClose={() => removeToast(toast.id)}
-        />
-      ))}
+      <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
+        {toasts.map((toast) => (
+          <Toast
+            key={toast.id}
+            message={toast.message}
+            type={toast.type}
+            duration={toast.duration}
+            onClose={() => removeToast(toast.id)}
+          />
+        ))}
+      </div>
     </div>
   );
 }

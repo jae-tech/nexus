@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
-import { Button, Card } from "@nexus/ui";
+import { Button, Card, Badge } from "@nexus/ui";
 import PageHeader from "@/components/common/PageHeader";
 import { mockCustomers } from "@/mocks/customers";
 import {
@@ -99,16 +99,16 @@ function DashBoard() {
     },
   ];
 
-  const getStatusBadge = (status: string) => {
+  const getStatusVariant = (status: string) => {
     switch (status) {
       case "scheduled":
-        return "bg-blue-100 text-blue-800";
+        return "default" as const;
       case "completed":
-        return "bg-green-100 text-green-800";
+        return "success" as const;
       case "cancelled":
-        return "bg-red-100 text-red-800";
+        return "destructive" as const;
       default:
-        return "bg-gray-100 text-gray-800";
+        return "secondary" as const;
     }
   };
 
@@ -267,11 +267,9 @@ function DashBoard() {
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusBadge(reservation.status)}`}
-                        >
+                        <Badge variant={getStatusVariant(reservation.status)}>
                           {getStatusText(reservation.status)}
-                        </span>
+                        </Badge>
                         <ChevronRight size={20} className="text-gray-400" />
                       </div>
                     </div>
@@ -406,9 +404,9 @@ function DashBoard() {
                     className="flex items-center justify-between"
                   >
                     <div className="flex items-center">
-                      <span className="w-6 h-6 bg-yellow-100 text-yellow-800 text-xs font-bold rounded-full flex items-center justify-center mr-3">
+                      <Badge variant="outline" className="w-6 h-6 rounded-full mr-3">
                         {service.rank}
-                      </span>
+                      </Badge>
                       <div>
                         <p className="font-medium text-gray-900">
                           {service.name}
@@ -416,9 +414,9 @@ function DashBoard() {
                         <p className="text-sm text-gray-600">{service.price}</p>
                       </div>
                     </div>
-                    <span className="text-sm text-blue-600 font-medium">
+                    <Badge variant="default">
                       {service.count}
-                    </span>
+                    </Badge>
                   </div>
                 ))}
               </div>
