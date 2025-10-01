@@ -1,1 +1,14 @@
-export { Dashboard } from './page'
+export { DashboardSection } from "./components/DashboardSection";
+export { SectionHeader } from "./components/SectionHeader";
+export { StatsCard } from "./components/StatsCard";
+export { StatsGrid } from "./components/StatsGrid";
+export { ReservationItem } from "./components/ReservationItem";
+export { TodayReservations } from "./components/TodayReservations";
+export { QuickActionCard } from "./components/QuickActionCard";
+export { QuickActions } from "./components/QuickActions";
+export { CustomerListItem } from "./components/CustomerListItem";
+export { RecentCustomers } from "./components/RecentCustomers";
+export { ServiceRankItem } from "./components/ServiceRankItem";
+export { PopularServices } from "./components/PopularServices";
+export { OverdueCustomerItem } from "./components/OverdueCustomerItem";
+export { OverdueCustomers } from "./components/OverdueCustomers";
