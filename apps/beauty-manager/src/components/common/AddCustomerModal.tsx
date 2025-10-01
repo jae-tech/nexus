@@ -95,6 +95,8 @@ export default function AddCustomerModal({
     setFormData((prev) => ({ ...prev, phone: formatted }));
   };
 
+  console.log("AddCustomerModal 렌더링, open prop:", open);
+
   return (
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-md">

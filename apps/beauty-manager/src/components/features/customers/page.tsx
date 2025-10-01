@@ -1,13 +1,13 @@
 import { useState, useMemo } from "react";
 import { Link } from "@tanstack/react-router";
 import { Plus, Download, User, Phone, Calendar, UserPlus } from "lucide-react";
+import { toast } from "sonner";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
 import SearchBar from "@/components/ui/SearchBar";
-import { Card, Button, Badge, Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Toast } from "@nexus/ui";
+import { Card, Button, Badge, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 import AddCustomerModal from "@/components/common/AddCustomerModal";
 import FloatingButton from "@/components/common/FloatingButton";
-import { useToast } from "@/hooks/useToast";
 import { mockCustomers } from "@/mocks/customers";
 import { useUIStore } from "@/stores/ui-store";
 import { cn } from "@/lib/utils";
@@ -19,7 +19,6 @@ type GradeFilter = "all" | "VIP" | "골드" | "실버" | "브론즈";
 type SortOption = "name" | "recent" | "totalSpent" | "visitCount";
 
 export function Customers() {
-  const { toasts, removeToast, success, error } = useToast();
   const { isSidebarOpen } = useUIStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<FilterType>("all");
@@ -95,13 +94,16 @@ export function Customers() {
   };
 
   const handleNewCustomer = () => {
+    console.log("새 고객 추가 버튼 클릭됨");
+    console.log("현재 showAddModal 상태:", showAddModal);
     setShowAddModal(true);
+    console.log("setShowAddModal(true) 호출 완료");
   };
 
   const handleAddCustomer = (newCustomer: Customer) => {
     setCustomerList((prev) => [...prev, newCustomer]);
     setShowAddModal(false);
-    success("새 고객이 성공적으로 등록되었습니다.");
+    toast.success("새 고객이 성공적으로 등록되었습니다.");
   };
 
   const handlePhoneCall = (phone: string, e: React.MouseEvent) => {
@@ -139,11 +141,11 @@ export function Customers() {
     );
 
     if (daysSinceRegistered <= 30)
-      return { text: "NEW", variant: "success" as const };
+      return { text: "NEW", color: "bg-green-100 text-green-800" };
     if (customer.visitCount >= 10)
-      return { text: "VIP", variant: "secondary" as const };
+      return { text: "VIP", color: "bg-purple-100 text-purple-800" };
     if (customer.visitCount >= 5)
-      return { text: "단골", variant: "default" as const };
+      return { text: "단골", color: "bg-blue-100 text-blue-800" };
     return null;
   };
 
@@ -160,15 +162,26 @@ export function Customers() {
           </div>
         }
         actions={
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={() => setShowAddModal(true)}
-          >
-            <Plus size={20} className="mr-1 md:mr-2" />
-            <span className="hidden sm:inline">새 고객 추가</span>
-            <span className="sm:hidden">추가</span>
-          </Button>
+          <div className="flex items-center gap-2 md:gap-4 flex-wrap">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {/* 엑셀 내보내기 */}}
+              className="text-xs md:text-sm px-2 md:px-3"
+            >
+              <Download size={16} className="mr-1 md:mr-2" />
+              <span className="hidden sm:inline">엑셀 내보내기</span>
+              <span className="sm:hidden">내보내기</span>
+            </Button>
+            <Button
+              onClick={() => setShowAddModal(true)}
+              className="bg-blue-600 hover:bg-blue-700 text-white text-xs md:text-sm px-2 md:px-4"
+            >
+              <Plus size={16} className="mr-1 md:mr-2" />
+              <span className="hidden sm:inline">새 고객 추가</span>
+              <span className="sm:hidden">추가</span>
+            </Button>
+          </div>
         }
       />
 
@@ -247,9 +260,9 @@ export function Customers() {
                 {/* Customer Type Badge */}
                 {customerType && (
                   <div className="absolute top-3 right-3">
-                    <Badge variant={customerType.variant}>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${customerType.color}`}>
                       {customerType.text}
-                    </Badge>
+                    </span>
                   </div>
                 )}
 
@@ -296,9 +309,9 @@ export function Customers() {
 
                 {/* Visit Count Badge */}
                 <div className="flex items-center justify-between mb-3">
-                  <Badge variant="outline">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                     총 {customer.visitCount}회 방문
-                  </Badge>
+                  </span>
                 </div>
 
                 {/* Action Buttons */}
@@ -365,25 +378,13 @@ export function Customers() {
       />
 
       {/* Add Customer Modal */}
+      {console.log("AddCustomerModal 렌더링, open:", showAddModal)}
       <AddCustomerModal
         open={showAddModal}
         onClose={() => setShowAddModal(false)}
         onAdd={handleAddCustomer}
         existingCustomers={customerList}
       />
-
-      {/* Toast Messages */}
-      <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
-        {toasts.map((toast) => (
-          <Toast
-            key={toast.id}
-            message={toast.message}
-            type={toast.type}
-            duration={toast.duration}
-            onClose={() => removeToast(toast.id)}
-          />
-        ))}
-      </div>
     </div>
   );
 }

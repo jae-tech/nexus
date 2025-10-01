@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { Card } from '@nexus/ui';
+import { Card, Dialog, DialogContent } from '@nexus/ui';
 import { Staff, Holiday } from '@/mocks/staff';
 import { X, Edit, Plus, Calendar, Trash2, ChevronDown, Check } from 'lucide-react';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
@@ -193,8 +193,8 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
   ];
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-xl w-full max-w-5xl max-h-[90vh] overflow-hidden">
+    <Dialog open={true} onOpenChange={onClose}>
+      <DialogContent className="max-w-5xl max-h-[90vh] overflow-hidden p-0">
         <div className="flex flex-col h-full">
           {/* 헤더 */}
           <div className="p-6 border-b border-gray-200">
@@ -750,15 +750,15 @@ export default function StaffDetailModal({ staff, onClose, onUpdate }: StaffDeta
             </button>
           </div>
         </div>
-      </div>
 
-      {/* 드롭다운 외부 클릭 시 닫기 */}
-      {showPositionDropdown && (
-        <div 
-          className="fixed inset-0 z-10" 
-          onClick={() => setShowPositionDropdown(false)}
-        />
-      )}
-    </div>
+        {/* 드롭다운 외부 클릭 시 닫기 */}
+        {showPositionDropdown && (
+          <div
+            className="fixed inset-0 z-10"
+            onClick={() => setShowPositionDropdown(false)}
+          />
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }

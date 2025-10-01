@@ -56,6 +56,7 @@ export function Staff() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
+  const [showMenuId, setShowMenuId] = useState<string | null>(null);
   const [selectedStaffType, setSelectedStaffType] = useState<StaffType | null>(
     null
   );

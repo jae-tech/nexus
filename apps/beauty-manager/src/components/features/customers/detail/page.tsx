@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from '@tanstack/react-router';
 import { ArrowLeft, User } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@nexus/ui';
 import CustomerInfoPanel from './components/CustomerInfoPanel';
 import TreatmentHistory from './components/TreatmentHistory';
@@ -9,12 +10,10 @@ import SummaryStats from './components/SummaryStats';
 import EditCustomerModal from './components/EditCustomerModal';
 import AddTreatmentModal from './components/AddTreatmentModal';
 import { mockCustomerDetail } from '@/mocks/customerDetail';
-import { useToast } from '@/hooks/useToast';
 
 export function CustomerDetail() {
   const { id } = useParams({ from: '/customers/$id' });
   const navigate = useNavigate();
-  const { showToast } = useToast();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddTreatmentModalOpen, setIsAddTreatmentModalOpen] = useState(false);
 
@@ -35,12 +34,12 @@ export function CustomerDetail() {
 
   const handleEditCustomerSuccess = () => {
     setIsEditModalOpen(false);
-    showToast('고객 정보가 성공적으로 수정되었습니다.', 'success');
+    toast.success('고객 정보가 성공적으로 수정되었습니다.');
   };
 
   const handleAddTreatmentSuccess = () => {
     setIsAddTreatmentModalOpen(false);
-    showToast('새 시술이 성공적으로 추가되었습니다.', 'success');
+    toast.success('새 시술이 성공적으로 추가되었습니다.');
   };
 
   if (!customer) {

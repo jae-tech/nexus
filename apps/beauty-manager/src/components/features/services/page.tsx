@@ -1,10 +1,10 @@
 import { useState, useMemo } from "react";
+import { toast } from "sonner";
 import PageHeader from "@/components/common/PageHeader";
 import FilterBar from "@/components/common/FilterBar";
 import SearchBar from "@/components/ui/SearchBar";
 import {
   Button,
-  Toast,
   Dialog,
   DialogContent,
   DialogHeader,
@@ -17,7 +17,6 @@ import {
   SelectValue,
   Badge,
 } from "@nexus/ui";
-import { useToast } from "@/hooks/useToast";
 import { mockServices, mockServiceCategories } from "@/mocks/services";
 import { Settings, Tag, Grid, List, Plus, Scissors, X, Edit } from 'lucide-react';
 import AddServiceModal from "./components/AddServiceModal";
@@ -58,7 +57,6 @@ interface Category {
 }
 
 export function Services() {
-  const { toasts, removeToast, success, error } = useToast();
   const { isSidebarOpen } = useUIStore();
   const [viewMode, setViewMode] = useState<ViewMode>("card");
   const [searchQuery, setSearchQuery] = useState("");
@@ -139,7 +137,7 @@ export function Services() {
           : service
       )
     );
-    success("서비스 상태가 변경되었습니다.");
+    toast.success("서비스 상태가 변경되었습니다.");
   };
 
   const handleEditService = (service: Service) => {
@@ -159,19 +157,19 @@ export function Services() {
       name: `${service.name} (복사본)`,
     };
     setServiceList((prev) => [...prev, newService]);
-    success("서비스가 복제되었습니다.");
+    toast.success("서비스가 복제되었습니다.");
   };
 
   const handleDeleteService = (serviceId: string) => {
     if (confirm("정말로 이 서비스를 삭제하시겠습니까?")) {
       setServiceList((prev) => prev.filter((s) => s.id !== serviceId));
-      success("서비스가 삭제되었습니다.");
+      toast.success("서비스가 삭제되었습니다.");
     }
   };
 
   const handleCategorySave = (updatedCategories: Category[]) => {
     setCategories(updatedCategories);
-    success("카테고리가 저장되었습니다.");
+    toast.success("카테고리가 저장되었습니다.");
   };
 
   const handleBulkPriceApply = (
@@ -201,7 +199,7 @@ export function Services() {
         return { ...service, basePrice: newPrice };
       })
     );
-    success(`${selectedServices.length}개 서비스의 가격이 수정되었습니다.`);
+    toast.success(`${selectedServices.length}개 서비스의 가격이 수정되었습니다.`);
   };
 
   return (
@@ -392,7 +390,7 @@ export function Services() {
               },
             ]);
             setShowAddModal(false);
-            success("새 서비스가 추가되었습니다.");
+            toast.success("새 서비스가 추가되었습니다.");
           }}
           categories={categories}
         />
@@ -411,7 +409,7 @@ export function Services() {
             );
             setShowEditModal(false);
             setSelectedService(null);
-            success("서비스 정보가 수정되었습니다.");
+            toast.success("서비스 정보가 수정되었습니다.");
           }}
           categories={categories}
         />
@@ -561,19 +559,6 @@ export function Services() {
         onClose={() => setShowBulkPriceModal(false)}
         onApply={handleBulkPriceApply}
       />
-
-      {/* Toast Messages */}
-      <div className="fixed top-4 right-4 z-50 flex flex-col gap-2">
-        {toasts.map((toast) => (
-          <Toast
-            key={toast.id}
-            message={toast.message}
-            type={toast.type}
-            duration={toast.duration}
-            onClose={() => removeToast(toast.id)}
-          />
-        ))}
-      </div>
     </div>
   );
 }

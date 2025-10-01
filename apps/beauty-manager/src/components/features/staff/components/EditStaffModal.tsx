@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { X, AlertCircle } from 'lucide-react';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
+import { Dialog, DialogContent, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface Staff {
   id: string;
@@ -132,8 +132,8 @@ export default function EditStaffModal({ staff, onClose, onSave }: EditStaffModa
   };
 
   return (
-    <div className="modal-overlay">
-      <div className="bg-white rounded-xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col">
+    <Dialog open={true} onOpenChange={onClose}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden p-0 flex flex-col">
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between flex-shrink-0">
           <h2 className="text-xl font-bold text-gray-900">직원 정보 수정</h2>
@@ -336,39 +336,39 @@ export default function EditStaffModal({ staff, onClose, onSave }: EditStaffModa
             저장
           </button>
         </div>
-      </div>
 
-      {/* 퇴사 확인 모달 */}
-      {showTerminateConfirm && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-60">
-          <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
-            <div className="text-center">
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <AlertCircle size={24} className="text-red-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">퇴사 처리 확인</h3>
-              <p className="text-gray-600 mb-6">
-                {staff.name} 직원을 퇴사 처리하시겠습니까?<br/>
-                퇴사 후에는 새로운 예약 배정이 불가능합니다.
-              </p>
-              <div className="flex justify-end gap-3">
-                <button
-                  onClick={() => setShowTerminateConfirm(false)}
-                  className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
-                >
-                  취소
-                </button>
-                <button
-                  onClick={handleTerminate}
-                  className="bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors"
-                >
-                  퇴사 처리
-                </button>
+        {/* 퇴사 확인 모달 */}
+        {showTerminateConfirm && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-60">
+            <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
+              <div className="text-center">
+                <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <AlertCircle size={24} className="text-red-600" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">퇴사 처리 확인</h3>
+                <p className="text-gray-600 mb-6">
+                  {staff.name} 직원을 퇴사 처리하시겠습니까?<br/>
+                  퇴사 후에는 새로운 예약 배정이 불가능합니다.
+                </p>
+                <div className="flex justify-end gap-3">
+                  <button
+                    onClick={() => setShowTerminateConfirm(false)}
+                    className="px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition-colors"
+                  >
+                    취소
+                  </button>
+                  <button
+                    onClick={handleTerminate}
+                    className="bg-red-600 text-white px-6 py-2 rounded-lg font-medium hover:bg-red-700 transition-colors"
+                  >
+                    퇴사 처리
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }

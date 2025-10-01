@@ -1,9 +1,9 @@
 
 import { useState } from 'react';
 import { User, Phone, Calendar, Cake, Bookmark, Edit } from 'lucide-react';
+import { toast } from 'sonner';
 import { Card, Button } from '@nexus/ui';
 import { Customer } from '@/mocks/customerDetail';
-import { useToast } from '@/hooks/useToast';
 
 interface CustomerInfoPanelProps {
   customer: Customer;
@@ -11,7 +11,6 @@ interface CustomerInfoPanelProps {
 }
 
 export default function CustomerInfoPanel({ customer, onEdit }: CustomerInfoPanelProps) {
-  const { showToast } = useToast();
   const [isEditingMemo, setIsEditingMemo] = useState(false);
   const [memoText, setMemoText] = useState(customer.personalMemo);
 
@@ -36,7 +35,7 @@ export default function CustomerInfoPanel({ customer, onEdit }: CustomerInfoPane
     // 실제로는 API 호출로 메모 저장
     console.log('메모 저장:', memoText);
     setIsEditingMemo(false);
-    showToast('개인 메모가 저장되었습니다.', 'success');
+    toast.success('개인 메모가 저장되었습니다.');
   };
 
   const handleCancelMemo = () => {

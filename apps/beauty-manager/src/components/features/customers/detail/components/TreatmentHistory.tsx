@@ -1,9 +1,9 @@
 
 import { useState } from 'react';
 import { Search, Plus, Edit, Trash2, Scissors, User } from 'lucide-react';
+import { toast } from 'sonner';
 import { Card, Button } from '@nexus/ui';
 import { VisitRecord } from '@/mocks/customerDetail';
-import { useToast } from '@/hooks/useToast';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@nexus/ui";
 
 interface TreatmentHistoryProps {
@@ -12,7 +12,6 @@ interface TreatmentHistoryProps {
 }
 
 export default function TreatmentHistory({ visitHistory, onAddTreatment }: TreatmentHistoryProps) {
-  const { showToast } = useToast();
   const [filter, setFilter] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -39,13 +38,13 @@ export default function TreatmentHistory({ visitHistory, onAddTreatment }: Treat
 
   const handleEditTreatment = (visitId: string) => {
     console.log('시술 수정:', visitId);
-    showToast('시술 수정 기능을 준비 중입니다.', 'info');
+    toast.info('시술 수정 기능을 준비 중입니다.');
   };
 
   const handleDeleteTreatment = (visitId: string) => {
     if (confirm('정말 이 시술 기록을 삭제하시겠습니까?')) {
       console.log('시술 삭제:', visitId);
-      showToast('시술 기록이 삭제되었습니다.', 'success');
+      toast.success('시술 기록이 삭제되었습니다.');
     }
   };
 
