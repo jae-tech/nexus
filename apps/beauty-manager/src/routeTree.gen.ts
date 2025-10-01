@@ -9,32 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as StaffRouteImport } from './routes/staff'
 import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as ReservationsRouteImport } from './routes/reservations'
 import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as CustomersRouteImport } from './routes/customers'
-import { Route as CustomersIdRouteImport } from './routes/customers.$id'
+import { Route as StaffIndexRouteImport } from './routes/staff/index'
+import { Route as ServicesIndexRouteImport } from './routes/services/index'
+import { Route as ReservationsIndexRouteImport } from './routes/reservations/index'
+import { Route as CustomersIndexRouteImport } from './routes/customers/index'
+import { Route as CustomersIdRouteImport } from './routes/customers/$id'
 
-const StaffRoute = StaffRouteImport.update({
-  id: '/staff',
-  path: '/staff',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ReservationsRoute = ReservationsRouteImport.update({
-  id: '/reservations',
-  path: '/reservations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -42,112 +27,107 @@ const DashboardRoute = DashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CustomersRoute = CustomersRouteImport.update({
-  id: '/customers',
-  path: '/customers',
+const StaffIndexRoute = StaffIndexRouteImport.update({
+  id: '/staff/',
+  path: '/staff/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesIndexRoute = ServicesIndexRouteImport.update({
+  id: '/services/',
+  path: '/services/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReservationsIndexRoute = ReservationsIndexRouteImport.update({
+  id: '/reservations/',
+  path: '/reservations/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CustomersIndexRoute = CustomersIndexRouteImport.update({
+  id: '/customers/',
+  path: '/customers/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomersIdRoute = CustomersIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => CustomersRoute,
+  id: '/customers/$id',
+  path: '/customers/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/customers': typeof CustomersRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/reservations': typeof ReservationsRoute
-  '/services': typeof ServicesRoute
   '/settings': typeof SettingsRoute
-  '/staff': typeof StaffRoute
   '/customers/$id': typeof CustomersIdRoute
+  '/customers': typeof CustomersIndexRoute
+  '/reservations': typeof ReservationsIndexRoute
+  '/services': typeof ServicesIndexRoute
+  '/staff': typeof StaffIndexRoute
 }
 export interface FileRoutesByTo {
-  '/customers': typeof CustomersRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/reservations': typeof ReservationsRoute
-  '/services': typeof ServicesRoute
   '/settings': typeof SettingsRoute
-  '/staff': typeof StaffRoute
   '/customers/$id': typeof CustomersIdRoute
+  '/customers': typeof CustomersIndexRoute
+  '/reservations': typeof ReservationsIndexRoute
+  '/services': typeof ServicesIndexRoute
+  '/staff': typeof StaffIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/customers': typeof CustomersRouteWithChildren
   '/dashboard': typeof DashboardRoute
-  '/reservations': typeof ReservationsRoute
-  '/services': typeof ServicesRoute
   '/settings': typeof SettingsRoute
-  '/staff': typeof StaffRoute
   '/customers/$id': typeof CustomersIdRoute
+  '/customers/': typeof CustomersIndexRoute
+  '/reservations/': typeof ReservationsIndexRoute
+  '/services/': typeof ServicesIndexRoute
+  '/staff/': typeof StaffIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/customers'
     | '/dashboard'
+    | '/settings'
+    | '/customers/$id'
+    | '/customers'
     | '/reservations'
     | '/services'
-    | '/settings'
     | '/staff'
-    | '/customers/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/customers'
     | '/dashboard'
+    | '/settings'
+    | '/customers/$id'
+    | '/customers'
     | '/reservations'
     | '/services'
-    | '/settings'
     | '/staff'
-    | '/customers/$id'
   id:
     | '__root__'
-    | '/customers'
     | '/dashboard'
-    | '/reservations'
-    | '/services'
     | '/settings'
-    | '/staff'
     | '/customers/$id'
+    | '/customers/'
+    | '/reservations/'
+    | '/services/'
+    | '/staff/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  CustomersRoute: typeof CustomersRouteWithChildren
   DashboardRoute: typeof DashboardRoute
-  ReservationsRoute: typeof ReservationsRoute
-  ServicesRoute: typeof ServicesRoute
   SettingsRoute: typeof SettingsRoute
-  StaffRoute: typeof StaffRoute
+  CustomersIdRoute: typeof CustomersIdRoute
+  CustomersIndexRoute: typeof CustomersIndexRoute
+  ReservationsIndexRoute: typeof ReservationsIndexRoute
+  ServicesIndexRoute: typeof ServicesIndexRoute
+  StaffIndexRoute: typeof StaffIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/staff': {
-      id: '/staff'
-      path: '/staff'
-      fullPath: '/staff'
-      preLoaderRoute: typeof StaffRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/settings': {
       id: '/settings'
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/reservations': {
-      id: '/reservations'
-      path: '/reservations'
-      fullPath: '/reservations'
-      preLoaderRoute: typeof ReservationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -157,42 +137,52 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/customers': {
-      id: '/customers'
+    '/staff/': {
+      id: '/staff/'
+      path: '/staff'
+      fullPath: '/staff'
+      preLoaderRoute: typeof StaffIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services/': {
+      id: '/services/'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reservations/': {
+      id: '/reservations/'
+      path: '/reservations'
+      fullPath: '/reservations'
+      preLoaderRoute: typeof ReservationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/customers/': {
+      id: '/customers/'
       path: '/customers'
       fullPath: '/customers'
-      preLoaderRoute: typeof CustomersRouteImport
+      preLoaderRoute: typeof CustomersIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customers/$id': {
       id: '/customers/$id'
-      path: '/$id'
+      path: '/customers/$id'
       fullPath: '/customers/$id'
       preLoaderRoute: typeof CustomersIdRouteImport
-      parentRoute: typeof CustomersRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
 
-interface CustomersRouteChildren {
-  CustomersIdRoute: typeof CustomersIdRoute
-}
-
-const CustomersRouteChildren: CustomersRouteChildren = {
-  CustomersIdRoute: CustomersIdRoute,
-}
-
-const CustomersRouteWithChildren = CustomersRoute._addFileChildren(
-  CustomersRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
-  CustomersRoute: CustomersRouteWithChildren,
   DashboardRoute: DashboardRoute,
-  ReservationsRoute: ReservationsRoute,
-  ServicesRoute: ServicesRoute,
   SettingsRoute: SettingsRoute,
-  StaffRoute: StaffRoute,
+  CustomersIdRoute: CustomersIdRoute,
+  CustomersIndexRoute: CustomersIndexRoute,
+  ReservationsIndexRoute: ReservationsIndexRoute,
+  ServicesIndexRoute: ServicesIndexRoute,
+  StaffIndexRoute: StaffIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
