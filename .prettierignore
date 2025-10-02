@@ -1,0 +1,28 @@
+# 빌드 결과물
+node_modules
+dist
+build
+.turbo
+.next
+out
+
+# 캐시 및 임시 파일
+*.log
+*.cache
+.DS_Store
+.env.local
+.env.*.local
+
+# 패키지 매니저
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# 생성된 파일
+coverage
+*.tsbuildinfo
+.routegen
+
+# 설정 파일 (필요 시 포맷팅 제외)
+# *.config.js
+# *.config.ts

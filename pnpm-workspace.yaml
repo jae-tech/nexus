@@ -4,20 +4,20 @@ packages:
   - tooling/*
 
 catalog:
-  '@eslint/js': ^9.15.0
+  '@eslint/js': ^9.36.0
   '@tailwindcss/typography': ^0.5.19
   '@tanstack/react-table': ^8.21.3
   '@types/react': ^19.0.0
   '@types/react-dom': ^19.0.0
-  '@typescript-eslint/eslint-plugin': ^8.15.0
-  '@typescript-eslint/parser': ^8.15.0
+  '@typescript-eslint/eslint-plugin': ^8.45.0
+  '@typescript-eslint/parser': ^8.45.0
   '@vitejs/plugin-react': ^5.0.3
-  autoprefixer: ^10.4.20
+  autoprefixer: 10.4.21
   electron: ^38.1.2
   electron-builder: ^26.0.12
   electron-updater: 6.6.2
-  eslint: ^9.15.0
-  eslint-plugin-react-hooks: ^5.0.0
+  eslint: ^9.36.0
+  eslint-plugin-react-hooks: ^5.2.0
   eslint-plugin-react-refresh: ^0.4.14
   globals: ^15.12.0
   lucide-react: ^0.544.0
