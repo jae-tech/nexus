@@ -1,19 +1,155 @@
 {
-  "name": "electron",
+  "name": "@nexus/electron",
   "version": "1.0.0",
+  "description": "Beauty Manager Desktop App with Electron + SQLite",
   "main": "dist/main.js",
+  "private": true,
   "scripts": {
     "build:ts": "tsc",
     "dev": "pnpm run build:ts && cross-env NODE_ENV=development electron .",
-    "package": "pnpm run build:ts && electron-builder"
+    "dev:concurrent": "concurrently \"pnpm --filter beauty-management dev\" \"pnpm run dev\"",
+    "dev:watch": "concurrently \"tsc --watch\" \"cross-env NODE_ENV=development electron .\"",
+    "build": "pnpm run build:ts",
+    "start": "cross-env NODE_ENV=production electron .",
+    "pack": "cross-env ELECTRON=true pnpm --filter beauty-management build && pnpm run build:ts && electron-builder --dir",
+    "dist": "cross-env ELECTRON=true pnpm --filter beauty-management build && pnpm run build:ts && electron-builder",
+    "dist:mac": "cross-env ELECTRON=true pnpm --filter beauty-management build && pnpm run build:ts && electron-builder --mac",
+    "dist:win": "cross-env ELECTRON=true pnpm --filter beauty-management build && pnpm run build:ts && electron-builder --win",
+    "dist:linux": "cross-env ELECTRON=true pnpm --filter beauty-management build && pnpm run build:ts && electron-builder --linux",
+    "clean": "rm -rf dist release",
+    "postinstall": "electron-builder install-app-deps"
   },
   "devDependencies": {
-    "cross-env": "latest",
-    "electron": "latest",
-    "electron-builder": "latest",
-    "typescript": "latest"
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^22.18.7",
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "catalog:",
+    "electron-builder": "catalog:",
+    "typescript": "catalog:"
   },
   "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "electron-log": "^5.4.3",
     "electron-updater": "catalog:"
+  },
+  "build": {
+    "appId": "com.nexus.beauty-manager",
+    "productName": "Beauty Manager",
+    "directories": {
+      "buildResources": "resources",
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "package.json",
+      "!dist/**/*.map",
+      "../mcp-beauty-manager/out/**/*",
+      "!../mcp-beauty-manager/out/**/*.map"
+    ],
+    "extraResources": [
+      {
+        "from": "node_modules/better-sqlite3",
+        "to": "node_modules/better-sqlite3",
+        "filter": ["**/*", "!**/*.md", "!**/*.ts"]
+      }
+    ],
+    "extraMetadata": {
+      "main": "dist/main.js"
+    },
+    "asar": true,
+    "asarUnpack": [
+      "node_modules/better-sqlite3/**/*"
+    ],
+    "compression": "maximum",
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "category": "public.app-category.business",
+      "icon": "resources/icon.icns",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false,
+      "entitlements": "resources/entitlements.mac.plist",
+      "entitlementsInherit": "resources/entitlements.mac.plist"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "window": {
+        "width": 540,
+        "height": 380
+      }
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "resources/icon.ico",
+      "publisherName": "Nexus Design System",
+      "verifyUpdateCodeSignature": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Beauty Manager",
+      "installerIcon": "resources/icon.ico",
+      "uninstallerIcon": "resources/icon.ico",
+      "installerHeaderIcon": "resources/icon.ico",
+      "license": "LICENSE"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "resources/icon.png",
+      "category": "Office",
+      "description": "Beauty salon management system",
+      "maintainer": "Nexus Design System",
+      "vendor": "Nexus"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "nexus-design-system",
+      "repo": "beauty-manager",
+      "private": false
+    }
   }
 }
