@@ -4,14 +4,25 @@ import { useNavigate } from '@tanstack/react-router';
 import { Header } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { mockCustomers } from '@/features/customers/api/mock';
-import { mockReservations } from '@/features/reservations/api/mock';
-import { mockStaff } from '@/features/staff/api/mock';
-import { mockServices } from '@/features/services/api/mock';
+import { useCustomers } from '@/hooks/use-database';
+import { useReservationsByDate } from '@/hooks/use-reservations';
+import type { Customer, Staff, Service, ReservationWithDetails } from '@/lib/api-types';
 
 export default function HomePage() {
   const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
+  const today = new Date().toISOString().split('T')[0];
+
+  // DB 데이터 가져오기
+  const { customers, loading: customersLoading } = useCustomers();
+  const { reservations: todayReservationList, loading: reservationsLoading } = useReservationsByDate(today);
+
+  // 직원 및 서비스 데이터
+  const [staff, setStaff] = useState<Staff[]>([]);
+  const [services, setServices] = useState<Service[]>([]);
+  const [popularServices, setPopularServices] = useState<any[]>([]);
+  const [staffLoading, setStaffLoading] = useState(true);
+  const [servicesLoading, setServicesLoading] = useState(true);
 
   // 시간 업데이트 - 자동 새로고침 효과
   useEffect(() => {
@@ -22,69 +33,82 @@ export default function HomePage() {
     return () => clearInterval(timer);
   }, []);
 
-  // 통계 데이터 계산
-  const totalCustomers = mockCustomers.length;
-  const todayReservations = mockReservations.filter((r) => {
-    const today = new Date().toISOString().split('T')[0];
-    return r.date === today;
-  }).length;
-  const activeStaff = mockStaff.filter((s) => s.status === 'active').length;
-  const activeServices = mockServices.filter((s) => s.isActive).length;
+  // 직원 데이터 로드
+  useEffect(() => {
+    const fetchStaff = async () => {
+      try {
+        setStaffLoading(true);
+        const data = await window.api.db.getStaff();
+        setStaff(data);
+      } catch (error) {
+        console.error('Error fetching staff:', error);
+      } finally {
+        setStaffLoading(false);
+      }
+    };
 
-  // 오늘의 예약 목록 (시간순 정렬)
-  const todayReservationList = mockReservations
-    .filter((r) => {
-      const today = new Date().toISOString().split('T')[0];
-      return r.date === today;
-    })
-    .sort((a, b) => a.startTime.localeCompare(b.startTime))
-    .slice(0, 8);
+    if (window.api) {
+      fetchStaff();
+    }
+  }, []);
+
+  // 서비스 및 인기 서비스 데이터 로드
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        setServicesLoading(true);
+        const [allServices, popularServicesData] = await Promise.all([
+          window.api.db.getServices(),
+          window.api.db.getPopularServices(5),
+        ]);
+        setServices(allServices);
+        setPopularServices(popularServicesData);
+      } catch (error) {
+        console.error('Error fetching services:', error);
+      } finally {
+        setServicesLoading(false);
+      }
+    };
+
+    if (window.api) {
+      fetchServices();
+    }
+  }, []);
+
+  // 통계 데이터 계산
+  const totalCustomers = customers.length;
+  const todayReservations = todayReservationList.length;
+  const activeStaff = staff.length;
+  const activeServices = services.length;
 
   // 최근 등록 고객 (등록일 기준 최신 5명)
-  const recentCustomers = mockCustomers
+  const recentCustomers = customers
     .sort(
-      (a, b) =>
-        new Date(b.registeredDate).getTime() -
-        new Date(a.registeredDate).getTime()
+      (a, b) => {
+        const dateA = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const dateB = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return dateB - dateA;
+      }
     )
     .slice(0, 5);
 
-  // 이번 주 인기 서비스 TOP 5 (모의 데이터)
-  const popularServices = mockServices
-    .map((service) => ({
-      ...service,
-      weeklyUsage: Math.floor(Math.random() * 50) + 10,
-    }))
-    .sort((a, b) => b.weeklyUsage - a.weeklyUsage)
-    .slice(0, 5);
-
-  // 장기 미방문 고객 (30일 이상)
-  const longAbsentCustomers = mockCustomers
-    .filter((customer) => {
-      if (!customer.lastVisit) return true;
-      const lastVisitDate = new Date(customer.lastVisit);
-      const today = new Date();
-      const daysDiff = Math.floor(
-        (today.getTime() - lastVisitDate.getTime()) / (1000 * 60 * 60 * 24)
-      );
-      return daysDiff >= 30;
-    })
-    .slice(0, 5);
+  // 장기 미방문 고객 (30일 이상) - DB에서 visit history를 추적하지 않으므로 일단 빈 배열
+  const longAbsentCustomers: Customer[] = [];
 
   // 생일 고객 체크 (오늘 생일인 고객)
-  const birthdayCustomers = mockCustomers.filter((customer) => {
-    if (!customer.birthday) return false;
-    const today = new Date();
-    const birthday = new Date(customer.birthday);
+  const birthdayCustomers = customers.filter((customer) => {
+    if (!customer.birth_date) return false;
+    const todayDate = new Date();
+    const birthday = new Date(customer.birth_date);
     return (
-      today.getMonth() === birthday.getMonth() &&
-      today.getDate() === birthday.getDate()
+      todayDate.getMonth() === birthday.getMonth() &&
+      todayDate.getDate() === birthday.getDate()
     );
   });
 
   // 예약 상태별 통계
   const reservationStats = {
-    scheduled: todayReservationList.filter((r) => r.status === 'scheduled')
+    scheduled: todayReservationList.filter((r) => r.status === 'pending' || r.status === 'confirmed')
       .length,
     completed: todayReservationList.filter((r) => r.status === 'completed')
       .length,
@@ -99,7 +123,7 @@ export default function HomePage() {
       icon: 'ri-calendar-event-line',
       color: 'bg-gradient-to-r from-blue-500 to-blue-600',
       hoverColor: 'hover:from-blue-600 hover:to-blue-700',
-      action: () => navigate({ to: '/reservations' }),
+      action: () => navigate({ to: '/appointments' }),
     },
     {
       title: '신규 고객 등록',
@@ -129,7 +153,8 @@ export default function HomePage() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
-      case 'scheduled':
+      case 'pending':
+      case 'confirmed':
         return 'bg-blue-100 text-blue-800';
       case 'completed':
         return 'bg-green-100 text-green-800';
@@ -142,8 +167,10 @@ export default function HomePage() {
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case 'scheduled':
-        return '예약됨';
+      case 'pending':
+        return '대기';
+      case 'confirmed':
+        return '확정';
       case 'completed':
         return '완료';
       case 'cancelled':
@@ -154,7 +181,7 @@ export default function HomePage() {
   };
 
   const handleReservationClick = (reservationId: string) => {
-    navigate({ to: `/reservations?highlight=${reservationId}` });
+    navigate({ to: `/appointments?highlight=${reservationId}` });
   };
 
   const handleCustomerClick = (customerId: number) => {
@@ -166,7 +193,7 @@ export default function HomePage() {
       <Header
         title="대시보드"
         actions={
-          <Button onClick={() => navigate({ to: '/reservations' })}>
+          <Button onClick={() => navigate({ to: '/appointments' })}>
             <Plus size={20} className="mr-2 text-white" />
             새 예약
           </Button>
@@ -216,7 +243,7 @@ export default function HomePage() {
           <Card
             hover
             className="cursor-pointer"
-            onClick={() => navigate({ to: '/reservations' })}
+            onClick={() => navigate({ to: '/appointments' })}
           >
             <div className="flex items-center">
               <div className="rounded-lg bg-green-100 p-3">
@@ -306,7 +333,7 @@ export default function HomePage() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => navigate({ to: '/reservations' })}
+                    onClick={() => navigate({ to: '/appointments' })}
                   >
                     전체 보기
                   </Button>
@@ -318,7 +345,7 @@ export default function HomePage() {
                       <div
                         key={reservation.id}
                         className="flex cursor-pointer items-center justify-between rounded-lg bg-gray-50 p-4 transition-colors hover:bg-gray-100"
-                        onClick={() => handleReservationClick(reservation.id)}
+                        onClick={() => handleReservationClick(String(reservation.id))}
                       >
                         <div className="flex flex-1 items-center">
                           <div className="mr-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100">
@@ -327,16 +354,16 @@ export default function HomePage() {
                           <div className="min-w-0 flex-1">
                             <div className="mb-1 flex items-center gap-2">
                               <p className="truncate font-medium text-gray-900">
-                                {reservation.customerName}
+                                {reservation.customer_name}
                               </p>
                               <span className="text-sm font-medium text-blue-600">
-                                {reservation.startTime}
+                                {reservation.start_time}
                               </span>
                             </div>
                             <div className="flex items-center gap-3 text-sm text-gray-600">
-                              <span>{reservation.employeeName}</span>
+                              <span>{reservation.staff_name || '미정'}</span>
                               <span>•</span>
-                              <span className="truncate">헤어컷</span>
+                              <span className="truncate">{reservation.service_name}</span>
                             </div>
                           </div>
                         </div>
@@ -362,7 +389,7 @@ export default function HomePage() {
                     </p>
                     <Button
                       className="mt-4 bg-blue-600 text-white hover:bg-blue-700"
-                      onClick={() => navigate({ to: '/reservations' })}
+                      onClick={() => navigate({ to: '/appointments' })}
                     >
                       <Plus size={20} className="mr-2 text-white" />새 예약 추가
                     </Button>
@@ -429,7 +456,7 @@ export default function HomePage() {
                   <div
                     key={customer.id}
                     className="flex cursor-pointer items-center rounded-lg bg-gray-50 p-3 transition-colors hover:bg-gray-100"
-                    onClick={() => handleCustomerClick(customer.id)}
+                    onClick={() => handleCustomerClick(customer.id!)}
                   >
                     <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
                       <User size={18} className="text-gray-600" />
@@ -443,11 +470,11 @@ export default function HomePage() {
                       </p>
                     </div>
                     <span className="text-xs text-gray-500">
-                      {Math.floor(
+                      {customer.created_at ? Math.floor(
                         (new Date().getTime() -
-                          new Date(customer.registeredDate).getTime()) /
+                          new Date(customer.created_at).getTime()) /
                           (1000 * 60 * 60 * 24)
-                      )}
+                      ) : 0}
                       일 전
                     </span>
                   </div>
@@ -491,12 +518,12 @@ export default function HomePage() {
                           {service.name}
                         </p>
                         <p className="text-sm text-gray-600">
-                          {service.basePrice.toLocaleString()}원
+                          {service.price.toLocaleString()}원
                         </p>
                       </div>
                     </div>
                     <span className="text-sm font-medium text-blue-600">
-                      {service.weeklyUsage}회
+                      {service.total_bookings || 0}회
                     </span>
                   </div>
                 ))}
@@ -514,68 +541,15 @@ export default function HomePage() {
                 <span className="text-sm text-red-500">30일 이상</span>
               </div>
 
-              {longAbsentCustomers.length > 0 ? (
-                <div className="space-y-3">
-                  {longAbsentCustomers.map((customer) => {
-                    const daysSinceVisit = customer.lastVisit
-                      ? Math.floor(
-                          (new Date().getTime() -
-                            new Date(customer.lastVisit).getTime()) /
-                            (1000 * 60 * 60 * 24)
-                        )
-                      : '미방문';
-
-                    return (
-                      <div
-                        key={customer.id}
-                        className="flex cursor-pointer items-center justify-between rounded-lg bg-red-50 p-3 transition-colors hover:bg-red-100"
-                        onClick={() => handleCustomerClick(customer.id)}
-                      >
-                        <div className="flex items-center">
-                          <div className="mr-3 flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
-                            <User size={18} className="text-gray-600" />
-                          </div>
-                          <div>
-                            <p className="font-medium text-gray-900">
-                              {customer.name}
-                            </p>
-                            <p className="text-sm text-gray-600">
-                              {customer.phone}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <span className="text-sm font-medium text-red-600">
-                            {typeof daysSinceVisit === 'number'
-                              ? `${daysSinceVisit}일`
-                              : daysSinceVisit}
-                          </span>
-                          <br />
-                          <button
-                            className="text-xs text-blue-600 hover:text-blue-800"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              window.location.href = `tel:${customer.phone}`;
-                            }}
-                          >
-                            연락하기
-                          </button>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : (
-                <div className="py-8 text-center">
-                  <Heart className="h-10 w-10 mb-2" />
-                  <p className="font-medium text-green-600">
-                    모든 고객이 활발해요!
-                  </p>
-                  <p className="mt-1 text-sm text-gray-500">
-                    장기 미방문 고객이 없습니다
-                  </p>
-                </div>
-              )}
+              <div className="py-8 text-center">
+                <Heart className="h-10 w-10 mb-2 mx-auto text-gray-400" />
+                <p className="font-medium text-gray-600">
+                  데이터 준비 중
+                </p>
+                <p className="mt-1 text-sm text-gray-500">
+                  미방문 고객 추적 기능은 곧 추가됩니다
+                </p>
+              </div>
             </div>
           </Card>
         </div>

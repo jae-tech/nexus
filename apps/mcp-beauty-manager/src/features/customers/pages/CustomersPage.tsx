@@ -4,12 +4,12 @@ import { useNavigate } from '@tanstack/react-router';
 import { Header } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import FilterBar from '@/shared/components/FilterBar';
-import SearchBar from '@/shared/components/SearchBar';
-import FloatingButton from '@/shared/components/FloatingButton';
+import FilterBar from '@/components/common/FilterBar';
+import SearchBar from '@/components/common/SearchBar';
+import FloatingButton from '@/components/common/FloatingButton';
 import AddCustomerModal from '@/features/customers/components/AddCustomerModal';
-import Toast from '@/shared/components/Toast';
-import { useToast } from '@/shared/hooks/useToast';
+import Toast from '@/components/ui/toast';
+import { useToast } from '@/hooks/useToast';
 import { useCustomers } from '@/hooks';
 import type { Customer } from '@/types/electron';
 
@@ -148,7 +148,7 @@ export default function CustomersPage() {
 
   const handleBookAppointment = (customer: Customer, e: React.MouseEvent) => {
     e.stopPropagation();
-    navigate({ to: '/reservations', search: { customerId: customer.id } });
+    navigate({ to: '/appointments', search: { customerId: customer.id } });
   };
 
   const getCustomerTypeLabel = (customer: Customer) => {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AlertCircle } from 'lucide-react';
-import Button from '@/shared/components/Button';
+import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogContent,
@@ -159,7 +159,6 @@ export default function EditStaffModal({
         </DialogHeader>
 
         <div>
-
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* 기본 정보 */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -369,17 +368,10 @@ export default function EditStaffModal({
 
             <div className="border-t border-gray-200 px-6 pb-6 pt-4">
               <DialogFooter className="flex-row justify-end space-x-2">
-                <Button
-                  type="button"
-                  onClick={onClose}
-                  variant="outline"
-                >
+                <Button type="button" onClick={onClose} variant="outline">
                   취소
                 </Button>
-                <Button
-                  type="submit"
-                  variant="default"
-                >
+                <Button type="submit" variant="default">
                   저장
                 </Button>
               </DialogFooter>

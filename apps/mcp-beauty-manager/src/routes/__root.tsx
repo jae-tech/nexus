@@ -4,7 +4,7 @@ import { MainLayout } from '@/components/layouts/MainLayout';
 
 export const Route = createRootRoute({
   component: () => (
-    <ThemeProvider defaultTheme="system" storageKey="beauty-manager-theme">
+    <ThemeProvider defaultTheme="light" storageKey="beauty-manager-theme">
       <MainLayout>
         <Outlet />
       </MainLayout>

@@ -21,10 +21,10 @@ const menuItems: MenuItem[] = [
     path: '/customers',
   },
   {
-    id: 'reservations',
+    id: 'appointments',
     label: '예약관리',
     icon: Calendar,
-    path: '/reservations',
+    path: '/appointments',
   },
   { id: 'staff', label: '직원관리', icon: Users, path: '/staff' },
   {

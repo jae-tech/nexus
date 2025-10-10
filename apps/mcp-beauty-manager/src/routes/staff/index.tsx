@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import StaffPageDB from '@/features/staff/pages/StaffPage-DB';
+import StaffPage from '@/features/staff/pages/StaffPage';
 
 export const Route = createFileRoute('/staff/')({
-  component: StaffPageDB,
+  component: StaffPage,
 });

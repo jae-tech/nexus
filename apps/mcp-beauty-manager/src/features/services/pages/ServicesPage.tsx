@@ -9,12 +9,10 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
-import FilterBar from '@/shared/components/FilterBar';
-import SearchBar from '@/shared/components/SearchBar';
-import Toast from '@/shared/components/Toast';
-import { useToast } from '@/shared/hooks/useToast';
-import { mockServices } from '@/features/services/api/mock';
-import { mockServiceCategories } from '@/features/services/api/mock-categories';
+import FilterBar from '@/components/common/FilterBar';
+import SearchBar from '@/components/common/SearchBar';
+import Toast from '@/components/ui/toast';
+import { useToast } from '@/hooks/useToast';
 import AddServiceModal from '@/features/services/components/AddServiceModal';
 import EditServiceModal from '@/features/services/components/EditServiceModal';
 import CategoryManagementModal from '@/features/services/components/CategoryManagementModal';
@@ -69,21 +67,8 @@ export default function ServicesPage() {
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [showBulkPriceModal, setShowBulkPriceModal] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [categories, setCategories] = useState<Category[]>(
-    mockServiceCategories.map((cat) => ({ ...cat, color: 'blue' }))
-  );
-  const [serviceList, setServiceList] = useState<Service[]>(
-    mockServices.map((service) => ({
-      ...service,
-      categoryName:
-        mockServiceCategories.find((cat) => cat.id === service.categoryId)
-          ?.name || '기타',
-      monthlyUsage: Math.floor(Math.random() * 50) + 10,
-      totalRevenue: Math.floor(Math.random() * 2000000) + 500000,
-      isPopular: Math.random() > 0.7,
-      priceOptions: [],
-    }))
-  );
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [serviceList, setServiceList] = useState<Service[]>([]);
 
   const filteredAndSortedServices = useMemo(() => {
     const filtered = serviceList.filter((service) => {
@@ -364,13 +349,17 @@ export default function ServicesPage() {
           {/* Empty State */}
           {filteredAndSortedServices.length === 0 && (
             <div className="py-12 text-center">
-              <Scissors size={18} className="mb-4 text-gray-600" />
-              <h3 className="mb-2 text-lg font-medium text-gray-900">
-                검색 결과가 없습니다
+              <Scissors className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+              <h3 className="mb-2 text-lg font-medium text-gray-600">
+                {searchQuery ? '검색 결과가 없습니다' : '등록된 서비스가 없습니다'}
               </h3>
-              <p className="text-gray-500">
-                다른 검색어나 필터를 시도해보세요.
+              <p className="mb-4 text-gray-500">
+                {searchQuery ? '다른 검색어를 시도해보세요' : '첫 번째 서비스를 등록해보세요'}
               </p>
+              <Button onClick={() => setShowAddModal(true)}>
+                <Plus className="mr-2" />
+                새 서비스 추가
+              </Button>
             </div>
           )}
         </div>

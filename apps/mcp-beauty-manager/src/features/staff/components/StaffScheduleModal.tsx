@@ -10,17 +10,12 @@ import {
   isToday,
 } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { mockReservations } from '@/features/reservations/api/mock';
-import AddReservationModal from '@/features/reservations/components/AddReservationModal';
-import { mockCustomers } from '@/features/customers/api/mock';
-import { mockStaff } from '@/features/staff/api/mock';
-import { mockServices } from '@/features/services/api/mock';
+import AddAppointmentModal from '@/features/appointments/components/AddAppointmentModal';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from '@/components/ui/dialog';
 
 interface Staff {
@@ -188,7 +183,7 @@ export default function StaffScheduleModal({
 
   // 해당 직원의 예약 데이터 로드
   useEffect(() => {
-    const staffReservations = mockReservations.filter(
+    const staffReservations = mockAppointments.filter(
       (res) => res.employeeId === staff.id
     );
     setReservations(staffReservations);
@@ -546,146 +541,149 @@ export default function StaffScheduleModal({
         </div>
 
         {/* 예약 상세 정보 팝오버 */}
-      {showReservationDetail && selectedReservation && (
-        <>
-          <div
-            className="fixed inset-0 z-40"
-            onClick={() => setShowReservationDetail(null)}
-          />
-          <div
-            className="fixed z-50 w-80 rounded-lg border border-gray-200 bg-white p-4 shadow-xl"
-            style={{
-              left: Math.max(
-                10,
-                Math.min(window.innerWidth - 330, detailPosition.x - 160)
-              ),
-              top: Math.max(10, detailPosition.y - 200),
-            }}
-          >
-            <div className="mb-3 flex items-center justify-between">
-              <h4 className="font-semibold text-gray-900">예약 상세 정보</h4>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <div className="text-sm text-gray-600">고객</div>
-                <div className="font-medium text-gray-900">
-                  {selectedReservation.customerName}
-                </div>
-                <button
-                  onClick={() =>
-                    (window.location.href = `tel:${selectedReservation.customerPhone}`)
-                  }
-                  className="text-sm text-blue-600 hover:underline"
-                >
-                  📞 {selectedReservation.customerPhone}
-                </button>
+        {showReservationDetail && selectedReservation && (
+          <>
+            <div
+              className="fixed inset-0 z-40"
+              onClick={() => setShowReservationDetail(null)}
+            />
+            <div
+              className="fixed z-50 w-80 rounded-lg border border-gray-200 bg-white p-4 shadow-xl"
+              style={{
+                left: Math.max(
+                  10,
+                  Math.min(window.innerWidth - 330, detailPosition.x - 160)
+                ),
+                top: Math.max(10, detailPosition.y - 200),
+              }}
+            >
+              <div className="mb-3 flex items-center justify-between">
+                <h4 className="font-semibold text-gray-900">예약 상세 정보</h4>
               </div>
 
-              <div>
-                <div className="text-sm text-gray-600">서비스</div>
-                <div className="font-medium text-gray-900">
-                  {selectedReservation.services.map((s) => s.name).join(', ')}
-                </div>
-              </div>
-
-              <div>
-                <div className="text-sm text-gray-600">시간</div>
-                <div className="font-medium text-gray-900">
-                  {selectedReservation.startTime} -{' '}
-                  {selectedReservation.endTime}
-                </div>
-              </div>
-
-              <div>
-                <div className="text-sm text-gray-600">금액</div>
-                <div className="font-medium text-gray-900">
-                  {selectedReservation.amount?.toLocaleString()}원
-                </div>
-              </div>
-
-              {selectedReservation.memo && (
+              <div className="space-y-3">
                 <div>
-                  <div className="text-sm text-gray-600">메모</div>
-                  <div className="rounded bg-gray-50 p-2 text-sm text-gray-900">
-                    {selectedReservation.memo}
+                  <div className="text-sm text-gray-600">고객</div>
+                  <div className="font-medium text-gray-900">
+                    {selectedReservation.customerName}
                   </div>
-                </div>
-              )}
-
-              <div className="border-t border-gray-200 pt-3">
-                <div className="flex gap-2">
-                  {selectedReservation.status === 'scheduled' && (
-                    <>
-                      <button
-                        onClick={() =>
-                          handleReservationAction(
-                            selectedReservation.id,
-                            'complete'
-                          )
-                        }
-                        className="flex-1 rounded bg-green-100 px-3 py-2 text-xs text-green-700 transition-colors hover:bg-green-200"
-                      >
-                        완료
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleReservationAction(
-                            selectedReservation.id,
-                            'cancel'
-                          )
-                        }
-                        className="flex-1 rounded bg-red-100 px-3 py-2 text-xs text-red-700 transition-colors hover:bg-red-200"
-                      >
-                        취소
-                      </button>
-                    </>
-                  )}
                   <button
                     onClick={() =>
-                      handleReservationAction(selectedReservation.id, 'delete')
+                      (window.location.href = `tel:${selectedReservation.customerPhone}`)
                     }
-                    className="flex-1 rounded bg-gray-100 px-3 py-2 text-xs text-gray-700 transition-colors hover:bg-gray-200"
+                    className="text-sm text-blue-600 hover:underline"
                   >
-                    삭제
+                    📞 {selectedReservation.customerPhone}
                   </button>
+                </div>
+
+                <div>
+                  <div className="text-sm text-gray-600">서비스</div>
+                  <div className="font-medium text-gray-900">
+                    {selectedReservation.services.map((s) => s.name).join(', ')}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-sm text-gray-600">시간</div>
+                  <div className="font-medium text-gray-900">
+                    {selectedReservation.startTime} -{' '}
+                    {selectedReservation.endTime}
+                  </div>
+                </div>
+
+                <div>
+                  <div className="text-sm text-gray-600">금액</div>
+                  <div className="font-medium text-gray-900">
+                    {selectedReservation.amount?.toLocaleString()}원
+                  </div>
+                </div>
+
+                {selectedReservation.memo && (
+                  <div>
+                    <div className="text-sm text-gray-600">메모</div>
+                    <div className="rounded bg-gray-50 p-2 text-sm text-gray-900">
+                      {selectedReservation.memo}
+                    </div>
+                  </div>
+                )}
+
+                <div className="border-t border-gray-200 pt-3">
+                  <div className="flex gap-2">
+                    {selectedReservation.status === 'scheduled' && (
+                      <>
+                        <button
+                          onClick={() =>
+                            handleReservationAction(
+                              selectedReservation.id,
+                              'complete'
+                            )
+                          }
+                          className="flex-1 rounded bg-green-100 px-3 py-2 text-xs text-green-700 transition-colors hover:bg-green-200"
+                        >
+                          완료
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleReservationAction(
+                              selectedReservation.id,
+                              'cancel'
+                            )
+                          }
+                          className="flex-1 rounded bg-red-100 px-3 py-2 text-xs text-red-700 transition-colors hover:bg-red-200"
+                        >
+                          취소
+                        </button>
+                      </>
+                    )}
+                    <button
+                      onClick={() =>
+                        handleReservationAction(
+                          selectedReservation.id,
+                          'delete'
+                        )
+                      }
+                      className="flex-1 rounded bg-gray-100 px-3 py-2 text-xs text-gray-700 transition-colors hover:bg-gray-200"
+                    >
+                      삭제
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
 
-      {/* 새 예약 추가 모달 */}
-      <AddReservationModal
-        open={showAddModal}
-        onClose={() => {
-          setShowAddModal(false);
-          setSelectedDateTime(null);
-        }}
-        onAdd={(newReservation) => {
-          const reservation = {
-            ...newReservation,
-            id: Date.now().toString(),
-            createdAt: new Date().toISOString(),
-            employeeId: staff.id,
-            employeeName: staff.name,
-          };
-          setReservations((prev) => [...prev, reservation]);
-          setShowAddModal(false);
-          setSelectedDateTime(null);
-        }}
-        customers={mockCustomers}
-        staff={mockStaff.filter((s) => s.id === staff.id)}
-        services={mockServices.map((s) => ({
-          id: s.id,
-          name: s.name,
-          category: s.categoryName,
-          basePrice: s.basePrice,
-          duration: s.duration,
-          active: s.isActive,
-        }))}
-      />
+        {/* 새 예약 추가 모달 */}
+        <AddAppointmentModal
+          open={showAddModal}
+          onClose={() => {
+            setShowAddModal(false);
+            setSelectedDateTime(null);
+          }}
+          onAdd={(newReservation) => {
+            const reservation = {
+              ...newReservation,
+              id: Date.now().toString(),
+              createdAt: new Date().toISOString(),
+              employeeId: staff.id,
+              employeeName: staff.name,
+            };
+            setReservations((prev) => [...prev, reservation]);
+            setShowAddModal(false);
+            setSelectedDateTime(null);
+          }}
+          customers={mockCustomers}
+          staff={mockStaff.filter((s) => s.id === staff.id)}
+          services={mockServices.map((s) => ({
+            id: s.id,
+            name: s.name,
+            category: s.categoryName,
+            basePrice: s.basePrice,
+            duration: s.duration,
+            active: s.isActive,
+          }))}
+        />
       </DialogContent>
     </Dialog>
   );

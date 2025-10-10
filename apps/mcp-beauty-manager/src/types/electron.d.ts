@@ -383,10 +383,52 @@ export interface ElectronAPI {
   };
 }
 
+// ========== 신규 Customer/Appointment API (간소화된 버전) ==========
+
+export interface SimpleElectronAPI {
+  customer: {
+    getAll: () => Promise<Array<{ id: string; name: string; phone: string; memo: string }>>;
+    getById: (id: string) => Promise<{ id: string; name: string; phone: string; memo: string } | null>;
+    create: (customer: { id: string; name: string; phone: string; memo: string }) => Promise<void>;
+    update: (customer: { id: string; name: string; phone: string; memo: string }) => Promise<void>;
+    delete: (id: string) => Promise<void>;
+  };
+  appointment: {
+    getAll: () => Promise<Array<{ id: string; customerId: string; datetime: string; service: string }>>;
+    getAllByCustomerId: (customerId: string) => Promise<Array<{ id: string; customerId: string; datetime: string; service: string }>>;
+    getById: (id: string) => Promise<{ id: string; customerId: string; datetime: string; service: string } | null>;
+    create: (appointment: { id: string; customerId: string; datetime: string; service: string }) => Promise<void>;
+    update: (appointment: { id: string; customerId: string; datetime: string; service: string }) => Promise<void>;
+    delete: (id: string) => Promise<void>;
+  };
+}
+
 // ========== Window 객체 확장 ==========
 
 declare global {
   interface Window {
-    api: ElectronAPI;
+    api: {
+      db: {
+        getCustomers: () => Promise<Customer[]>;
+        getCustomerById: (id: number) => Promise<Customer | null>;
+        getStaff: () => Promise<Staff[]>;
+        getServices: () => Promise<Service[]>;
+      };
+      customer: {
+        getAll: () => Promise<Customer[]>;
+        getById: (id: string) => Promise<Customer | null>;
+        create: (customer: Customer) => Promise<void>;
+        update: (customer: Customer) => Promise<void>;
+        delete: (id: string) => Promise<void>;
+      };
+      appointments: {
+        getAll: () => Promise<Reservation[]>;
+        getAllByCustomerId: (customerId: string) => Promise<Reservation[]>;
+        getById: (id: string) => Promise<Reservation | null>;
+        create: (appointment: Reservation) => Promise<void>;
+        update: (appointment: Reservation) => Promise<void>;
+        delete: (id: string) => Promise<void>;
+      };
+    };
   }
 }

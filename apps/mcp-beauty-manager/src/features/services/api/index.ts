@@ -5,7 +5,3 @@ export type {
   PriceOption,
   PriceHistory,
 } from './types';
-
-// Mock Data
-export { mockServices } from './mock';
-export { mockServiceCategories, mockPriceHistory } from './mock-categories';

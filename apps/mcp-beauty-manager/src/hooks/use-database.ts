@@ -156,36 +156,3 @@ export function useIsElectron() {
   return typeof window !== "undefined" && window.api !== undefined;
 }
 
-/**
- * 영업시간 조회 훅
- */
-export function useBusinessHours() {
-  const [businessHours, setBusinessHours] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchBusinessHours = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await window.api.reservation.getBusinessHours();
-      setBusinessHours(data);
-    } catch (err) {
-      console.error("[useBusinessHours] Error fetching business hours:", err);
-      setError(err instanceof Error ? err.message : "영업시간 조회 중 오류가 발생했습니다.");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchBusinessHours();
-  }, [fetchBusinessHours]);
-
-  return {
-    businessHours,
-    loading,
-    error,
-    refetch: fetchBusinessHours,
-  };
-}

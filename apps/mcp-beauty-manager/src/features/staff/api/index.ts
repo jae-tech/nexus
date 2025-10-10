@@ -7,6 +7,3 @@ export type {
   HolidayType,
   HolidayStatus,
 } from './types';
-
-// Mock Data
-export { mockStaff } from './mock';

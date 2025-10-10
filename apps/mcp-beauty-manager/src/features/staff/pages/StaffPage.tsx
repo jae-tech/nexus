@@ -3,10 +3,9 @@ import { Calendar, Eye, Mail, MoreVertical, Pencil, Phone, Plus, Trash2, UserPlu
 import { Header } from '@/components/layouts';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import FilterBar from '@/shared/components/FilterBar';
-import SearchBar from '@/shared/components/SearchBar';
-import type { Staff } from '@/features/staff/api/mock';
-import { mockStaff } from '@/features/staff/api/mock';
+import FilterBar from '@/components/common/FilterBar';
+import SearchBar from '@/components/common/SearchBar';
+import type { Staff } from '@/features/staff/api/types';
 import AddStaffModal from '@/features/staff/components/AddStaffModal';
 import EditStaffModal from '@/features/staff/components/EditStaffModal';
 import StaffDetailModal from '@/features/staff/components/StaffDetailModal';
@@ -43,7 +42,7 @@ export default function StaffPage() {
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [selectedStaff, setSelectedStaff] = useState<Staff | null>(null);
   const [showMenuId, setShowMenuId] = useState<string | null>(null);
-  const [staffList, setStaffList] = useState<Staff[]>(mockStaff);
+  const [staffList, setStaffList] = useState<Staff[]>([]);
 
   const filteredAndSortedStaff = useMemo(() => {
     const filtered = staffList.filter((staff) => {
@@ -597,19 +596,19 @@ export default function StaffPage() {
             </Card>
           )}
 
-          {/* 검색 결과 없음 */}
+          {/* Empty State */}
           {filteredAndSortedStaff.length === 0 && (
             <div className="py-12 text-center">
-              <Users size={18} className="mb-4 text-gray-600" />
-              <h3 className="mb-2 text-lg font-medium text-gray-900">
-                검색 결과가 없습니다
+              <Users className="mx-auto mb-4 h-16 w-16 text-gray-400" />
+              <h3 className="mb-2 text-lg font-medium text-gray-600">
+                {searchQuery ? '검색 결과가 없습니다' : '등록된 직원이 없습니다'}
               </h3>
               <p className="mb-4 text-gray-500">
-                다른 검색어나 필터를 시도해보세요.
+                {searchQuery ? '다른 검색어를 시도해보세요' : '첫 번째 직원을 등록해보세요'}
               </p>
-              <Button variant="primary" onClick={() => setShowAddModal(true)}>
-                <UserPlus size={18} className="mr-2 text-gray-600" />
-                신규 직원 등록
+              <Button onClick={() => setShowAddModal(true)}>
+                <UserPlus className="mr-2" />
+                새 직원 추가
               </Button>
             </div>
           )}

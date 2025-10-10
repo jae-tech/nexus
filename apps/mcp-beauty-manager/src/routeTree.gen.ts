@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StaffIndexRouteImport } from './routes/staff/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
-import { Route as ReservationsIndexRouteImport } from './routes/reservations/index'
 import { Route as CustomersIndexRouteImport } from './routes/customers/index'
+import { Route as AppointmentsIndexRouteImport } from './routes/appointments/index'
 import { Route as CustomersIdRouteImport } from './routes/customers/$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -31,14 +31,14 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/services/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReservationsIndexRoute = ReservationsIndexRouteImport.update({
-  id: '/reservations/',
-  path: '/reservations/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CustomersIndexRoute = CustomersIndexRouteImport.update({
   id: '/customers/',
   path: '/customers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppointmentsIndexRoute = AppointmentsIndexRouteImport.update({
+  id: '/appointments/',
+  path: '/appointments/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomersIdRoute = CustomersIdRouteImport.update({
@@ -50,16 +50,16 @@ const CustomersIdRoute = CustomersIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/customers/$id': typeof CustomersIdRoute
+  '/appointments': typeof AppointmentsIndexRoute
   '/customers': typeof CustomersIndexRoute
-  '/reservations': typeof ReservationsIndexRoute
   '/services': typeof ServicesIndexRoute
   '/staff': typeof StaffIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/customers/$id': typeof CustomersIdRoute
+  '/appointments': typeof AppointmentsIndexRoute
   '/customers': typeof CustomersIndexRoute
-  '/reservations': typeof ReservationsIndexRoute
   '/services': typeof ServicesIndexRoute
   '/staff': typeof StaffIndexRoute
 }
@@ -67,8 +67,8 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/customers/$id': typeof CustomersIdRoute
+  '/appointments/': typeof AppointmentsIndexRoute
   '/customers/': typeof CustomersIndexRoute
-  '/reservations/': typeof ReservationsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/staff/': typeof StaffIndexRoute
 }
@@ -77,24 +77,24 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/customers/$id'
+    | '/appointments'
     | '/customers'
-    | '/reservations'
     | '/services'
     | '/staff'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/customers/$id'
+    | '/appointments'
     | '/customers'
-    | '/reservations'
     | '/services'
     | '/staff'
   id:
     | '__root__'
     | '/'
     | '/customers/$id'
+    | '/appointments/'
     | '/customers/'
-    | '/reservations/'
     | '/services/'
     | '/staff/'
   fileRoutesById: FileRoutesById
@@ -102,8 +102,8 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CustomersIdRoute: typeof CustomersIdRoute
+  AppointmentsIndexRoute: typeof AppointmentsIndexRoute
   CustomersIndexRoute: typeof CustomersIndexRoute
-  ReservationsIndexRoute: typeof ReservationsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   StaffIndexRoute: typeof StaffIndexRoute
 }
@@ -131,18 +131,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reservations/': {
-      id: '/reservations/'
-      path: '/reservations'
-      fullPath: '/reservations'
-      preLoaderRoute: typeof ReservationsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/customers/': {
       id: '/customers/'
       path: '/customers'
       fullPath: '/customers'
       preLoaderRoute: typeof CustomersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/appointments/': {
+      id: '/appointments/'
+      path: '/appointments'
+      fullPath: '/appointments'
+      preLoaderRoute: typeof AppointmentsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customers/$id': {
@@ -158,8 +158,8 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CustomersIdRoute: CustomersIdRoute,
+  AppointmentsIndexRoute: AppointmentsIndexRoute,
   CustomersIndexRoute: CustomersIndexRoute,
-  ReservationsIndexRoute: ReservationsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   StaffIndexRoute: StaffIndexRoute,
 }

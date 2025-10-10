@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
-import Button from '@/shared/components/Button';
+import { Button } from '@/components/ui/button';
 
 interface AddStaffModalProps {
   open: boolean;
@@ -14,7 +14,11 @@ interface AddStaffModalProps {
   onAdd: (staff: any) => void;
 }
 
-export default function AddStaffModal({ open, onClose, onAdd }: AddStaffModalProps) {
+export default function AddStaffModal({
+  open,
+  onClose,
+  onAdd,
+}: AddStaffModalProps) {
   const [formData, setFormData] = useState({
     name: '',
     role: '헤어 디자이너',
@@ -121,180 +125,173 @@ export default function AddStaffModal({ open, onClose, onAdd }: AddStaffModalPro
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-            {/* 기본 정보 */}
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  이름 <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, name: e.target.value }))
-                  }
-                  className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.name ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="직원 이름을 입력하세요"
-                />
-                {errors.name && (
-                  <p className="mt-1 text-sm text-red-500">{errors.name}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  역할 <span className="text-red-500">*</span>
-                </label>
-                <select
-                  value={formData.role}
-                  onChange={(e) =>
-                    setFormData((prev) => ({
-                      ...prev,
-                      role: e.target.value,
-                      specialties: [],
-                    }))
-                  }
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  {roles.map((role) => (
-                    <option key={role} value={role}>
-                      {role}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  전화번호 <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="tel"
-                  value={formData.phone}
-                  onChange={handlePhoneChange}
-                  className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.phone ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="010-0000-0000"
-                  maxLength={13}
-                />
-                {errors.phone && (
-                  <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  이메일
-                </label>
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData((prev) => ({ ...prev, email: e.target.value }))
-                  }
-                  className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                    errors.email ? 'border-red-500' : 'border-gray-300'
-                  }`}
-                  placeholder="example@salon.com"
-                />
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-                )}
-              </div>
-            </div>
-
+          {/* 기본 정보 */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700">
-                입사일 <span className="text-red-500">*</span>
+                이름 <span className="text-red-500">*</span>
               </label>
               <input
-                type="date"
-                value={formData.hireDate}
+                type="text"
+                value={formData.name}
                 onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, hireDate: e.target.value }))
+                  setFormData((prev) => ({ ...prev, name: e.target.value }))
                 }
                 className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                  errors.hireDate ? 'border-red-500' : 'border-gray-300'
+                  errors.name ? 'border-red-500' : 'border-gray-300'
                 }`}
-                max={new Date().toISOString().split('T')[0]}
+                placeholder="직원 이름을 입력하세요"
               />
-              {errors.hireDate && (
-                <p className="mt-1 text-sm text-red-500">{errors.hireDate}</p>
+              {errors.name && (
+                <p className="mt-1 text-sm text-red-500">{errors.name}</p>
               )}
             </div>
 
-            {/* 전문 분야 */}
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700">
-                전문 분야
+                역할 <span className="text-red-500">*</span>
               </label>
-              <div className="flex flex-wrap gap-2">
-                {specialtyOptions[
-                  formData.role as keyof typeof specialtyOptions
-                ]?.map((specialty) => (
-                  <button
-                    key={specialty}
-                    type="button"
-                    onClick={() => handleSpecialtyToggle(specialty)}
-                    className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
-                      formData.specialties.includes(specialty)
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                    }`}
-                  >
-                    {specialty}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 개인 메모 */}
-            <div>
-              <label className="mb-2 block text-sm font-medium text-gray-700">
-                개인 메모
-              </label>
-              <textarea
-                value={formData.personalMemo}
+              <select
+                value={formData.role}
                 onChange={(e) =>
                   setFormData((prev) => ({
                     ...prev,
-                    personalMemo: e.target.value,
+                    role: e.target.value,
+                    specialties: [],
                   }))
                 }
-                rows={3}
                 className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="특기, 자격증, 특이사항 등을 입력하세요"
-                maxLength={500}
+              >
+                {roles.map((role) => (
+                  <option key={role} value={role}>
+                    {role}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                전화번호 <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="tel"
+                value={formData.phone}
+                onChange={handlePhoneChange}
+                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.phone ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="010-0000-0000"
+                maxLength={13}
               />
-              <p className="mt-1 text-sm text-gray-500">
-                {formData.personalMemo.length}/500자
-              </p>
+              {errors.phone && (
+                <p className="mt-1 text-sm text-red-500">{errors.phone}</p>
+              )}
             </div>
 
-            {/* 버튼 */}
-            <div className="border-t border-gray-200 px-6 pb-6 pt-4">
-              <DialogFooter className="flex-row justify-end space-x-2">
-                <Button
-                  type="button"
-                  onClick={onClose}
-                  variant="outline"
-                >
-                  취소
-                </Button>
-                <Button
-                  type="submit"
-                  variant="default"
-                >
-                  직원 추가
-                </Button>
-              </DialogFooter>
+            <div>
+              <label className="mb-2 block text-sm font-medium text-gray-700">
+                이메일
+              </label>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, email: e.target.value }))
+                }
+                className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                  errors.email ? 'border-red-500' : 'border-gray-300'
+                }`}
+                placeholder="example@salon.com"
+              />
+              {errors.email && (
+                <p className="mt-1 text-sm text-red-500">{errors.email}</p>
+              )}
             </div>
-          </form>
+          </div>
+
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              입사일 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              value={formData.hireDate}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, hireDate: e.target.value }))
+              }
+              className={`w-full rounded-lg border px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.hireDate ? 'border-red-500' : 'border-gray-300'
+              }`}
+              max={new Date().toISOString().split('T')[0]}
+            />
+            {errors.hireDate && (
+              <p className="mt-1 text-sm text-red-500">{errors.hireDate}</p>
+            )}
+          </div>
+
+          {/* 전문 분야 */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              전문 분야
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {specialtyOptions[
+                formData.role as keyof typeof specialtyOptions
+              ]?.map((specialty) => (
+                <button
+                  key={specialty}
+                  type="button"
+                  onClick={() => handleSpecialtyToggle(specialty)}
+                  className={`rounded-full px-3 py-1 text-sm font-medium transition-colors ${
+                    formData.specialties.includes(specialty)
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  }`}
+                >
+                  {specialty}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* 개인 메모 */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              개인 메모
+            </label>
+            <textarea
+              value={formData.personalMemo}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  personalMemo: e.target.value,
+                }))
+              }
+              rows={3}
+              className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="특기, 자격증, 특이사항 등을 입력하세요"
+              maxLength={500}
+            />
+            <p className="mt-1 text-sm text-gray-500">
+              {formData.personalMemo.length}/500자
+            </p>
+          </div>
+
+          {/* 버튼 */}
+          <div className="border-t border-gray-200 px-6 pb-6 pt-4">
+            <DialogFooter className="flex-row justify-end space-x-2">
+              <Button type="button" onClick={onClose} variant="outline">
+                취소
+              </Button>
+              <Button type="submit" variant="default">
+                직원 추가
+              </Button>
+            </DialogFooter>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );
