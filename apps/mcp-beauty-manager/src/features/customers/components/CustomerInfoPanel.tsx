@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
 import { Bookmark, Cake, Calendar, Pencil, Phone, User } from 'lucide-react';
-import Card from '@/shared/components/Card';
-import Button from '@/shared/components/Button';
-import type { Customer } from '@/features/customers/api/mock-detail';
-import { useToast } from '@/shared/hooks/useToast';
+import Card from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import type { Customer } from '@/features/customers/api/types';
+import { useToast } from '@/hooks/useToast';
 
 interface CustomerInfoPanelProps {
   customer: Customer;
@@ -143,7 +143,10 @@ export default function CustomerInfoPanel({
                 size="sm"
                 onClick={() => setIsEditingMemo(true)}
               >
-                <Pencil size={20} className="text-gray-600 hover:text-blue-600" />
+                <Pencil
+                  size={20}
+                  className="text-gray-600 hover:text-blue-600"
+                />
               </Button>
             )}
           </div>

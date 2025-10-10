@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import type { Customer } from '@/features/customers/api/mock-detail';
+import type { Customer } from '@/features/customers/api/types';
 import {
   Dialog,
   DialogContent,

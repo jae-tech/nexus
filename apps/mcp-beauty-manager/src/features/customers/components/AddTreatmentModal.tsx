@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Loader2, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { mockServices } from '@/features/services/api/mock';
-import { mockStaff } from '@/features/staff/api/mock';
+import { useServices } from '@/hooks/useServices';
+import { useStaff } from '@/hooks/useStaff';
 import {
   Dialog,
   DialogContent,
@@ -25,6 +25,10 @@ export default function AddTreatmentModal({
   onClose,
   onSuccess,
 }: AddTreatmentModalProps) {
+  // Store에서 서비스와 직원 데이터 가져오기
+  const { services: mockServices } = useServices();
+  const { staff: mockStaff } = useStaff();
+
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
     time: '',

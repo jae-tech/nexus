@@ -9,8 +9,8 @@ import TreatmentHistory from '@/features/customers/components/TreatmentHistory';
 import SummaryStats from '@/features/customers/components/SummaryStats';
 import EditCustomerModal from '@/features/customers/components/EditCustomerModal';
 import AddTreatmentModal from '@/features/customers/components/AddTreatmentModal';
-import { mockCustomerDetail } from '@/features/customers/api/mock-detail';
-import { useToast } from '@/shared/hooks/useToast';
+import { useToast } from '@/hooks/useToast';
+import { useCustomers } from '@/hooks/useCustomers';
 
 export default function CustomerDetail() {
   const { id } = useParams({ from: '/customers/$id' });
@@ -19,8 +19,9 @@ export default function CustomerDetail() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddTreatmentModalOpen, setIsAddTreatmentModalOpen] = useState(false);
 
-  // 실제로는 API에서 고객 정보를 가져와야 함
-  const customer = mockCustomerDetail;
+  // Store에서 고객 정보 가져오기
+  const { customers } = useCustomers();
+  const customer = customers.find(c => c.id === id);
 
   const handleBack = () => {
     navigate({ to: '/customers' });

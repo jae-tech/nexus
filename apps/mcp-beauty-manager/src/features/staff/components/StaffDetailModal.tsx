@@ -1,8 +1,16 @@
 import { useState } from 'react';
-import { Calendar, Check, ChevronDown, Pencil, Plus, Trash2, X } from 'lucide-react';
-import Button from '@/shared/components/Button';
-import Card from '@/shared/components/Card';
-import type { Staff, Holiday } from '@/features/staff/api/mock';
+import {
+  Calendar,
+  Check,
+  ChevronDown,
+  Pencil,
+  Plus,
+  Trash2,
+  X,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import Card from '@/components/ui/card';
+import type { Staff, Holiday } from '@/features/staff/api/types';
 import {
   Dialog,
   DialogContent,
@@ -270,8 +278,8 @@ export default function StaffDetailModal({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="w-full max-w-5xl p-0 flex flex-col">
-        <div className="flex h-full max-h-[80vh] md:max-h-[90vh] flex-col">
+      <DialogContent className="flex w-full max-w-5xl flex-col p-0">
+        <div className="flex h-full max-h-[80vh] flex-col md:max-h-[90vh]">
           {/* 헤더 */}
           <div className="border-b border-gray-200 p-6">
             <div className="flex items-center justify-between">
@@ -413,7 +421,10 @@ export default function StaffDetailModal({
                           className="text-sm"
                         >
                           변경
-                          <ChevronDown size={18} className="ml-1 text-gray-600" />
+                          <ChevronDown
+                            size={18}
+                            className="ml-1 text-gray-600"
+                          />
                         </Button>
                         {showPositionDropdown && (
                           <div className="absolute right-0 top-full z-20 mt-1 min-w-[120px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
@@ -455,7 +466,10 @@ export default function StaffDetailModal({
                         onClick={() => setEditingMemo(!editingMemo)}
                         className="p-1 text-gray-400 transition-colors hover:text-blue-600"
                       >
-                        <Pencil size={20} className="text-gray-600 hover:text-blue-600" />
+                        <Pencil
+                          size={20}
+                          className="text-gray-600 hover:text-blue-600"
+                        />
                       </button>
                     </div>
                     {editingMemo ? (
@@ -825,7 +839,10 @@ export default function StaffDetailModal({
                               }`}
                             >
                               {newHoliday.isHalfDay && (
-                                <Check size={20} className="absolute text-white" />
+                                <Check
+                                  size={20}
+                                  className="absolute text-white"
+                                />
                               )}
                             </div>
                             <span className="ml-2 text-sm text-gray-700">
@@ -973,7 +990,10 @@ export default function StaffDetailModal({
                               className="p-1 text-gray-400 transition-colors hover:text-red-600"
                               title="삭제"
                             >
-                              <Trash2 size={20} className="text-gray-600 hover:text-red-600" />
+                              <Trash2
+                                size={20}
+                                className="text-gray-600 hover:text-red-600"
+                              />
                             </button>
                           </div>
                         </div>

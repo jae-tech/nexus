@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Pencil, Plus, Scissors, Search, Trash2, User } from 'lucide-react';
-import Card from '@/shared/components/Card';
-import Button from '@/shared/components/Button';
-import type { VisitRecord } from '@/features/customers/api/mock-detail';
-import { useToast } from '@/shared/hooks/useToast';
+import Card from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import type { VisitRecord } from '@/features/customers/api/types';
+import { useToast } from '@/hooks/useToast';
 
 interface TreatmentHistoryProps {
   visitHistory: VisitRecord[];
@@ -71,7 +71,7 @@ export default function TreatmentHistory({
           <h2 className="text-xl font-semibold text-gray-800">시술 이력</h2>
           <div className="flex items-center gap-4">
             <div className="relative">
-              <Search className="h-5 w-5 absolute left-3 top-1/2 -translate-y-1/2 transform" />
+              <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform" />
               <input
                 type="text"
                 placeholder="서비스명 또는 담당직원으로 검색"
@@ -155,14 +155,20 @@ export default function TreatmentHistory({
                               size="sm"
                               onClick={() => handleEditTreatment(visit.id)}
                             >
-                              <Pencil size={20} className="text-gray-600 hover:text-blue-600" />
+                              <Pencil
+                                size={20}
+                                className="text-gray-600 hover:text-blue-600"
+                              />
                             </Button>
                             <Button
                               variant="icon"
                               size="sm"
                               onClick={() => handleDeleteTreatment(visit.id)}
                             >
-                              <Trash2 size={20} className="text-gray-600 hover:text-red-600" />
+                              <Trash2
+                                size={20}
+                                className="text-gray-600 hover:text-red-600"
+                              />
                             </Button>
                           </div>
                         </div>

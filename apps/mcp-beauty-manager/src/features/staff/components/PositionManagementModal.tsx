@@ -1,7 +1,16 @@
 import { useState } from 'react';
-import { Check, GripVertical, Pencil, Plus, Trash2, UserCheck, UserCog, X } from 'lucide-react';
-import Button from '@/shared/components/Button';
-import type { Staff } from '@/features/staff/api/mock';
+import {
+  Check,
+  GripVertical,
+  Pencil,
+  Plus,
+  Trash2,
+  UserCheck,
+  UserCog,
+  X,
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import type { Staff } from '@/features/staff/api/types';
 import {
   Dialog,
   DialogContent,
@@ -400,7 +409,10 @@ export default function PositionManagementModal({
                               className="p-1 text-gray-400 hover:text-gray-600"
                               title="취소"
                             >
-                              <X size={16} className="text-gray-600 hover:text-gray-800" />
+                              <X
+                                size={16}
+                                className="text-gray-600 hover:text-gray-800"
+                              />
                             </button>
                           </div>
                         ) : (
@@ -426,7 +438,10 @@ export default function PositionManagementModal({
                                 className="p-1 text-gray-400 transition-colors hover:text-blue-600"
                                 title="편집"
                               >
-                                <Pencil size={20} className="text-gray-600 hover:text-blue-600" />
+                                <Pencil
+                                  size={20}
+                                  className="text-gray-600 hover:text-blue-600"
+                                />
                               </button>
                               <button
                                 onClick={() =>
@@ -435,7 +450,10 @@ export default function PositionManagementModal({
                                 className="p-1 text-gray-400 transition-colors hover:text-red-600"
                                 title="삭제"
                               >
-                                <Trash2 size={20} className="text-gray-600 hover:text-red-600" />
+                                <Trash2
+                                  size={20}
+                                  className="text-gray-600 hover:text-red-600"
+                                />
                               </button>
                             </div>
                           </>
@@ -444,7 +462,7 @@ export default function PositionManagementModal({
                     ))}
                   {positionList.length === 0 && (
                     <div className="py-8 text-center text-gray-500">
-                      <UserCheck className="h-12 w-12 mb-2" />
+                      <UserCheck className="mb-2 h-12 w-12" />
                       <p>등록된 직급이 없습니다.</p>
                     </div>
                   )}
@@ -645,7 +663,10 @@ export default function PositionManagementModal({
                             className="p-1 text-gray-400 hover:text-gray-600"
                             title="취소"
                           >
-                            <X size={16} className="text-gray-600 hover:text-gray-800" />
+                            <X
+                              size={16}
+                              className="text-gray-600 hover:text-gray-800"
+                            />
                           </button>
                         </div>
                       ) : (
@@ -664,14 +685,20 @@ export default function PositionManagementModal({
                               className="p-1 text-gray-400 transition-colors hover:text-blue-600"
                               title="편집"
                             >
-                              <Pencil size={20} className="text-gray-600 hover:text-blue-600" />
+                              <Pencil
+                                size={20}
+                                className="text-gray-600 hover:text-blue-600"
+                              />
                             </button>
                             <button
                               onClick={() => handleDeleteRole(role.id)}
                               className="p-1 text-gray-400 transition-colors hover:text-red-600"
                               title="삭제"
                             >
-                              <Trash2 size={20} className="text-gray-600 hover:text-red-600" />
+                              <Trash2
+                                size={20}
+                                className="text-gray-600 hover:text-red-600"
+                              />
                             </button>
                           </div>
                         </>
@@ -680,7 +707,7 @@ export default function PositionManagementModal({
                   ))}
                   {roleList.length === 0 && (
                     <div className="py-8 text-center text-gray-500">
-                      <UserCog className="h-12 w-12 mb-2" />
+                      <UserCog className="mb-2 h-12 w-12" />
                       <p>등록된 직무가 없습니다.</p>
                     </div>
                   )}
@@ -814,10 +841,7 @@ export default function PositionManagementModal({
             <Button variant="outline" onClick={onClose}>
               취소
             </Button>
-            <Button
-              onClick={handleSave}
-              variant="default"
-            >
+            <Button onClick={handleSave} variant="default">
               변경사항 저장
             </Button>
           </DialogFooter>

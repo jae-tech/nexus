@@ -1,5 +1,5 @@
-import Card from '@/shared/components/Card';
-import type { Customer } from '@/features/customers/api/mock-detail';
+import Card from '@/components/ui/card';
+import type { Customer } from '@/features/customers/api/types';
 
 interface SummaryStatsProps {
   customer: Customer;
