@@ -1,5 +1,5 @@
 {
-  "name": "beauty-manager",
+  "name": "mcp-beauty-manager",
   "productName": "BeautyManager",
   "private": true,
   "version": "1.0.0",
@@ -89,6 +89,7 @@
     "appId": "com.mcp.beautymanager",
     "productName": "BeautyManager",
     "copyright": "Copyright © 2025 MCP Beauty Team",
+    "asar": false,
     "directories": {
       "output": "release",
       "buildResources": "build"
@@ -96,19 +97,9 @@
     "files": [
       "dist/**/*",
       "electron/**/*",
-      "package.json"
-    ],
-    "extraResources": [
-      {
-        "from": "node_modules/sqlite3",
-        "to": "node_modules/sqlite3",
-        "filter": [
-          "**/*"
-        ]
-      }
-    ],
-    "asarUnpack": [
-      "node_modules/sqlite3/**/*"
+      "package.json",
+      "node_modules/sqlite3/**/*",
+      "beauty_manager.db"
     ],
     "win": {
       "target": [
