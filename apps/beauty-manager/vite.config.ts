@@ -1,26 +1,35 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { tanstackRouter } from "@tanstack/router-plugin/vite";
-import path from "path";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
+import { resolve } from 'node:path';
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import tailwindcss from '@tailwindcss/vite';
 
+const base = process.env.BASE_PATH || (process.env.ELECTRON ? './' : '/');
+const isPreview = process.env.IS_PREVIEW ? true : false;
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [tanstackRouter(), react()],
+  define: {
+    __BASE_PATH__: JSON.stringify(base),
+    __IS_PREVIEW__: JSON.stringify(isPreview),
+  },
+  plugins: [tanstackRouter(), react(), tailwindcss()],
+  base,
+  build: {
+    sourcemap: true,
+    outDir: 'out',
+  },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
-      "@/components": path.resolve(__dirname, "./src/components"),
-      "@/hooks": path.resolve(__dirname, "./src/hooks"),
-      "@/lib": path.resolve(__dirname, "./src/lib"),
-      "@/types": path.resolve(__dirname, "./src/types"),
-      "@/stores": path.resolve(__dirname, "./src/stores"),
-      "@/styles": path.resolve(__dirname, "./src/styles"),
+      '@': resolve(__dirname, './src'),
+      '@/routes': resolve(__dirname, './src/routes'),
+      '@/features': resolve(__dirname, './src/features'),
+      '@/shared': resolve(__dirname, './src/shared'),
+      '@/styles': resolve(__dirname, './src/styles'),
     },
   },
   server: {
     port: 5173,
-    open: true,
-  },
-  css: {
-    postcss: "./postcss.config.js",
+    host: '0.0.0.0',
+    strictPort: true,
   },
 });

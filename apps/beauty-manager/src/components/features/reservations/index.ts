@@ -1,1 +1,0 @@
-export { Reservations } from './page'

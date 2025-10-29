@@ -9,25 +9,13 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as StaffIndexRouteImport } from './routes/staff/index'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
-import { Route as ReservationsIndexRouteImport } from './routes/reservations/index'
 import { Route as CustomersIndexRouteImport } from './routes/customers/index'
+import { Route as AppointmentsIndexRouteImport } from './routes/appointments/index'
 import { Route as CustomersIdRouteImport } from './routes/customers/$id'
 
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,14 +31,14 @@ const ServicesIndexRoute = ServicesIndexRouteImport.update({
   path: '/services/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ReservationsIndexRoute = ReservationsIndexRouteImport.update({
-  id: '/reservations/',
-  path: '/reservations/',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CustomersIndexRoute = CustomersIndexRouteImport.update({
   id: '/customers/',
   path: '/customers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppointmentsIndexRoute = AppointmentsIndexRouteImport.update({
+  id: '/appointments/',
+  path: '/appointments/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CustomersIdRoute = CustomersIdRouteImport.update({
@@ -61,32 +49,26 @@ const CustomersIdRoute = CustomersIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/settings': typeof SettingsRoute
   '/customers/$id': typeof CustomersIdRoute
+  '/appointments': typeof AppointmentsIndexRoute
   '/customers': typeof CustomersIndexRoute
-  '/reservations': typeof ReservationsIndexRoute
   '/services': typeof ServicesIndexRoute
   '/staff': typeof StaffIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/settings': typeof SettingsRoute
   '/customers/$id': typeof CustomersIdRoute
+  '/appointments': typeof AppointmentsIndexRoute
   '/customers': typeof CustomersIndexRoute
-  '/reservations': typeof ReservationsIndexRoute
   '/services': typeof ServicesIndexRoute
   '/staff': typeof StaffIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRoute
-  '/settings': typeof SettingsRoute
   '/customers/$id': typeof CustomersIdRoute
+  '/appointments/': typeof AppointmentsIndexRoute
   '/customers/': typeof CustomersIndexRoute
-  '/reservations/': typeof ReservationsIndexRoute
   '/services/': typeof ServicesIndexRoute
   '/staff/': typeof StaffIndexRoute
 }
@@ -94,62 +76,40 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/dashboard'
-    | '/settings'
     | '/customers/$id'
+    | '/appointments'
     | '/customers'
-    | '/reservations'
     | '/services'
     | '/staff'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/dashboard'
-    | '/settings'
     | '/customers/$id'
+    | '/appointments'
     | '/customers'
-    | '/reservations'
     | '/services'
     | '/staff'
   id:
     | '__root__'
     | '/'
-    | '/dashboard'
-    | '/settings'
     | '/customers/$id'
+    | '/appointments/'
     | '/customers/'
-    | '/reservations/'
     | '/services/'
     | '/staff/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRoute
-  SettingsRoute: typeof SettingsRoute
   CustomersIdRoute: typeof CustomersIdRoute
+  AppointmentsIndexRoute: typeof AppointmentsIndexRoute
   CustomersIndexRoute: typeof CustomersIndexRoute
-  ReservationsIndexRoute: typeof ReservationsIndexRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
   StaffIndexRoute: typeof StaffIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -171,18 +131,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ServicesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/reservations/': {
-      id: '/reservations/'
-      path: '/reservations'
-      fullPath: '/reservations'
-      preLoaderRoute: typeof ReservationsIndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/customers/': {
       id: '/customers/'
       path: '/customers'
       fullPath: '/customers'
       preLoaderRoute: typeof CustomersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/appointments/': {
+      id: '/appointments/'
+      path: '/appointments'
+      fullPath: '/appointments'
+      preLoaderRoute: typeof AppointmentsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/customers/$id': {
@@ -197,11 +157,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRoute,
-  SettingsRoute: SettingsRoute,
   CustomersIdRoute: CustomersIdRoute,
+  AppointmentsIndexRoute: AppointmentsIndexRoute,
   CustomersIndexRoute: CustomersIndexRoute,
-  ReservationsIndexRoute: ReservationsIndexRoute,
   ServicesIndexRoute: ServicesIndexRoute,
   StaffIndexRoute: StaffIndexRoute,
 }
